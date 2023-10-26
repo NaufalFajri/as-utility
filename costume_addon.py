@@ -109,7 +109,7 @@ with sqlite3.connect('assets/db/gl/asset_a_en.db') as conn:
     donot_insert = None
     category_costume = '3'
     category_thumbnail = '8'
-    fresh_version = hashlib.sha256(str(random.random()).encode()).hexdigest()
+    fresh_version = hashlib.sha1(str(random.random()).encode()).hexdigest()
     cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
                    (key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
     cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
