@@ -1,5 +1,5 @@
 # as-utility
-- costume_addon - add new costume without replace file
+- costume_addon & _termux (for termux app) - add new costume without replace file
 - costume_clone - copy source costume to another member
 
 ## todo?
