@@ -4,6 +4,7 @@ import random
 import tkinter as tk
 from tkinter import filedialog
 import sys
+import hashlib
 
 root = tk.Tk()
 root.withdraw()  # Hide the main window
@@ -100,7 +101,7 @@ with sqlite3.connect('assets/db/gl/asset_a_en.db') as conn:
                    (thumbnail_costume_path, thumbnail_costume_filename, thumbnail_costume_size))
                                  
     if chara_id == "209":
-    rina_unmask_costume_path = rinaunmask_path_randomhash(cursor)
+        rina_unmask_costume_path = rinaunmask_path_randomhash(cursor)
         cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');",
                    (rina_unmask_costume_path, rina_unmask_costume_filename, rina_unmask_costume_filesize))
  
@@ -468,12 +469,12 @@ with sqlite3.connect('assets/db/gl/masterdata.db') as conn:
     if chara_id == "209":
         cursor.execute("INSERT INTO main.member_model_dependency (suit_master_id, view_status, model_asset_path) VALUES (?, '2', ?);", (costume_id_masterdata, rina_unmask_costume_path))
 
-with sqlite3.connect('assets/db/serverdata.db') as conn:
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO main.s_user_suit (user_id, suit_master_id, is_new) VALUES ('588296696', ?, '1');", (costume_id_masterdata,))
-
 with sqlite3.connect('assets/db/gl/dictionary_en_inline_image.db') as conn:
     cursor = conn.cursor()
     cursor.execute("INSERT INTO main.m_dictionary (id, message) VALUES (?, ?);", (costume_dictionary, costume_name))
         
+with sqlite3.connect('assets/db/serverdata.db') as conn:
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO main.s_user_suit (user_id, suit_master_id, is_new) VALUES ('588296696', ?, '1');", (costume_id_masterdata,))
+    
 print("costume added to database")
