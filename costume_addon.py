@@ -37,6 +37,14 @@ def thumbnail_path_randomhash(cursor):
         count = cursor.fetchone()[0]
         if count == 0:
             return new_hash2
+            
+def rinaunmask_path_randomhash(cursor):
+    while True:
+        new_hash3 = format(random.randint(0, 0xFFFFFFFF), 'x')
+        cursor.execute("SELECT COUNT(*) FROM main.texture WHERE asset_path = ?;", (new_hash3,))
+        count = cursor.fetchone()[0]
+        if count == 0:
+            return new_hash3
 
 
 # Get user inputs
@@ -55,11 +63,14 @@ else:
 chara_dep = input("Enter chara ID dependencies: ")
 chara_id = input("Enter chara ID to add: ")
 if chara_id == "209":
-    rina_unmask_costume_file = input("Enter rina unmasked costume file: ")
-    print("input whatever you want")
-    rina_unmask_costume_path = input("Enter rina unmasked costume path: ")
+    rina_unmask_costume_file = filedialog.askopenfilename(title="Locate Costume File")
+    if rina_unmask_costume_file:
+        print(f"Selected rina unmask costume: {rina_unmask_costume_file}")
+    else:
+        print("No file selected")
+        sys.exit(1)
 costume_name = input("Enter costume name: ")
-elichika_add = input("do you want add to elichika serverdata? (y/n): ")
+key_costume = input("Enter package key name (no space separated): ")
 input("is everything correct?, Press Enter to add")
 
 
@@ -77,7 +88,7 @@ if chara_id == "209":
     rina_unmask_costume_filename = rina_unmask_costume_file.split("/")[-1]
     rina_unmask_costume_filesize = os.path.getsize(rina_unmask_costume_file)
 
-with sqlite3.connect('jp/asset_a_ja.db') as conn:
+with sqlite3.connect('assets/db/gl/asset_a_en.db') as conn:
     cursor = conn.cursor()
     
     costume_path = costume_path_randomhash(cursor)
@@ -87,11 +98,24 @@ with sqlite3.connect('jp/asset_a_ja.db') as conn:
                    (costume_path, costume_filename, costume_filesize))
     cursor.execute("INSERT INTO main.texture (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');",
                    (thumbnail_costume_path, thumbnail_costume_filename, thumbnail_costume_size))
-                 
+                                 
     if chara_id == "209":
+    rina_unmask_costume_path = rinaunmask_path_randomhash(cursor)
         cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');",
                    (rina_unmask_costume_path, rina_unmask_costume_filename, rina_unmask_costume_filesize))
-                   
+ 
+    # experimental add cdn asset to db
+    donot_insert = None
+    category_costume = '3'
+    category_thumbnail = '8'
+    fresh_version = hashlib.sha256(str(random.random()).encode()).hexdigest()
+    cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                   (key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+    cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                   (key_costume, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
+    cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '2');",
+                   (key_costume, fresh_version))
+ 
     if chara_dep == "1":
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '{#');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'Q9');", (costume_path,))
@@ -402,7 +426,7 @@ with sqlite3.connect('jp/asset_a_ja.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§M|');", (costume_path,))
     elif chara_dep == "212":
         fix_mia_dep = 'w";'
-        cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES VALUES (?, ?);", (costume_path, fix_mia_dep))
+        cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_mia_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '0W=');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'Qp?');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§n8#');", (costume_path,))
@@ -421,7 +445,7 @@ with sqlite3.connect('jp/asset_a_ja.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§~+');", (costume_path,))
 
 # Connect to masterdata.db and perform INSERT
-with sqlite3.connect('jp/masterdata.db') as conn:
+with sqlite3.connect('assets/db/gl/masterdata.db') as conn:
     cursor = conn.cursor()
 
     # Generate a unique costume_id_masterdata
@@ -444,12 +468,11 @@ with sqlite3.connect('jp/masterdata.db') as conn:
     if chara_id == "209":
         cursor.execute("INSERT INTO main.member_model_dependency (suit_master_id, view_status, model_asset_path) VALUES (?, '2', ?);", (costume_id_masterdata, rina_unmask_costume_path))
 
-    if elichika_add == "y":
-        with sqlite3.connect('serverdata.db') as conn:
-            cursor = conn.cursor()
-            cursor.execute("INSERT INTO main.s_user_suit (user_id, suit_master_id, is_new) VALUES ('588296696', ?, '1');", (costume_id_masterdata,))
+with sqlite3.connect('assets/db/serverdata.db') as conn:
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO main.s_user_suit (user_id, suit_master_id, is_new) VALUES ('588296696', ?, '1');", (costume_id_masterdata,))
 
-with sqlite3.connect('jp/dictionary_ja_inline_image.db') as conn:
+with sqlite3.connect('assets/db/gl/dictionary_en_inline_image.db') as conn:
     cursor = conn.cursor()
     cursor.execute("INSERT INTO main.m_dictionary (id, message) VALUES (?, ?);", (costume_dictionary, costume_name))
         
