@@ -1,8 +1,6 @@
 import sqlite3
 import random
 
-print("elichika Costume Clone")
-
 def generate_unique_costume_id(cursor):
     while True:
         new_id = random.randint(0, 999999999)
@@ -17,7 +15,7 @@ chara_id = input("Enter target chara_id: ")
 input("is everything correct?, Press Enter to add")
 
 # Open the SQLite database file
-conn = sqlite3.connect('jp/masterdata.db')
+conn = sqlite3.connect('assets/db/gl/masterdata.db')
 cursor = conn.cursor()
 
 costume_id_masterdata = generate_unique_costume_id(cursor)
@@ -42,11 +40,16 @@ if row is not None:
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     """, (costume_id_masterdata, chara_id, row[2], row[3], row[4], row[5], row[6], new_display_sort))
 
+    # fix rina mask off
+    if chara_id == "209":
+        cursor.execute("SELECT model_asset_path FROM main.m_suit WHERE id=?", (costume_id,))
+        rina_unmask_chara = cursor.fetchone()[0]
+        cursor.execute("INSERT INTO main.m_suit_view (suit_master_id, view_status, model_asset_path) VALUES (?, '2', ?);", (costume_id_masterdata, rina_unmask_chara))
     # Commit the changes and close the database connection
     conn.commit()
     conn.close()
 
-    with sqlite3.connect('serverdata.db') as conn:
+    with sqlite3.connect('assets/db/serverdata.db') as conn:
         cursor = conn.cursor()
         cursor.execute("INSERT INTO main.s_user_suit (user_id, suit_master_id, is_new) VALUES ('588296696', ?, '1');", (costume_id_masterdata,))
 
