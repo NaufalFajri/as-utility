@@ -11,6 +11,6 @@
 - paste script to ./elichika or ./elichika-arina
 
 # Prerequisite adding costume set-up
-- encrypted asset in static folder (key1 & key2 must be in 0 value)
+- encrypted asset without extension in static folder (key1 & key2 must be in 0 value)
 - costume file
 - thumbnail file (image format)
