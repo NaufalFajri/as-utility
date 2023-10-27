@@ -525,6 +525,7 @@ with sqlite3.connect('assets/db/gl/asset_a_en.db') as conn:
     category_costume = '3'
     category_thumbnail = '8'
     fresh_version = hashlib.sha1(str(random.random()).encode()).hexdigest()
+    fresh_version_main = hashlib.sha1(str(random.random()).encode()).hexdigest()
     
     cursor.execute("SELECT COUNT(*) FROM main.m_asset_package_mapping WHERE package_key = 'main';")
     get_main_asset = cursor.fetchone()[0]
@@ -534,10 +535,10 @@ with sqlite3.connect('assets/db/gl/asset_a_en.db') as conn:
                    (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
     cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
                    (package_key_thumbnail, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
-    cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '2');",
+    cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '1');",
                    (package_key_costume, fresh_version))
     cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);",
-                   (fresh_version, update_main_asset))
+                   (fresh_version_main, update_main_asset))
                    
 with sqlite3.connect('assets/db/serverdata.db') as conn:
     cursor = conn.cursor()
