@@ -70,8 +70,11 @@ if chara_id == "209":
     else:
         print("No file selected")
         sys.exit(1)
+elif chara_id == "212":
+    chara_id = "211"
+elif chara_id == "211":
+    chara_id = "212"
 costume_name = input("Enter costume name: ")
-key_costume = input("Enter package key name (no space separated): ")
 input("is everything correct?, Press Enter to add")
 
 
@@ -95,6 +98,12 @@ with sqlite3.connect('assets/db/gl/asset_a_en.db') as conn:
     costume_path = costume_path_randomhash(cursor)
     thumbnail_costume_path = thumbnail_path_randomhash(cursor)
     
+    # (light download auto delete fix)
+    cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (costume_filename,))
+    cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (thumbnail_costume_filename,))
+    if chara_id == "209":
+        cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (rina_unmask_costume_filename,))
+        
     cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');",
                    (costume_path, costume_filename, costume_filesize))
     cursor.execute("INSERT INTO main.texture (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');",
@@ -103,19 +112,7 @@ with sqlite3.connect('assets/db/gl/asset_a_en.db') as conn:
     if chara_id == "209":
         rina_unmask_costume_path = rinaunmask_path_randomhash(cursor)
         cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');",
-                   (rina_unmask_costume_path, rina_unmask_costume_filename, rina_unmask_costume_filesize))
- 
-    # experimental add cdn asset to db
-    donot_insert = None
-    category_costume = '3'
-    category_thumbnail = '8'
-    fresh_version = hashlib.sha1(str(random.random()).encode()).hexdigest()
-    cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
-                   (key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-    cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
-                   (key_costume, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
-    cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '2');",
-                   (key_costume, fresh_version))
+                   (rina_unmask_costume_path, rina_unmask_costume_filename, rina_unmask_costume_filesize))     
  
     if chara_dep == "1":
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '{#');", (costume_path,))
@@ -472,7 +469,25 @@ with sqlite3.connect('assets/db/gl/masterdata.db') as conn:
 with sqlite3.connect('assets/db/gl/dictionary_en_inline_image.db') as conn:
     cursor = conn.cursor()
     cursor.execute("INSERT INTO main.m_dictionary (id, message) VALUES (?, ?);", (costume_dictionary, costume_name))
-        
+
+# experimental add cdn asset to db    
+with sqlite3.connect('assets/db/gl/asset_a_en.db') as conn:
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO main.m_dictionary (id, message) VALUES (?, ?);", (costume_dictionary, costume_name))
+    
+    donot_insert = None
+    package_key_costume = "suit:" + str(costume_id_masterdata)
+    package_key_thumbnail = "main"
+    category_costume = '3'
+    category_thumbnail = '8'
+    fresh_version = hashlib.sha1(str(random.random()).encode()).hexdigest()
+    cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                   (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+    cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                   (package_key_thumbnail, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
+    cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '2');",
+                   (package_key_costume, fresh_version))
+                   
 with sqlite3.connect('assets/db/serverdata.db') as conn:
     cursor = conn.cursor()
     cursor.execute("INSERT INTO main.s_user_suit (user_id, suit_master_id, is_new) VALUES ('588296696', ?, '1');", (costume_id_masterdata,))
