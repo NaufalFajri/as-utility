@@ -4,11 +4,12 @@ import random
 import sys
 import hashlib
 
-
-
-
-# Create a set to store existing costume IDs
-# existing_costume_ids = set()
+def manipulate_file(data, keys_0, keys_1, keys_2):
+    for i in range(len(data)):
+        data[i] = data[i] ^ ((keys_1 ^ keys_0 ^ keys_2) >> 24 & 0xFF)
+        keys_0 = (0x343fd * keys_0 + 0x269ec3) & 0xFFFFFFFF
+        keys_1 = (0x343fd * keys_1 + 0x269ec3) & 0xFFFFFFFF
+        keys_2 = (0x343fd * keys_2 + 0x269ec3) & 0xFFFFFFFF
 
 # Function to generate a unique costume_id_masterdata
 def generate_unique_costume_id(cursor):
@@ -45,46 +46,96 @@ def rinaunmask_path_randomhash(cursor):
 
 
 # Get user inputs
-costume_file = "static/" + input("Enter costume file: ")
-if costume_file == "static/":
+costume_file = "assets/data/" + input("Enter costume file: ")
+if costume_file == "assets/data/":
     print("No file selected")
     sys.exit(1)
-thumbnail_file = "static/" + input("Enter thumbnail file: ")
-if thumbnail_file == "static/":
+thumbnail_file = "assets/data/" + input("Enter thumbnail file: ")
+if thumbnail_file == "assets/data/":
     print("No file selected")
     sys.exit(1)
 chara_dep = input("Enter chara ID dependencies: ")
 chara_id = input("Enter chara ID to add: ")
 if chara_id == "209":
-    rina_unmask_costume_file = "static/" + input("Enter rina unmask costume file: ")
-    if rina_unmask_costume_file == "static/":  
+    rina_unmask_costume_file = "assets/data/" + input("Enter rina unmask costume file: ")
+    if rina_unmask_costume_file == "assets/data/":  
         print("No file selected")
         sys.exit(1)
+elif chara_id == "212":
+    chara_id = "211"
+elif chara_id == "211":
+    chara_id = "212"
 costume_name = input("Enter costume name: ")
-key_costume = input("Enter package key name (no space separated): ")
 input("is everything correct?, Press Enter to add")
 
-
 # Extract filename and filesize from costume_file
-costume_filename = costume_file.split("/")[-1]
+costume_filename = os.path.splitext(costume_file.split("/")[-1])[0]
 # Replace with actual method to get filesize
 costume_filesize = os.path.getsize(costume_file)
 
 # Extract filename and filesize from thumbnail_file
-thumbnail_costume_filename = thumbnail_file.split("/")[-1]
+thumbnail_costume_filename = os.path.splitext(thumbnail_file.split("/")[-1])[0]
 # Replace with actual method to get filesize
 thumbnail_costume_size = os.path.getsize(thumbnail_file)
 
+encrypted_costume = "static/" + os.path.splitext(costume_file.split("/")[-1])[0]
+encrypted_thumbnail = "static/" + os.path.splitext(thumbnail_file.split("/")[-1])[0]
+
 if chara_id == "209":
-    rina_unmask_costume_filename = rina_unmask_costume_file.split("/")[-1]
+    rina_unmask_costume_filename = os.path.splitext(rina_unmask_costume_file.split("/")[-1])[0]
     rina_unmask_costume_filesize = os.path.getsize(rina_unmask_costume_file)
 
+if chara_id == "209":
+    encrypted_rina_unmask = "static/" + os.path.splitext(rina_unmask_costume_file.split("/")[-1])[0]
+
+# encrypting asset first
+with open(costume_file, "rb") as file:
+    data = bytearray(file.read())
+
+    key_0 = 12345
+    key_1 = 0
+    key_2 = 0
+    manipulate_file(data, key_0, key_1, key_2)
+
+    with open(encrypted_costume, "wb") as file:
+        file.write(data)
+    
+with open(thumbnail_file, "rb") as file:
+    data = bytearray(file.read())
+
+    key_0 = 12345
+    key_1 = 0
+    key_2 = 0
+    manipulate_file(data, key_0, key_1, key_2)
+
+    with open(encrypted_thumbnail, "wb") as file:
+        file.write(data)
+
+if chara_id == "209":
+    with open(rina_unmask_costume_file, "rb") as file:
+        data = bytearray(file.read())
+
+    key_0 = 12345
+    key_1 = 0
+    key_2 = 0
+    manipulate_file(data, key_0, key_1, key_2)
+
+    with open(encrypted_rina_unmask, "wb") as file:
+        file.write(data)
+
+print("asset encrypted")
 with sqlite3.connect('assets/db/gl/asset_a_en.db') as conn:
     cursor = conn.cursor()
     
     costume_path = costume_path_randomhash(cursor)
     thumbnail_costume_path = thumbnail_path_randomhash(cursor)
     
+    # (light download auto delete fix)
+    cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (costume_filename,))
+    cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (thumbnail_costume_filename,))
+    if chara_id == "209":
+        cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (rina_unmask_costume_filename,))
+        
     cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');",
                    (costume_path, costume_filename, costume_filesize))
     cursor.execute("INSERT INTO main.texture (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');",
@@ -93,19 +144,7 @@ with sqlite3.connect('assets/db/gl/asset_a_en.db') as conn:
     if chara_id == "209":
         rina_unmask_costume_path = rinaunmask_path_randomhash(cursor)
         cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');",
-                   (rina_unmask_costume_path, rina_unmask_costume_filename, rina_unmask_costume_filesize))
- 
-    # experimental add cdn asset to db
-    donot_insert = None
-    category_costume = '3'
-    category_thumbnail = '8'
-    fresh_version = hashlib.sha1(str(random.random()).encode()).hexdigest()
-    cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
-                   (key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-    cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
-                   (key_costume, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
-    cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '2');",
-                   (key_costume, fresh_version))
+                   (rina_unmask_costume_path, rina_unmask_costume_filename, rina_unmask_costume_filesize))     
  
     if chara_dep == "1":
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '{#');", (costume_path,))
@@ -462,7 +501,31 @@ with sqlite3.connect('assets/db/gl/masterdata.db') as conn:
 with sqlite3.connect('assets/db/gl/dictionary_en_inline_image.db') as conn:
     cursor = conn.cursor()
     cursor.execute("INSERT INTO main.m_dictionary (id, message) VALUES (?, ?);", (costume_dictionary, costume_name))
-        
+
+# experimental add cdn asset to db    
+with sqlite3.connect('assets/db/gl/asset_a_en.db') as conn:
+    cursor = conn.cursor()
+    
+    donot_insert = None
+    package_key_costume = "suit:" + str(costume_id_masterdata)
+    package_key_thumbnail = "main"
+    category_costume = '3'
+    category_thumbnail = '8'
+    fresh_version = hashlib.sha1(str(random.random()).encode()).hexdigest()
+    
+    cursor.execute("SELECT COUNT(*) FROM main.m_asset_package_mapping WHERE package_key = 'main';")
+    get_main_asset = cursor.fetchone()[0]
+    update_main_asset = get_main_asset + 1
+    
+    cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                   (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+    cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                   (package_key_thumbnail, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
+    cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '2');",
+                   (package_key_costume, fresh_version))
+    cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);",
+                   (fresh_version, update_main_asset))
+                   
 with sqlite3.connect('assets/db/serverdata.db') as conn:
     cursor = conn.cursor()
     cursor.execute("INSERT INTO main.s_user_suit (user_id, suit_master_id, is_new) VALUES ('588296696', ?, '1');", (costume_id_masterdata,))
