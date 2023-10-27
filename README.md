@@ -10,6 +10,6 @@
 # installation
 - paste script to ./elichika or ./elichika-arina
 
-# Prerequisite adding costume set-up
+# Prerequisite adding costume set-up (assets/data/)
 - costume asset file
 - thumbnail file (image format)
