@@ -1,4 +1,4 @@
-# as-utility (Global, Android & EN Language by default)
+# as-utility (global, android & EN language by default)
 - costume_addon - add new costume without replace file
 - costume_clone - copy source costume to another member
 
@@ -8,7 +8,8 @@
 - ?
 
 ## installation
-paste script to `./elichika` or `./elichika-arina`
+- paste script to `./elichika` or `./elichika-arina`
+- edit cdn server to 127.0.0.1:8080
 
 ## adding new costume
 - put costume (unity asset) & thumbnail (image format) to `assets/data/`
