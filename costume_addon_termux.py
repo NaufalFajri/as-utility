@@ -78,15 +78,15 @@ thumbnail_costume_filename = os.path.splitext(thumbnail_file.split("/")[-1])[0]
 # Replace with actual method to get filesize
 thumbnail_costume_size = os.path.getsize(thumbnail_file)
 
-encrypted_costume = "static/" + os.path.splitext(costume_file.split("/")[-1])[0]
-encrypted_thumbnail = "static/" + os.path.splitext(thumbnail_file.split("/")[-1])[0]
+encrypted_costume = "static/2d61e7b4e89961c7/" + os.path.splitext(costume_file.split("/")[-1])[0]
+encrypted_thumbnail = "static/2d61e7b4e89961c7/" + os.path.splitext(thumbnail_file.split("/")[-1])[0]
 
 if chara_id == "209":
     rina_unmask_costume_filename = os.path.splitext(rina_unmask_costume_file.split("/")[-1])[0]
     rina_unmask_costume_filesize = os.path.getsize(rina_unmask_costume_file)
 
 if chara_id == "209":
-    encrypted_rina_unmask = "static/" + os.path.splitext(rina_unmask_costume_file.split("/")[-1])[0]
+    encrypted_rina_unmask = "static/2d61e7b4e89961c7/" + os.path.splitext(rina_unmask_costume_file.split("/")[-1])[0]
 
 # encrypting asset first
 with open(costume_file, "rb") as file:
