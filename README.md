@@ -1,5 +1,5 @@
 # as-utility (global, android & EN language by default)
-- background_addon - add new background without replace file
+- background_addon - add new background without replace file (not obtainable)
 - costume_addon - add new costume without replace file
 - costume_clone - copy source costume to another member
 
