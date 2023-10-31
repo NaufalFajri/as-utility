@@ -1,10 +1,10 @@
 # as-utility (global, android & EN language by default)
+- background_addon - add new background without replace file
 - costume_addon - add new costume without replace file
 - costume_clone - copy source costume to another member
 
 ## todo?
 - emblem addon
-- background addon
 - ?
 
 ## installation
