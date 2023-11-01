@@ -3,6 +3,10 @@
 - costume_addon - add new costume without replace file
 - costume_clone - copy source costume to another member
 
+## issue
+- additional files are still deleted when using Light Download (Auto-delete story data)
+- using original & modded costume may happen softlock
+
 ## todo?
 - emblem addon
 - ?
