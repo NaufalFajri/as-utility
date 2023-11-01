@@ -1,13 +1,9 @@
 import sqlite3
 import os
 import random
-import tkinter as tk
-from tkinter import filedialog
 import sys
 import hashlib
 
-root = tk.Tk()
-root.withdraw()  # Hide the main window
 
 def manipulate_file(data, keys_0, keys_1, keys_2):
     for i in range(len(data)):
