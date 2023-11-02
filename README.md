@@ -1,14 +1,14 @@
 # as-utility (global, android & EN language by default)
-- background_addon - add new background without replace file (not obtainable)
-- costume_addon - add new costume without replace file
-- costume_clone - copy source costume to another member
+- background_addon - add new background (not obtainable)
+- emblem addon - add new title (not obtainable)
+- costume_addon - add new costume
+- costume_clone - copy source costume to another member id
 
 ## issue
 - additional files are still deleted when using Light Download (Auto-delete story data)
-- using original & modded costume may happen softlock
+- using original & clone modified costume to another member may happen softlock
 
 ## todo?
-- emblem addon
 - ?
 
 ## installation
