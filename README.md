@@ -6,7 +6,7 @@
 
 ## issue
 - additional files are still deleted when using Light Download (Auto-delete story data)
-- using original & clone modified costume to another member may happen softlock
+- using original & clone modified costume on another member may happen softlock
 
 ## todo?
 - ?
