@@ -107,7 +107,6 @@ with sqlite3.connect('assets/db/gl/asset_a_en.db') as conn:
     donot_insert = None
     package_key_thumbnail = "main"
     category_background = '8'
-    fresh_version = hashlib.sha1(str(random.random()).encode()).hexdigest()
     fresh_version_main = hashlib.sha1(str(random.random()).encode()).hexdigest()
     
     cursor.execute("SELECT COUNT(*) FROM main.m_asset_package_mapping WHERE package_key = 'main';")
