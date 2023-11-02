@@ -1,6 +1,6 @@
 # as-utility (global, android & EN language by default)
 - background_addon - add new background (not obtainable)
-- emblem addon - add new title (not obtainable)
+- emblem_addon - add new title (not obtainable)
 - costume_addon - add new costume
 - costume_clone - copy source costume to another member id
 
@@ -12,6 +12,7 @@
 - ?
 
 ## installation
+- this script tested on [this branch](https://github.com/arina999999997/elichika/tree/92ce74548f0db9b5cb4190821d9907f04c6931e5) & UserID is 588296696 
 - paste script to `./elichika` or `./elichika-arina`
 - edit cdn server to 127.0.0.1:8080
 
