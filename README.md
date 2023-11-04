@@ -8,8 +8,9 @@
 - additional files are still deleted when using Light Download (Auto-delete story data)
 - using original & clone modified costume on another member may happen softlock
 
-## todo?
-- ?
+## never to be planned
+- card : too complex, no audio edit
+- song : same as above
 
 ## installation
 - this script tested on [this branch](https://github.com/arina999999997/elichika/tree/92ce74548f0db9b5cb4190821d9907f04c6931e5) & UserID is 588296696 
