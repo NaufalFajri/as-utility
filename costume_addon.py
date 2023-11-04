@@ -102,12 +102,18 @@ if chara_id == "209":
     encrypted_rina_unmask = "static/2d61e7b4e89961c7/" + os.path.splitext(rina_unmask_costume_file.split("/")[-1])[0]
 
 # encrypting asset first
+encrypted_folder = "static/2d61e7b4e89961c7/"
+
+if not os.path.exists(encrypted_folder):
+    os.makedirs(encrypted_folder)
+
 with open(costume_file, "rb") as file:
     data = bytearray(file.read())
 
     key_0 = 12345
     key_1 = 0
     key_2 = 0
+    print("encrypting costume")
     manipulate_file(data, key_0, key_1, key_2)
 
     with open(encrypted_costume, "wb") as file:
@@ -119,6 +125,7 @@ with open(thumbnail_file, "rb") as file:
     key_0 = 12345
     key_1 = 0
     key_2 = 0
+    print("encrypting thumbnail")
     manipulate_file(data, key_0, key_1, key_2)
 
     with open(encrypted_thumbnail, "wb") as file:
@@ -128,13 +135,14 @@ if chara_id == "209":
     with open(rina_unmask_costume_file, "rb") as file:
         data = bytearray(file.read())
 
-    key_0 = 12345
-    key_1 = 0
-    key_2 = 0
-    manipulate_file(data, key_0, key_1, key_2)
+        key_0 = 12345
+        key_1 = 0
+        key_2 = 0
+        print("encrypting rina unmask costume")
+        manipulate_file(data, key_0, key_1, key_2)
 
-    with open(encrypted_rina_unmask, "wb") as file:
-        file.write(data)
+        with open(encrypted_rina_unmask, "wb") as file:
+            file.write(data)
 
 print("asset encrypted")
 with sqlite3.connect('assets/db/gl/asset_a_en.db') as conn:
@@ -458,6 +466,16 @@ with sqlite3.connect('assets/db/gl/asset_a_en.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§n8#');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§y7');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§~+');", (costume_path,))
+        cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'Z$');", (rina_unmask_costume_path,))
+        cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'xU');", (rina_unmask_costume_path,))
+        cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ';k');", (rina_unmask_costume_path,))
+        cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§?D#');", (rina_unmask_costume_path,))
+        cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§n8#');", (rina_unmask_costume_path,))
+        cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§~+');", (rina_unmask_costume_path,))
+        cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§y7');", (rina_unmask_costume_path,))
+        cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§j^');", (rina_unmask_costume_path,))
+        cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§Vr');", (rina_unmask_costume_path,))
+        cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§M|');", (rina_unmask_costume_path,))
     elif chara_dep == "210":
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '^/)');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '$EZ');", (costume_path,))
