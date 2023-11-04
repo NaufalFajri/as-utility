@@ -131,7 +131,7 @@ if chara_id == "209":
         with open(encrypted_rina_unmask, "wb") as file:
             file.write(data)
 
-print("asset encrypted")
+print("assets encrypted")
 with sqlite3.connect('assets/db/gl/asset_a_en.db') as conn:
     cursor = conn.cursor()
     
@@ -514,7 +514,7 @@ with sqlite3.connect('assets/db/gl/masterdata.db') as conn:
                    (costume_id_masterdata, chara_id, costume_dictionary_masterdata, thumbnail_costume_path, costume_path, display_order_new))
                    
     if chara_id == "209":
-        cursor.execute("INSERT INTO main.member_model_dependency (suit_master_id, view_status, model_asset_path) VALUES (?, '2', ?);", (costume_id_masterdata, rina_unmask_costume_path))
+        cursor.execute("INSERT INTO main.m_suit_view (suit_master_id, view_status, model_asset_path) VALUES (?, '2', ?);", (costume_id_masterdata, rina_unmask_costume_path))
 
 with sqlite3.connect('assets/db/gl/dictionary_en_inline_image.db') as conn:
     cursor = conn.cursor()
