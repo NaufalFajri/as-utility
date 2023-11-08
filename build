@@ -1,0 +1,5 @@
+
+cd elichika
+python bin/encryptdbset.py static update assets/db/gl/masterdata_a_en
+am start --user 0 -n com.klab.lovelive.allstars.global/com.klab.lovelive.allstars.global.GlobalUnsafeMainActivity
+./elichika
