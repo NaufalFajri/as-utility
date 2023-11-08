@@ -1,0 +1,15 @@
+pkg upgrade
+pkg install python
+pkg install git
+
+git clone https://github.com/NaufalFajri/astool.git astool-dist
+pip install ./astool-dist/hwdecrypt_src
+
+curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/build -o build
+curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/run -o run
+curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/clone -o clone
+curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/addsuit -o addsuit
+
+cd elichika
+curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/costume_addon_termux.py -o costume_addon_termux.py
+curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/costume_clone.py -o costume_clone.py
