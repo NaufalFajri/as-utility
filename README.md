@@ -8,13 +8,21 @@
 - additional files are still deleted when using Light Download (Auto-delete story data)
 - using original & clone modified costume on another member may happen softlock
 
+# todo
+- insert costume to multiple id
+- check file input
+- jp client
+
 ## never to be planned
 - card : too complex, no audio edit
 - song : same as above
 
 ## installation
-- this script tested on [this branch](https://github.com/arina999999997/elichika/tree/92ce74548f0db9b5cb4190821d9907f04c6931e5) & UserID is 588296696 
-- paste script to `./elichika` or `./elichika-arina`
+- this script tested on [this branch](https://github.com/arina999999997/elichika/tree/92ce74548f0db9b5cb4190821d9907f04c6931e5) & UserID is 588296696
+- Open termux and paste command
+```bash
+curl https://raw.githubusercontent.com/NaufalFajri/as-utility/main/install_as-utility -o install_as-utility && sh install_as-utility
+```
 - edit cdn server to 127.0.0.1:8080
 
 ## adding new costume
