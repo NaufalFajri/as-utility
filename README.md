@@ -18,6 +18,7 @@
 - song : same as above
 
 ## installation
+- I RECOMMENDED FULL DOWNLOAD FILE BEFORE USE THIS
 - this script tested on [this branch](https://github.com/arina999999997/elichika/tree/92ce74548f0db9b5cb4190821d9907f04c6931e5) & UserID is 588296696
 - Open termux and paste command
 ```bash
