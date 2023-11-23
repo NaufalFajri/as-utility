@@ -26,6 +26,11 @@ curl https://raw.githubusercontent.com/NaufalFajri/as-utility/main/install_as-ut
 ```
 - edit cdn server to 127.0.0.1:8080
 
+# updating utility command
+```bash
+curl https://raw.githubusercontent.com/NaufalFajri/as-utility/main/update_as-utility -o update_as-utility && sh update_as-utility
+```
+
 ## adding new costume
 - put costume (unity asset) & thumbnail (image format) to `assets/data/`
 - run costume_addon.py / costume_addon_termux.py (for termux app)
