@@ -3,6 +3,14 @@ pkg update
 pkg upgrade
 pkg install python
 pkg install git
+pkg install golang
+
+rm -rf elichika
+git clone -b 92ce74548f0db9b5cb4190821d9907f04c6931e5 https://github.com/arina999999997/elichika.git elichika
+cd elichika
+go build
+
+cd ~/
 
 git clone https://github.com/NaufalFajri/astool.git astool-dist
 pip install ./astool-dist/hwdecrypt_src
