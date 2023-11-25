@@ -9,6 +9,7 @@ rm -rf elichika
 git clone -b 92ce74548f0db9b5cb4190821d9907f04c6931e5 https://github.com/arina999999997/elichika.git elichika
 cd elichika
 go build
+curl https://codeberg.org/arina999999997/nozomi/raw/branch/master/catfolk_cdn.json -o config.json
 
 cd ~/
 
