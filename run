@@ -3,82 +3,93 @@
 while true; do
     clear
     echo "Elichika Menu:"
-    echo "1. Run Server RusdiNgawi"
-    echo "2. Run Server arina999999997"
-    echo "3. Build DB Elichika Mod (GL) (English)"
-    echo "4. Build DB Elichika Mod (GL) (ALL Language)"
-    echo "5. Build DB Elichika Mod (JP)"
-    echo "6. Build DB Elichika Mod (ALL)"
-	echo "7. Make New User Elichika Mod (GL)"
-	echo "8. Make New User Elichika Mod (JP)"
-	echo "9. Add New Costume (GL) (English)"
-	echo "10. Clone Costume to Another Member (GL)"
+    echo "1. Run Server (Old)"
+    echo "2. Run Server (New)"
+    echo "3. Build DB (Old) (GL) (English)"
+    echo "4. Build DB (Old) (GL) (ALL Language)"
+    echo "5. Build DB (Old) (JP)"
+    echo "6. Build DB (Old) (ALL)"
+	echo "7. Make New User (Old) (GL)"
+	echo "8. Make New User (Old) (JP)"
+	echo "9. Add New Costume (Old) (GL) (English)"
+	echo "10. Clone Costume to Another Member (Old) (GL)"
 	echo "11. Install Dependencies"
-	echo "12. Update Script"
+	echo "12. Update Script (Old)"
     echo "0. Exit"
 
     read -p "Enter your choice: " choice
 
     case $choice in
         1)
+			clear
             pkill elichika
-			cd elichika-RusdiNgawi
+			cd ~/elichika-RusdiNgawi
 			./elichika
 			cd ~/
             ;;
         2)
+			clear
             pkill elichika
-			cd elichika
+			cd ~/elichika
 			./elichika
 			cd ~/
             ;;
         3)
+			clear
 			pkill elichika
-			cd elichika-RusdiNgawi
+			cd ~/elichika-RusdiNgawi
 			python bin/encryptdbset.py static update assets/db/gl/masterdata_a_en
 			cd ~/
             ;;
         4)
+			clear
 			pkill elichika
-			cd elichika-RusdiNgawi
+			cd ~/elichika-RusdiNgawi
 			python bin/encryptdbset.py static update assets/db/gl/masterdata_a_en assets/db/gl/masterdata_a_ko assets/db/gl/masterdata_a_zh assets/db/gl/masterdata_i_en assets/db/gl/masterdata_i_ko assets/db/gl/masterdata_i_zh
 			cd ~/
             ;;
         5)
+			clear
 			pkill elichika
-			cd elichika-RusdiNgawi
+			cd ~/elichika-RusdiNgawi
 			python bin/encryptdbset.py static update assets/db/jp/masterdata_a_ja assets/db/jp/masterdata_i_ja
 			cd ~/
             ;;
         6)
+			clear
 			pkill elichika
-			cd elichika-RusdiNgawi
+			cd ~/elichika-RusdiNgawi
 			python bin/encryptdbset.py static update assets/db/gl/masterdata_a_en assets/db/gl/masterdata_a_ko assets/db/gl/masterdata_a_zh assets/db/gl/masterdata_i_en assets/db/gl/masterdata_i_ko assets/db/gl/masterdata_i_zh
 			python bin/encryptdbset.py static update assets/db/jp/masterdata_a_ja assets/db/jp/masterdata_i_ja
 			cd ~/
             ;;
         7)
-			cd elichika-RusdiNgawi
+			clear
+			cd ~/elichika-RusdiNgawi
 			cp serverdata_gl.db assets/db/serverdata.db
 			./elichika
 			cd ~/
             ;;
         8)
-			cd elichika-RusdiNgawi
+			clear
+			cd ~/elichika-RusdiNgawi
 			./elichika make jp new
 			cd ~/
             ;;
         9)
-			cd elichika-RusdiNgawi
+			clear
+			cd ~/elichika-RusdiNgawi
 			python costume_addon_termux.py
 			cd ~/
             ;;
         10)
-			cd elichika-RusdiNgawi
+			clear
+			cd ~/elichika-RusdiNgawi
 			python costume_clone.py
 			cd ~/
             ;;
         11)
+			clear
 			cd ~/
 			pkg update
 			pkg upgrade
@@ -89,13 +100,16 @@ while true; do
 			cd ~/
             ;;
         12)
+			clear
 			cd ~/
-			cd elichika-RusdiNgawi
+			cd ~/elichika-RusdiNgawi
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/costume_addon_termux.py -o costume_addon_termux.py
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/costume_clone.py -o costume_clone.py
 			cd ~/
+			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/run -o run
             ;;
         0)
+			clear
             echo "Exiting..."
             exit 0
             ;;
