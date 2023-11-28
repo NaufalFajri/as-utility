@@ -13,6 +13,8 @@ while true; do
 	echo "8. Make New User Elichika Mod (JP)"
 	echo "9. Add New Costume (GL) (English)"
 	echo "10. Clone Costume to Another Member (GL)"
+	echo "11. Install Dependencies"
+	echo "12. Update Script"
     echo "0. Exit"
 
     read -p "Enter your choice: " choice
@@ -58,11 +60,12 @@ while true; do
         7)
 			cd elichika-RusdiNgawi
 			cp serverdata_gl.db assets/db/serverdata.db
+			./elichika
 			cd ~/
             ;;
         8)
 			cd elichika-RusdiNgawi
-			cp serverdata_jp.db assets/db/serverdata.db
+			./elichika make jp new
 			cd ~/
             ;;
         9)
@@ -73,6 +76,23 @@ while true; do
         10)
 			cd elichika-RusdiNgawi
 			python costume_clone.py
+			cd ~/
+            ;;
+        11)
+			cd ~/
+			pkg update
+			pkg upgrade
+			pkg install python
+			pkg install git
+			git clone https://github.com/NaufalFajri/astool.git astool-dist
+			pip install ./astool-dist/hwdecrypt_src
+			cd ~/
+            ;;
+        12)
+			cd ~/
+			cd elichika-RusdiNgawi
+			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/costume_addon_termux.py -o costume_addon_termux.py
+			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/costume_clone.py -o costume_clone.py
 			cd ~/
             ;;
         0)
