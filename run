@@ -11,8 +11,8 @@ while true; do
     echo "6. Build DB Elichika Mod (ALL)"
 	echo "7. Make New User Elichika Mod (GL)"
 	echo "8. Make New User Elichika Mod (JP)"
-	echo "9. Add New Costume"
-	echo "10. Clone Costume to Another Member"
+	echo "9. Add New Costume (GL) (English)"
+	echo "10. Clone Costume to Another Member (GL)"
     echo "0. Exit"
 
     read -p "Enter your choice: " choice
@@ -22,11 +22,13 @@ while true; do
             pkill elichika
 			cd elichika-RusdiNgawi
 			./elichika
+			cd ~/
             ;;
         2)
             pkill elichika
 			cd elichika
 			./elichika
+			cd ~/
             ;;
         3)
 			pkill elichika
