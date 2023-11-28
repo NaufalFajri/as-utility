@@ -5,16 +5,17 @@ while true; do
     echo "Elichika Menu:"
     echo "1. Run Server (Old)"
     echo "2. Run Server (New)"
-    echo "3. Build DB (Old) (GL) (English)"
-    echo "4. Build DB (Old) (GL) (ALL Language)"
-    echo "5. Build DB (Old) (JP)"
+    echo "3. Build DB (Old) (GL) (Android) (English)"
+    echo "4. Build DB (Old) (GL) (Android) (ALL Language)"
+    echo "5. Build DB (Old) (JP) (Android)"
     echo "6. Build DB (Old) (ALL)"
 	echo "7. Make New User (Old) (GL)"
 	echo "8. Make New User (Old) (JP)"
 	echo "9. Add New Costume (Old) (GL) (English)"
 	echo "10. Clone Costume to Another Member (Old) (GL)"
 	echo "11. Install Dependencies"
-	echo "12. Update Script (Old)"
+	echo "12. Update Script"
+	echo "13. Update Menu"
     echo "0. Exit"
 
     read -p "Enter your choice: " choice
@@ -45,14 +46,14 @@ while true; do
 			clear
 			pkill elichika
 			cd ~/elichika-RusdiNgawi
-			python bin/encryptdbset.py static update assets/db/gl/masterdata_a_en assets/db/gl/masterdata_a_ko assets/db/gl/masterdata_a_zh assets/db/gl/masterdata_i_en assets/db/gl/masterdata_i_ko assets/db/gl/masterdata_i_zh
+			python bin/encryptdbset.py static update assets/db/gl/masterdata_a_en assets/db/gl/masterdata_a_ko assets/db/gl/masterdata_a_zh
 			cd ~/
             ;;
         5)
 			clear
 			pkill elichika
 			cd ~/elichika-RusdiNgawi
-			python bin/encryptdbset.py static update assets/db/jp/masterdata_a_ja assets/db/jp/masterdata_i_ja
+			python bin/encryptdbset.py static update assets/db/jp/masterdata_a_ja
 			cd ~/
             ;;
         6)
@@ -105,6 +106,10 @@ while true; do
 			cd ~/elichika-RusdiNgawi
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/costume_addon_termux.py -o costume_addon_termux.py
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/costume_clone.py -o costume_clone.py
+			cd ~/
+            ;;
+        13)
+			clear
 			cd ~/
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/run -o run
             ;;
