@@ -1,0 +1,86 @@
+#!/bin/bash
+
+while true; do
+    clear
+    echo "Elichika Menu:"
+    echo "1. Run Server RusdiNgawi"
+    echo "2. Run Server arina999999997"
+    echo "3. Build DB Elichika Mod (GL) (English)"
+    echo "4. Build DB Elichika Mod (GL) (ALL Language)"
+    echo "5. Build DB Elichika Mod (JP)"
+    echo "6. Build DB Elichika Mod (ALL)"
+	echo "7. Make New User Elichika Mod (GL)"
+	echo "8. Make New User Elichika Mod (JP)"
+	echo "9. Add New Costume"
+	echo "10. Clone Costume to Another Member"
+    echo "0. Exit"
+
+    read -p "Enter your choice: " choice
+
+    case $choice in
+        1)
+            pkill elichika
+			cd elichika-RusdiNgawi
+			./elichika
+            ;;
+        2)
+            pkill elichika
+			cd elichika
+			./elichika
+            ;;
+        3)
+			pkill elichika
+			cd elichika
+			python bin/encryptdbset.py static update assets/db/gl/masterdata_a_en
+			cd ~/
+            ;;
+        4)
+			pkill elichika
+			cd elichika
+			python bin/encryptdbset.py static update assets/db/gl/masterdata_a_en assets/db/gl/masterdata_a_ko assets/db/gl/masterdata_a_zh assets/db/gl/masterdata_i_en assets/db/gl/masterdata_i_ko assets/db/gl/masterdata_i_zh
+			cd ~/
+            ;;
+        5)
+			pkill elichika
+			cd elichika
+			python bin/encryptdbset.py static update assets/db/jp/masterdata_a_ja assets/db/jp/masterdata_i_ja
+			cd ~/
+            ;;
+        6)
+			pkill elichika
+			cd elichika
+			python bin/encryptdbset.py static update assets/db/gl/masterdata_a_en assets/db/gl/masterdata_a_ko assets/db/gl/masterdata_a_zh assets/db/gl/masterdata_i_en assets/db/gl/masterdata_i_ko assets/db/gl/masterdata_i_zh
+			python bin/encryptdbset.py static update assets/db/jp/masterdata_a_ja assets/db/jp/masterdata_i_ja
+			cd ~/
+            ;;
+        7)
+			cd elichika
+			cp serverdata_gl.db assets/db/serverdata.db
+			cd ~/
+            ;;
+        8)
+			cd elichika
+			cp serverdata_jp.db assets/db/serverdata.db
+			cd ~/
+            ;;
+        9)
+			cd elichika
+			python costume_addon_termux.py
+			cd ~/
+            ;;
+        10)
+			cd elichika
+			python costume_clone.py
+			cd ~/
+            ;;
+        0)
+            echo "Exiting..."
+            exit 0
+            ;;
+        *)
+            echo "Invalid choice. Please enter a valid option."
+            ;;
+    esac
+
+    read -p "Press Enter to continue..."
+done
