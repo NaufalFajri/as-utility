@@ -15,7 +15,7 @@ while true; do
 	echo "10. Clone Costume to Another Member (Old) (GL)"
 	echo "11. Install Dependencies"
 	echo "12. Update Script"
-	echo "13. Update Menu"
+	echo "13. Update Menu (Restart to Apply Changes)"
     echo "0. Exit"
 
     read -p "Enter your choice: " choice
@@ -112,6 +112,8 @@ while true; do
 			clear
 			cd ~/
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/run -o run
+			echo "Restart to Apply Changes"
+            exit 0
             ;;
         0)
 			clear
