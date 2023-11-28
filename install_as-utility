@@ -1,8 +1,0 @@
-cd ~/
-pkg update
-pkg upgrade
-pkg install python
-pkg install git
-git clone https://github.com/NaufalFajri/astool.git astool-dist
-pip install ./astool-dist/hwdecrypt_src
-cd ~/
