@@ -1,4 +1,0 @@
-pkill elichika
-cd elichika
-am start --user 0 -n com.klab.lovelive.allstars.global/com.klab.lovelive.allstars.global.GlobalUnsafeMainActivity
-./elichika
