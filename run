@@ -119,17 +119,18 @@ while true; do
 			cd ~/
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/run -o run
 			echo "Restart to Apply Changes"
+            ;;
         14)
 			clear
 			pkill elichika
 			cd ~/elichika-RusdiNgawi
 			cp config_localhost.json config.json
+            ;;
         15)
 			clear
 			pkill elichika
 			cd ~/elichika-RusdiNgawi
 			cp config_catfolk.json config.json
-            exit 0
             ;;
         0)
 			clear
