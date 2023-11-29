@@ -118,7 +118,9 @@ while true; do
 			pkill elichika
 			cd ~/
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/run -o run
+			clear
 			echo "Restart to Apply Changes"
+			exit 0
             ;;
         14)
 			clear
