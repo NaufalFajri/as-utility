@@ -16,6 +16,8 @@ while true; do
 	echo "11. Install Dependencies"
 	echo "12. Update Script"
 	echo "13. Update Menu (Restart to Apply Changes)"
+	echo "14. Switch to LocalHost (Old)"
+	echo "15. Switch to Catfolk (Old)"
     echo "0. Exit"
 
     read -p "Enter your choice: " choice
@@ -102,17 +104,31 @@ while true; do
             ;;
         12)
 			clear
+			pkill elichika
 			cd ~/
 			cd ~/elichika-RusdiNgawi
+			curl -L https://github.com/NaufalFajri/as-utility/raw/main/config_localhost.json -o config_localhost.json
+			curl -L https://codeberg.org/arina999999997/nozomi/raw/branch/master/catfolk_cdn.json -0 config_catfolk.json
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/costume_addon_termux.py -o costume_addon_termux.py
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/costume_clone.py -o costume_clone.py
 			cd ~/
             ;;
         13)
 			clear
+			pkill elichika
 			cd ~/
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/run -o run
 			echo "Restart to Apply Changes"
+        14)
+			clear
+			pkill elichika
+			cd ~/elichika-RusdiNgawi
+			cp config_localhost.json config.json
+        15)
+			clear
+			pkill elichika
+			cd ~/elichika-RusdiNgawi
+			cp config_catfolk.json config.json
             exit 0
             ;;
         0)
