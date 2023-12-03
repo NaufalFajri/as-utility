@@ -1,0 +1,215 @@
+{
+    "rokoko_custom_names": true,
+    "version": 1,
+    "bones": {
+        "custom_bone_ude1_l_n": [
+            "ude1_l_n",
+            "leftarm"
+        ],
+        "custom_bone_center_c_n": [
+            "center_c_n",
+            "move"
+        ],
+        "custom_bone_ketu_c_n": [
+            "ketu_c_n",
+            "hips"
+        ],
+        "custom_bone_asi1_r_n": [
+            "asi1_r_n",
+            "rightupleg"
+        ],
+        "custom_bone_asi1_l_n": [
+            "asi1_l_n",
+            "leftupleg"
+        ],
+        "custom_bone_kosi_c_n": [
+            "kosi_c_n",
+            "spine"
+        ],
+        "custom_bone_asi2_r_n": [
+            "asi2_r_n",
+            "rightleg"
+        ],
+        "custom_bone_asi2_l_n": [
+            "asi2_l_n",
+            "leftleg"
+        ],
+        "custom_bone_mune_c_n": [
+            "mune_c_n",
+            "spine1"
+        ],
+        "custom_bone_asi3_r_n": [
+            "asi3_r_n",
+            "rightfoot"
+        ],
+        "custom_bone_asi3_l_n": [
+            "asi3_l_n",
+            "leftfoot"
+        ],
+        "custom_bone_kubi_c_n": [
+            "kubi_c_n",
+            "neck"
+        ],
+        "custom_bone_kata_r_n": [
+            "kata_r_n",
+            "rightshoulder"
+        ],
+        "custom_bone_kata_l_n": [
+            "kata_l_n",
+            "leftshoulder"
+        ],
+        "custom_bone_asi4_r_n": [
+            "asi4_r_n",
+            "righttoebase"
+        ],
+        "custom_bone_asi4_l_n": [
+            "asi4_l_n",
+            "lefttoebase"
+        ],
+        "custom_bone_face_c_n": [
+            "face_c_n",
+            "head"
+        ],
+        "custom_bone_ude1_r_n": [
+            "ude1_r_n",
+            "rightarm"
+        ],
+        "custom_bone_ude2_r_n": [
+            "ude2_r_n",
+            "rightforearm"
+        ],
+        "custom_bone_ude2_l_n": [
+            "ude2_l_n",
+            "leftforearm"
+        ],
+        "custom_bone_ude3_r_n": [
+            "ude3_r_n",
+            "righthand"
+        ],
+        "custom_bone_ude3_l_n": [
+            "ude3_l_n",
+            "lefthand"
+        ],
+        "custom_bone_oya1_r_n": [
+            "oya1_r_n",
+            "righthandthumb1"
+        ],
+        "custom_bone_oya1_l_n": [
+            "oya1_l_n",
+            "lefthandthumb1"
+        ],
+        "custom_bone_koyu1_r_n": [
+            "koyu1_r_n",
+            "righthandpinky1"
+        ],
+        "custom_bone_kusu1_r_n": [
+            "kusu1_r_n",
+            "righthandring1"
+        ],
+        "custom_bone_naka1_r_n": [
+            "naka1_r_n",
+            "righthandmiddle1"
+        ],
+        "custom_bone_hito1_r_n": [
+            "hito1_r_n",
+            "righthandindex1"
+        ],
+        "custom_bone_oya2_r_n": [
+            "oya2_r_n",
+            "righthandthumb2"
+        ],
+        "custom_bone_koyu1_l_n": [
+            "koyu1_l_n",
+            "lefthandpinky1"
+        ],
+        "custom_bone_kusu1_l_n": [
+            "kusu1_l_n",
+            "lefthandring1"
+        ],
+        "custom_bone_naka1_l_n": [
+            "naka1_l_n",
+            "lefthandmiddle1"
+        ],
+        "custom_bone_hito1_l_n": [
+            "hito1_l_n",
+            "lefthandindex1"
+        ],
+        "custom_bone_oya2_l_n": [
+            "oya2_l_n",
+            "lefthandthumb2"
+        ],
+        "custom_bone_koyu2_r_n": [
+            "koyu2_r_n",
+            "righthandpinky2"
+        ],
+        "custom_bone_kusu2_r_n": [
+            "kusu2_r_n",
+            "righthandring2"
+        ],
+        "custom_bone_naka2_r_n": [
+            "naka2_r_n",
+            "righthandmiddle2"
+        ],
+        "custom_bone_hito2_r_n": [
+            "hito2_r_n",
+            "righthandindex2"
+        ],
+        "custom_bone_oya3_r_n": [
+            "oya3_r_n",
+            "righthandthumb3"
+        ],
+        "custom_bone_koyu2_l_n": [
+            "koyu2_l_n",
+            "lefthandpinky2"
+        ],
+        "custom_bone_kusu2_l_n": [
+            "kusu2_l_n",
+            "lefthandring2"
+        ],
+        "custom_bone_naka2_l_n": [
+            "naka2_l_n",
+            "lefthandmiddle2"
+        ],
+        "custom_bone_hito2_l_n": [
+            "hito2_l_n",
+            "lefthandindex2"
+        ],
+        "custom_bone_oya3_l_n": [
+            "oya3_l_n",
+            "lefthandthumb3"
+        ],
+        "custom_bone_koyu3_r_n": [
+            "koyu3_r_n",
+            "righthandpinky3"
+        ],
+        "custom_bone_kusu3_r_n": [
+            "kusu3_r_n",
+            "righthandring3"
+        ],
+        "custom_bone_naka3_r_n": [
+            "naka3_r_n",
+            "righthandmiddle3"
+        ],
+        "custom_bone_hito3_r_n": [
+            "hito3_r_n",
+            "righthandindex3"
+        ],
+        "custom_bone_koyu3_l_n": [
+            "koyu3_l_n",
+            "lefthandpinky3"
+        ],
+        "custom_bone_kusu3_l_n": [
+            "kusu3_l_n",
+            "lefthandring3"
+        ],
+        "custom_bone_naka3_l_n": [
+            "naka3_l_n",
+            "lefthandmiddle3"
+        ],
+        "custom_bone_hito3_l_n": [
+            "hito3_l_n",
+            "lefthandindex3"
+        ]
+    },
+    "shapes": {}
+}
