@@ -1,4 +1,5 @@
 import sqlite3
+import os
 
 def import_to_multiple_dbs(source_sql_file, target_db1, target_db2, target_db3):
     # Connect to the target databases
@@ -65,4 +66,7 @@ def import_to_multiple_dbs(source_sql_file, target_db1, target_db2, target_db3):
 
 # Example usage:
 source_db_input = "assets/data/" + input("Enter the source database file path: ") + ".sql"
+if source_db_input == "assets/data/":
+    print("No file selected")
+    sys.exit(1)
 import_to_multiple_dbs(source_db_input, "assets/db/gl/asset_a_en.db", "assets/db/gl/masterdata.db", "assets/db/gl/dictionary_en_k.db")
