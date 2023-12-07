@@ -14,11 +14,11 @@ while true; do
 	echo "9. Add New Costume (Old) (GL) (English)"
 	echo "10. Clone Costume to Another Member (Old) (GL)"
 	echo "11. Import SQL (Old) (GL) (Android) (English)"
-	echo "11. Install Dependencies"
-	echo "12. Update Script"
-	echo "13. Update Menu (Restart to Apply Changes)"
-	echo "14. Switch to LocalHost (Old)"
-	echo "15. Switch to Catfolk (Old)"
+	echo "12. Install Dependencies"
+	echo "13. Update Script"
+	echo "14. Update Menu (Restart to Apply Changes)"
+	echo "15. Switch to LocalHost (Old)"
+	echo "16. Switch to Catfolk (Old)"
     echo "0. Exit"
 
     read -p "Enter your choice: " choice
