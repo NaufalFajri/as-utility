@@ -13,6 +13,7 @@ while true; do
 	echo "8. Make New User (Old) (JP)"
 	echo "9. Add New Costume (Old) (GL) (English)"
 	echo "10. Clone Costume to Another Member (Old) (GL)"
+	echo "11. Import SQL (Old) (GL) (Android) (English)"
 	echo "11. Install Dependencies"
 	echo "12. Update Script"
 	echo "13. Update Menu (Restart to Apply Changes)"
@@ -93,6 +94,12 @@ while true; do
             ;;
         11)
 			clear
+			cd ~/elichika-RusdiNgawi
+			python elichika_db_importer.py
+			cd ~/
+            ;;
+        12)
+			clear
 			cd ~/
 			pkg update
 			pkg upgrade
@@ -102,7 +109,7 @@ while true; do
 			pip install ./astool-dist/hwdecrypt_src
 			cd ~/
             ;;
-        12)
+        13)
 			clear
 			pkill elichika
 			cd ~/
@@ -111,9 +118,10 @@ while true; do
 			curl -L https://codeberg.org/arina999999997/nozomi/raw/branch/master/catfolk_cdn.json -o config_catfolk.json
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/costume_addon_termux.py -o costume_addon_termux.py
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/costume_clone.py -o costume_clone.py
+			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/elichika_db_importer.py -o elichika_db_importer.py
 			cd ~/
             ;;
-        13)
+        14)
 			clear
 			pkill elichika
 			cd ~/
@@ -122,13 +130,13 @@ while true; do
 			echo "Restart to Apply Changes"
 			exit 0
             ;;
-        14)
+        15)
 			clear
 			pkill elichika
 			cd ~/elichika-RusdiNgawi
 			cp config_localhost.json config.json
             ;;
-        15)
+        16)
 			clear
 			pkill elichika
 			cd ~/elichika-RusdiNgawi
