@@ -18,9 +18,5 @@
   - 6 - swipe left
   - 7 - swipe right
 - wave_id : follow up live_wave_settings id
-  ## default value
-- note_random_drop_color : 99
-- auto_judge_type : 20
-## default
-- note_random_drop_color : 99
-- auto_judge_type : 14
+- note_random_drop_color : 99 (default value)
+- auto_judge_type : 20 (default value)
