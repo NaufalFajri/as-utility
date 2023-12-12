@@ -25,7 +25,7 @@
 - auto_judge_type : 20 (default value)
 ## live_wave_settings
 - id : increase +1 each adding wave
-- wave_damage : how many stamina damage value
+- wave_damage : how many stamina damage value at fail
 - mission_type : 
   - 1 - Gain Voltage! (x)
   - 2 - Get Nice or above (x) times!
@@ -37,6 +37,6 @@
   - 8 - Get a critical: x(x)
   - 9 - Activate a skill: x(x)
   - 16 - Maintain at least %(x) of your total Stamina.
-- arg_1 : Value Target AC
+- arg_1 : how many value of target AC
 - arg_2 : 0 (default value)
 - reward_voltage : Value Voltage at end AC
