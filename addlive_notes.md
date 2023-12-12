@@ -2,7 +2,7 @@
 
 ## live_notes
 - id : increase +1 each adding note
-- call_time : format in 30 FPS is 33.33333 MS
+- call_time : format time in 30 FPS is 33.33333 MS
 - note_type :
   - 1 - one button
   - 2 - hold
@@ -37,3 +37,6 @@
   - 8 - Get a critical: x(x)
   - 9 - Activate a skill: x(x)
   - 16 - Maintain at least %(x) of your total Stamina.
+- arg_1 : Value Target AC
+- arg_2 : 0 (default value)
+- reward_voltage : Value Voltage at end AC
