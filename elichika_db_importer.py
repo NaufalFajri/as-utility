@@ -1,6 +1,26 @@
 import sqlite3
 import os
 
+import shutil
+
+def create_backup(source_files, backup_files):
+    for source_file, backup_file in zip(source_files, backup_files):
+        if os.path.exists(backup_file):
+            print(f"Backup file '{backup_file}' already exists. Skipping.")
+        else:
+            try:
+                shutil.copy2(source_file, backup_file)
+                print(f"Backup created successfully: {backup_file}")
+            except Exception as e:
+                print(f"Error creating backup for '{source_file}': {e}")
+
+# Example usage:
+source_files = ['assets/db/gl/asset_a_en.db', 'assets/db/gl/masterdata.db', 'assets/db/gl/dictionary_en_inline_image.db']
+backup_files = ['assets/db/gl/backup/asset_a_en.db', 'assets/db/gl/backup/masterdata.db', 'assets/db/gl/backup/dictionary_en_inline_image.db']
+
+create_backup(source_files, backup_files)
+
+
 def import_to_multiple_dbs(source_sql_file, target_db1, target_db2, target_db3):
     # Connect to the target databases
     target_conn1 = sqlite3.connect(target_db1)
