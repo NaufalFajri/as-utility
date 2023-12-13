@@ -5,7 +5,23 @@ import io
 import platform
 import random
 import sys
+import shutil
 import hashlib
+
+def create_backup(source_files, backup_files):
+    for source_file, backup_file in zip(source_files, backup_files):
+        if os.path.exists(backup_file):
+            print(f"Backup file '{backup_file}' already exists. Skipping.")
+        else:
+            try:
+                shutil.copy2(source_file, backup_file)
+                print(f"Backup created successfully: {backup_file}")
+            except Exception as e:
+                print(f"Error creating backup for '{source_file}': {e}")
+
+source_files = ['assets/db/gl/asset_a_en.db', 'assets/db/gl/asset_i_en.db', 'assets/db/gl/asset_a_ko.db', 'assets/db/gl/asset_i_ko.db', 'assets/db/gl/asset_a_zh.db', 'assets/db/gl/asset_i_zh.db', 'assets/db/gl/masterdata.db', 'assets/db/gl/dictionary_en_inline_image.db', 'assets/db/gl/dictionary_ko_inline_image.db', 'assets/db/gl/dictionary_zh_inline_image.db']
+backup_files = ['assets/db/gl/backup/asset_a_en.db', 'assets/db/gl/backup/asset_i_en.db', 'assets/db/gl/backup/asset_a_ko.db', 'assets/db/gl/backup/asset_i_ko.db', 'assets/db/gl/backup/asset_a_zh.db', 'assets/db/gl/backup/asset_i_zh.db', 'assets/db/gl/backup/masterdata.db', 'assets/db/gl/backup/dictionary_en_inline_image.db', 'assets/db/gl/backup/dictionary_ko_inline_image.db', 'assets/db/gl/backup/dictionary_zh_inline_image.db']
+
 
 def clear_terminal():
     system = platform.system()
@@ -54,18 +70,34 @@ def rinaunmask_path_randomhash(cursor):
         if count == 0:
             return new_hash3
 
-#txt_file_path = "assets/data/" + input('Enter the path to the .txt file: ')
+# explorer code
 
-#with open(txt_file_path, 'r') as file:
-#    for line in file:
-#        # Assuming each line in the .txt file contains a variable assignment
-#        exec(line)
+directory_path_sifas = "assets/data/"
 
+# List all files in the directory with a ".zip" extension
+zip_files = [file for file in os.listdir(directory_path_sifas) if file.endswith(".zip")]
 
+# Display the available zip files with corresponding numbers
+print("Available .zip files:")
+for i, zip_file in enumerate(zip_files, start=1):
+    print(f"{i}. {zip_file}")
 
-
-# Get the path to the ZIP file from user input
-zip_file_path = "assets/data/" + input("Enter the ZIP file name: ") + ".zip"
+# User input to choose a zip file by entering a number
+try:
+    chosen_number = int(input("Enter the number corresponding to the .zip file you want to choose: "))
+    
+    # Check if the chosen number is valid
+    if 1 <= chosen_number <= len(zip_files):
+        chosen_zip_file = zip_files[chosen_number - 1]
+        zip_file_path = os.path.join(directory_path_sifas, chosen_zip_file)
+        print(f"You chose: {zip_file_path}")
+        # Now you can work with the chosen zip file as needed
+    else:
+        print("Invalid number. Please enter a valid number.")
+        sys.exit(1)
+except ValueError:
+    print("Invalid input. Please enter a number.")
+    sys.exit(1)
 
 # Create a BytesIO object to work with the in-memory ZIP data
 with open(zip_file_path, 'rb') as zip_file:
@@ -97,8 +129,14 @@ elif chara_id == "211":
 clear_terminal()
 print('Name: ' + costume_name)
 print('Description: ' + costume_description)
-input("do you want add this?, Press Enter to add")
-clear_terminal()
+do_you_think_want_add_this = input("do you want add this? (y/n): ")
+
+if do_you_think_want_add_this == "y" :
+    clear_terminal()
+else :
+    clear_terminal()
+    sys.exit(1)
+
 # Extract filename and filesize from costume_file
 costume_filename = os.path.splitext(costume_file.split("/")[-1])[0]
 # Replace with actual method to get filesize
@@ -124,6 +162,14 @@ encrypted_folder = "static/2d61e7b4e89961c7/"
 
 if not os.path.exists(encrypted_folder):
     os.makedirs(encrypted_folder)
+
+# encrypting asset first
+bekupfolder_folder = "assets/db/gl/backup/"
+
+if not os.path.exists(bekupfolder_folder):
+    os.makedirs(bekupfolder_folder)
+
+create_backup(source_files, backup_files)
 
 with open(costume_file, "rb") as file:
     data = bytearray(file.read())
