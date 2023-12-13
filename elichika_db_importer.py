@@ -18,9 +18,6 @@ def create_backup(source_files, backup_files):
 source_files = ['assets/db/gl/asset_a_en.db', 'assets/db/gl/masterdata.db', 'assets/db/gl/dictionary_en_inline_image.db']
 backup_files = ['assets/db/gl/backup/asset_a_en.db', 'assets/db/gl/backup/masterdata.db', 'assets/db/gl/backup/dictionary_en_inline_image.db']
 
-create_backup(source_files, backup_files)
-
-
 def import_to_multiple_dbs(source_sql_file, target_db1, target_db2, target_db3):
     # Connect to the target databases
     target_conn1 = sqlite3.connect(target_db1)
@@ -89,4 +86,5 @@ source_db_input = "assets/data/" + input("Enter the source database file path: "
 if source_db_input == "assets/data/":
     print("No file selected")
     sys.exit(1)
+create_backup(source_files, backup_files)
 import_to_multiple_dbs(source_db_input, "assets/db/gl/asset_a_en.db", "assets/db/gl/masterdata.db", "assets/db/gl/dictionary_en_k.db")
