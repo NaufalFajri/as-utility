@@ -1,0 +1,76 @@
+#!/bin/bash
+
+while true; do
+    clear
+    echo "https://github.com/NaufalFajri/as-utility/"
+    echo "Elichika Arina Menu:"
+    echo "1. Run Server"
+	echo "2. Add New Costume (GL)"
+	echo "3. Import SQL (GL) (Android) (English)"
+	echo "4. Install / Update Dependencies & Script"
+	echo "5. Switch to LocalHost"
+	echo "6. Switch to Catfolk"
+    echo "0. Exit"
+
+    read -p "Enter your choice: " choice
+
+    case $choice in
+        1)
+			clear
+            pkill elichika
+			cd ~/elichika
+			./elichika
+			cd ~/
+            ;;
+        2)
+			clear
+      pkill elichika
+			cd ~/elichika
+			python costume_addon_installer.py
+			cd ~/
+            ;;
+        3)
+			clear
+      pkill elichika
+			cd ~/elichika
+			python elichika_db_importer.py
+			cd ~/
+            ;;
+        4)
+			clear
+      pkill elichika
+			cd ~/
+			pkg update
+			pkg upgrade
+			pkg install python
+      cd ~/elichika
+			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/config_localhost_new.json -o config_localhost.json
+			curl -L https://raw.githubusercontent.com/arina999999997/elichika/master/config.json -o config_catfolk.json
+			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/costume_addon_installer.py -o costume_addon_installer.py
+			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/elichika_db_importer.py -o elichika_db_importer.py
+			cd ~/
+            ;;
+        5)
+			clear
+			pkill elichika
+			cd ~/elichika
+			cp config_localhost.json config.json
+            ;;
+        6)
+			clear
+			pkill elichika
+			cd ~/elichika
+			cp config_catfolk.json config.json
+            ;;
+        0)
+			clear
+            echo "Exiting..."
+            exit 0
+            ;;
+        *)
+            echo "Invalid choice. Please enter a valid option."
+            ;;
+    esac
+
+    read -p "Press Enter to continue..." _dummy
+done
