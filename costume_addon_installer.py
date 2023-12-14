@@ -1,5 +1,6 @@
 import sqlite3
 import os
+import json
 import zipfile
 import io
 import platform
@@ -46,6 +47,14 @@ def generate_unique_costume_id(cursor):
         if count == 0:
             return new_id
             
+def generate_unique_trade_id(cursor):
+    while True:
+        new_id333 = random.randint(0, 999999999)
+        cursor.execute("SELECT COUNT(*) FROM main.m_trade_product WHERE id = ?;", (new_id333,))
+        count = cursor.fetchone()[0]
+        if count == 0:
+            return new_id333
+            
 def costume_path_randomhash(cursor):
     while True:
         new_hash1 = format(random.randint(0, 0xFFFFFFFF), 'x')
@@ -71,7 +80,7 @@ def rinaunmask_path_randomhash(cursor):
             return new_hash3
 
 # explorer code
-
+clear_terminal()
 directory_path_sifas = "assets/data/"
 
 # List all files in the directory with a ".zip" extension
@@ -128,6 +137,30 @@ elif chara_id == "211":
 
 clear_terminal()
 print('Name: ' + costume_name)
+if chara_id == "201":
+    print('Chara: Ayumu Uehara')
+elif chara_id == "202":
+    print('Chara: Kasumi Nakasu')
+elif chara_id == "203":
+    print('Chara: Shizuku Osaka')
+elif chara_id == "204":
+    print('Chara: Karin Asaka')
+elif chara_id == "205":
+    print('Chara: Ai Miyashita')
+elif chara_id == "206":
+    print('Chara: Kanata Konoe')
+elif chara_id == "207":
+    print('Chara: Setsuna Yuki')
+elif chara_id == "208":
+    print('Chara: Emma Verde')
+elif chara_id == "209":
+    print('Chara: Rina Tennoji')
+elif chara_id == "210":
+    print('Chara: Shioriko Mifune')
+elif chara_id == "212":
+    print('Chara: Lanzhu Zhong')
+elif chara_id == "211":
+    print('Chara: Mia Taylor')
 print('Description: ' + costume_description)
 do_you_think_want_add_this = input("do you want add this? (y/n): ")
 
@@ -2353,6 +2386,7 @@ with sqlite3.connect('assets/db/gl/masterdata.db') as conn:
     costume_id_masterdata = generate_unique_costume_id(cursor)
     costume_dictionary = "suit_name_" + str(costume_id_masterdata)
     costume_dictionary_masterdata = "inline_image." + costume_dictionary
+    trade_id_into_json = generate_unique_trade_id(cursor)
     
     # Find the minimum display_order for the given chara_id
     cursor.execute("SELECT MIN(display_order) FROM main.m_suit WHERE member_m_id = ?;", (chara_id,))
@@ -2365,6 +2399,7 @@ with sqlite3.connect('assets/db/gl/masterdata.db') as conn:
     # Insert the new record with the updated display_order
     cursor.execute("INSERT INTO main.m_suit (id, member_m_id, name, thumbnail_image_asset_path, suit_release_route, suit_release_value, model_asset_path, display_order) VALUES (?, ?, ?, ?, '2', '0', ?, ?);",
                    (costume_id_masterdata, chara_id, costume_dictionary_masterdata, thumbnail_costume_path, costume_path, display_order_new))
+    #cursor.execute("INSERT INTO main.m_trade_product (package_key, version, pack_num) VALUES (?, ?, '2');", (package_key_costume, fresh_version))
                    
     if chara_id == "209":
         cursor.execute("INSERT INTO main.m_suit_view (suit_master_id, view_status, model_asset_path) VALUES (?, '2', ?);", (costume_id_masterdata, rina_unmask_costume_path))
@@ -2428,9 +2463,48 @@ with sqlite3.connect('assets/db/gl/asset_i_en.db') as conn:
         cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_thumbnail, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
         cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '1');", (package_key_costume, fresh_version_i_en))
         cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);", (fresh_version_main_i_en, update_main_asset_i_en))
+print("added to CDN localhost")                 
+
+
+file_path_trade_stuff = 'server init jsons/trade.json'
+
+# Check if the file exists
+if os.path.exists(file_path_trade_stuff):
+    # File exists, proceed with reading and modifying
+    with open(file_path_trade_stuff, 'r') as file:
+        data = json.load(file)
+    print("elichika new version detected, adding to member coin exchange shop")
+    # Locate the entry based on the condition
+    for entry in data:
+        if "banner_image_path" in entry and entry["banner_image_path"]["v"] == "JNf":
+            # Add a new product entry to the "products" array
+            entry["products"] = entry.get("products", []) + [
+                {
+                    "product_id": trade_id_into_json,
+                    "trade_id": trade_id_into_json,
+                    "source_amount": 1,
+                    "stock_amount": 1,
+                    "traded_count": 1,
+                    "contents": [
+                        {
+                            "content_type": 7,
+                            "content_id": costume_id_masterdata,
+                            "content_amount": 1
+                        }
+                    ]
+                }
+            ]
+
+    # Save the modified data back to the JSON file
+    with open(file_path_trade_stuff, 'w') as file:
+        json.dump(data, file, indent=4)
+else:
+    # File doesn't exist, rest of the code
+    print("elichika old version detected, adding to serverdata")
+    with sqlite3.connect('assets/db/serverdata.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO main.s_user_suit (user_id, suit_master_id, is_new) VALUES ('588296696', ?, '1');", (costume_id_masterdata,))    
                    
-with sqlite3.connect('assets/db/serverdata.db') as conn:
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO main.s_user_suit (user_id, suit_master_id, is_new) VALUES ('588296696', ?, '1');", (costume_id_masterdata,))
+
     
-print("costume added to database")
+print("FINISHED")
