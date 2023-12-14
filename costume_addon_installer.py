@@ -28,6 +28,21 @@ def create_backup(source_files, backup_files):
 source_files = ['assets/db/gl/asset_a_en.db', 'assets/db/gl/asset_i_en.db', 'assets/db/gl/asset_a_ko.db', 'assets/db/gl/asset_i_ko.db', 'assets/db/gl/asset_a_zh.db', 'assets/db/gl/asset_i_zh.db', 'assets/db/gl/masterdata.db', 'assets/db/gl/dictionary_en_inline_image.db', 'assets/db/gl/dictionary_ko_inline_image.db', 'assets/db/gl/dictionary_zh_inline_image.db']
 backup_files = ['assets/db/gl/backup/asset_a_en.db', 'assets/db/gl/backup/asset_i_en.db', 'assets/db/gl/backup/asset_a_ko.db', 'assets/db/gl/backup/asset_i_ko.db', 'assets/db/gl/backup/asset_a_zh.db', 'assets/db/gl/backup/asset_i_zh.db', 'assets/db/gl/backup/masterdata.db', 'assets/db/gl/backup/dictionary_en_inline_image.db', 'assets/db/gl/backup/dictionary_ko_inline_image.db', 'assets/db/gl/backup/dictionary_zh_inline_image.db']
 
+def create_backup_elichika_new(source_file_elichika_new, backup_file_elichika_new):
+    if os.path.exists(backup_file_elichika_new):
+        print("Backup file already exists. Stopping.")
+        return
+    
+    try:
+        shutil.copy2(source_file_elichika_new, backup_file_elichika_new)
+        print(f"Backup created successfully: {backup_file_elichika_new}")
+    except Exception as e:
+        print(f"Error creating backup: {e}")
+
+# Example usage:
+source_file_elichika_new = "server init jsons/trade.json"
+backup_file_elichika_new = "server init jsons/backup/trade.json"
+
 
 def clear_terminal():
     system = platform.system()
@@ -59,6 +74,14 @@ def generate_unique_trade_id(cursor):
         count = cursor.fetchone()[0]
         if count == 0:
             return new_id333
+            
+def generate_unique_trade_content_id(cursor):
+    while True:
+        new_id3334 = random.randint(0, 999999999)
+        cursor.execute("SELECT COUNT(*) FROM main.m_trade_product WHERE id = ?;", (new_id3334,))
+        count = cursor.fetchone()[0]
+        if count == 0:
+            return new_id3334
             
 def costume_path_randomhash(cursor):
     while True:
@@ -194,18 +217,18 @@ thumbnail_costume_filename = os.path.splitext(thumbnail_file.split("/")[-1])[0]
 # Replace with actual method to get filesize
 thumbnail_costume_size = os.path.getsize(thumbnail_file)
 
-encrypted_costume = "static/2d61e7b4e89961c7/" + os.path.splitext(costume_file.split("/")[-1])[0]
-encrypted_thumbnail = "static/2d61e7b4e89961c7/" + os.path.splitext(thumbnail_file.split("/")[-1])[0]
+encrypted_costume = "static_data/2d61e7b4e89961c7/" + os.path.splitext(costume_file.split("/")[-1])[0]
+encrypted_thumbnail = "static_data/2d61e7b4e89961c7/" + os.path.splitext(thumbnail_file.split("/")[-1])[0]
 
 if chara_id == "209":
     rina_unmask_costume_filename = os.path.splitext(rina_unmask_costume_file.split("/")[-1])[0]
     rina_unmask_costume_filesize = os.path.getsize(rina_unmask_costume_file)
 
 if chara_id == "209":
-    encrypted_rina_unmask = "static/2d61e7b4e89961c7/" + os.path.splitext(rina_unmask_costume_file.split("/")[-1])[0]
+    encrypted_rina_unmask = "static_data/2d61e7b4e89961c7/" + os.path.splitext(rina_unmask_costume_file.split("/")[-1])[0]
 
 # encrypting asset first
-encrypted_folder = "static/2d61e7b4e89961c7/"
+encrypted_folder = "static_data/2d61e7b4e89961c7/"
 
 if not os.path.exists(encrypted_folder):
     os.makedirs(encrypted_folder)
@@ -2401,6 +2424,8 @@ with sqlite3.connect('assets/db/gl/masterdata.db') as conn:
     costume_dictionary = "suit_name_" + str(costume_id_masterdata)
     costume_dictionary_masterdata = "inline_image." + costume_dictionary
     trade_id_into_json = generate_unique_trade_id(cursor)
+    donot_insert = None
+    trade_content_into_json = generate_unique_trade_content_id(cursor)
     
     # Find the minimum display_order for the given chara_id
     cursor.execute("SELECT MIN(display_order) FROM main.m_suit WHERE member_m_id = ?;", (chara_id,))
@@ -2413,8 +2438,10 @@ with sqlite3.connect('assets/db/gl/masterdata.db') as conn:
     # Insert the new record with the updated display_order
     cursor.execute("INSERT INTO main.m_suit (id, member_m_id, name, thumbnail_image_asset_path, suit_release_route, suit_release_value, model_asset_path, display_order) VALUES (?, ?, ?, ?, '2', '0', ?, ?);",
                    (costume_id_masterdata, chara_id, costume_dictionary_masterdata, thumbnail_costume_path, costume_path, display_order_new))
-    #cursor.execute("INSERT INTO main.m_trade_product (package_key, version, pack_num) VALUES (?, ?, '2');", (package_key_costume, fresh_version))
-                   
+    # Adding to member coin exchange
+    cursor.execute("INSERT INTO main.m_trade_product (id, trade_master_id, source_amount_color_on, label, display_order) VALUES (?, '40501', '0', ?, '1');", (trade_id_into_json, donot_insert))
+    cursor.execute("INSERT INTO main.m_trade_product_content (id, trade_product_master_id, content_display_order) VALUES (?, ?, '1');", (trade_content_into_json, trade_id_into_json))
+    
     if chara_id == "209":
         cursor.execute("INSERT INTO main.m_suit_view (suit_master_id, view_status, model_asset_path) VALUES (?, '2', ?);", (costume_id_masterdata, rina_unmask_costume_path))
 
@@ -2434,7 +2461,6 @@ with sqlite3.connect('assets/db/gl/dictionary_zh_inline_image.db') as conn:
 with sqlite3.connect('assets/db/gl/asset_a_en.db') as conn:
     cursor = conn.cursor()
     
-    donot_insert = None
     package_key_costume = "suit:" + str(costume_id_masterdata)
     package_key_thumbnail = "main"
     category_costume = '3'
@@ -2485,6 +2511,11 @@ file_path_trade_stuff = 'server init jsons/trade.json'
 # Check if the file exists
 if os.path.exists(file_path_trade_stuff):
     # File exists, proceed with reading and modifying
+    backup_trade_path = "server init jsons/backup/"
+
+    if not os.path.exists(backup_trade_path):
+        os.makedirs(backup_trade_path)
+    create_backup_elichika_new(source_file_elichika_new, backup_file_elichika_new)
     with open(file_path_trade_stuff, 'r') as file:
         data = json.load(file)
     print("elichika new version detected, adding to member coin exchange shop")
@@ -2496,7 +2527,7 @@ if os.path.exists(file_path_trade_stuff):
                 {
                     "product_id": trade_id_into_json,
                     "trade_id": trade_id_into_json,
-                    "source_amount": 1,
+                    "source_amount": 0,
                     "stock_amount": 1,
                     "traded_count": 1,
                     "contents": [
