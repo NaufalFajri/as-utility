@@ -9,6 +9,11 @@ import sys
 import shutil
 import hashlib
 
+modding_elichika_path = "assets/data/"
+
+if not os.path.exists(modding_elichika_path):
+    os.makedirs(modding_elichika_path)
+
 def create_backup(source_files, backup_files):
     for source_file, backup_file in zip(source_files, backup_files):
         if os.path.exists(backup_file):
@@ -81,6 +86,8 @@ def rinaunmask_path_randomhash(cursor):
 
 # explorer code
 clear_terminal()
+temp_directory = "assets/data/temp/"
+shutil.rmtree(temp_directory, ignore_errors=True)
 directory_path_sifas = "assets/data/"
 
 # List all files in the directory with a ".zip" extension
@@ -107,24 +114,30 @@ try:
 except ValueError:
     print("Invalid input. Please enter a number.")
     sys.exit(1)
-
-# Create a BytesIO object to work with the in-memory ZIP data
+    
+os.makedirs(temp_directory, exist_ok=True)
 with open(zip_file_path, 'rb') as zip_file:
     zip_data = zip_file.read()
-
+    
 zip_buffer = io.BytesIO(zip_data)
 
-# Create a ZipFile object
+    # Create a ZipFile object
 with zipfile.ZipFile(zip_buffer, 'r') as zip_ref:
-    # Iterate through the contents of the ZIP file
+        # Extract all files to the temp directory
+    zip_ref.extractall(temp_directory)
+
+        # Iterate through the contents of the ZIP file
     for file_info in zip_ref.infolist():
-        # Check if the file has a .txt extension
+            # Check if the file has a .txt extension
         if file_info.filename.endswith('.txt'):
-            # Extract the file contents
-            with zip_ref.open(file_info) as file:
-                # Read and execute each line in the extracted file
-                for line in file:
-                    exec(line.decode('utf-8'))  # Assuming the file is encoded in UTF-8
+                # Open and process the .txt file
+            txt_file_path = os.path.join(temp_directory, file_info.filename)
+            with open(txt_file_path, 'r', encoding='utf-8') as txt_file:
+                    # Read and process each line in the extracted file
+                for line in txt_file:
+                    exec(line)
+
+
 
 
 # Get user inputs
@@ -168,6 +181,7 @@ if do_you_think_want_add_this == "y" :
     clear_terminal()
 else :
     clear_terminal()
+    shutil.rmtree(temp_directory, ignore_errors=True)
     sys.exit(1)
 
 # Extract filename and filesize from costume_file
@@ -2505,6 +2519,6 @@ else:
         cursor = conn.cursor()
         cursor.execute("INSERT INTO main.s_user_suit (user_id, suit_master_id, is_new) VALUES ('588296696', ?, '1');", (costume_id_masterdata,))    
                    
-
-    
+print("deleting temp folder")
+shutil.rmtree(temp_directory, ignore_errors=True)
 print("FINISHED")
