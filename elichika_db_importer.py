@@ -15,76 +15,64 @@ def create_backup(source_files, backup_files):
                 print(f"Error creating backup for '{source_file}': {e}")
 
 # Example usage:
-source_files = ['assets/db/gl/asset_a_en.db', 'assets/db/gl/masterdata.db', 'assets/db/gl/dictionary_en_inline_image.db']
-backup_files = ['assets/db/gl/backup/asset_a_en.db', 'assets/db/gl/backup/masterdata.db', 'assets/db/gl/backup/dictionary_en_inline_image.db']
+source_files = ['assets/db/gl/asset_a_en.db', 'assets/db/gl/asset_i_en.db', 'assets/db/gl/asset_a_ko.db', 'assets/db/gl/asset_i_ko.db', 'assets/db/gl/asset_a_zh.db', 'assets/db/gl/asset_i_zh.db', 'assets/db/gl/masterdata.db', 'assets/db/gl/dictionary_en_inline_image.db', 'assets/db/gl/dictionary_ko_inline_image.db', 'assets/db/gl/dictionary_zh_inline_image.db']
+backup_files = ['assets/db/gl/backup/asset_a_en.db', 'assets/db/gl/backup/asset_i_en.db', 'assets/db/gl/backup/asset_a_ko.db', 'assets/db/gl/backup/asset_i_ko.db', 'assets/db/gl/backup/asset_a_zh.db', 'assets/db/gl/backup/asset_i_zh.db', 'assets/db/gl/backup/masterdata.db', 'assets/db/gl/backup/dictionary_en_inline_image.db', 'assets/db/gl/backup/dictionary_ko_inline_image.db', 'assets/db/gl/backup/dictionary_zh_inline_image.db']
 
-def import_to_multiple_dbs(source_sql_file, target_db1, target_db2, target_db3):
-    # Connect to the target databases
-    target_conn1 = sqlite3.connect(target_db1)
-    target_cursor1 = target_conn1.cursor()
 
-    target_conn2 = sqlite3.connect(target_db2)
-    target_cursor2 = target_conn2.cursor()
+def import_to_multiple_dbs(source_sql_file, target_db_list):
+    # Split SQL statements into individual queries
+    with open(source_sql_file, 'r') as sql_file:
+        sql_statements = sql_file.read()
+    queries = sql_statements.split(';')
 
-    target_conn3 = sqlite3.connect(target_db3)
-    target_cursor3 = target_conn3.cursor()
+    for target_db in target_db_list:
+        target_conn = sqlite3.connect(target_db)
+        target_cursor = target_conn.cursor()
 
-    try:
-        # Read the SQL statements from the source SQL file
-        with open(source_sql_file, 'r') as sql_file:
-            sql_statements = sql_file.read()
+        try:
+            # Execute each query in the target database
+            for query in queries:
+                if query.strip():  # Skip empty queries
+                    try:
+                        target_cursor.execute(query)
+                    except sqlite3.OperationalError as e:
+                        if "no such table" not in str(e):
+                            raise
+                        #print(f"Skipping query in {target_db}: {e}")
 
-        # Split SQL statements into individual queries
-        queries = sql_statements.split(';')
+            target_conn.commit()
+            print(f"Data successfully imported to {target_db}.")
 
-        # Execute each query in the first target database
-        for query in queries:
-            if query.strip():  # Skip empty queries
-                try:
-                    target_cursor1.execute(query)
-                except sqlite3.OperationalError as e:
-                    if "no such table" not in str(e):
-                        raise  # Raise the exception if it's not a "no such table" error
-                    print(f"Skipping query in target_db1: {e}")
-        target_conn1.commit()
+        except sqlite3.Error as e:
+            print(f"SQLite error in {target_db}: {e}")
 
-        # Execute each query in the second target database
-        for query in queries:
-            if query.strip():
-                try:
-                    target_cursor2.execute(query)
-                except sqlite3.OperationalError as e:
-                    if "no such table" not in str(e):
-                        raise
-                    print(f"Skipping query in target_db2: {e}")
-        target_conn2.commit()
-
-        # Execute each query in the third target database
-        for query in queries:
-            if query.strip():
-                try:
-                    target_cursor3.execute(query)
-                except sqlite3.OperationalError as e:
-                    if "no such table" not in str(e):
-                        raise
-                    print(f"Skipping query in target_db3: {e}")
-        target_conn3.commit()
-
-        print("Data successfully imported to all target databases.")
-
-    except sqlite3.Error as e:
-        print("SQLite error:", e)
-
-    finally:
-        # Close all database connections
-        target_conn1.close()
-        target_conn2.close()
-        target_conn3.close()
+        finally:
+            # Close the target database connection
+            target_conn.close()
 
 # Example usage:
-source_db_input = "assets/data/" + input("Enter the source database file path: ") + ".sql"
+source_sql_file_input = "assets/data/" + input("Enter SQL filename: ") + ".sql"
 if source_db_input == "assets/data/":
     print("No file selected")
     sys.exit(1)
+
+# encrypting asset first
+bekupfolder_folder = "assets/db/gl/backup/"
+
+if not os.path.exists(bekupfolder_folder):
+    os.makedirs(bekupfolder_folder)
+
+target_dbs = [
+    'assets/db/gl/asset_a_en.db',
+    'assets/db/gl/asset_i_en.db',
+    'assets/db/gl/asset_a_ko.db',
+    'assets/db/gl/asset_i_ko.db',
+    'assets/db/gl/asset_a_zh.db',
+    'assets/db/gl/asset_i_zh.db',
+    'assets/db/gl/masterdata.db',
+    'assets/db/gl/dictionary_en_inline_image.db',
+    'assets/db/gl/dictionary_ko_inline_image.db',
+    'assets/db/gl/dictionary_zh_inline_image.db'
+]
 create_backup(source_files, backup_files)
-import_to_multiple_dbs(source_db_input, "assets/db/gl/asset_a_en.db", "assets/db/gl/masterdata.db", "assets/db/gl/dictionary_en_k.db")
+import_to_multiple_dbs(source_sql_file_input, target_dbs)
