@@ -78,7 +78,7 @@ def generate_unique_trade_id(cursor):
 def generate_unique_trade_content_id(cursor):
     while True:
         new_id3334 = random.randint(0, 999999999)
-        cursor.execute("SELECT COUNT(*) FROM main.m_trade_product WHERE id = ?;", (new_id3334,))
+        cursor.execute("SELECT COUNT(*) FROM main.m_trade_product_content WHERE id = ?;", (new_id3334,))
         count = cursor.fetchone()[0]
         if count == 0:
             return new_id3334
