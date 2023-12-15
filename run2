@@ -56,7 +56,7 @@ while true; do
 			cd db
 			cd gl
 			rm masterdata.db
-			curl -L https://codeberg.org/RusdiNgawi/KAMIKAZ-/raw/branch/main/masterdata.db masterdata.db
+			curl -L https://codeberg.org/RusdiNgawi/KAMIKAZ-/raw/branch/main/masterdata.db -o masterdata.db
 			cd ~/
             ;;
         5)
