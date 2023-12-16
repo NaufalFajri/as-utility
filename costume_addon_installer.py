@@ -228,7 +228,7 @@ elif chara_id == "8":
     print('Chara: Hanayo Koizumi')
 elif chara_id == "9":
     print('Chara: Nico Yazawa')
-if chara_id == "101":
+elif chara_id == "101":
     print('Chara: Chika Takami')
 elif chara_id == "102":
     print('Chara: Riko Sakurauchi')
