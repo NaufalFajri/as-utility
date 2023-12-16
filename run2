@@ -2,9 +2,13 @@
 
 while true; do
     clear
+	folder_name="elichika"
     echo "https://github.com/NaufalFajri/as-utility/"
     echo "Elichika Arina Menu:"
-    echo "1. Run Server"
+	if [ -d "$folder_name" ]; then
+    		echo "1. Run Server"
+	else
+		echo "1. Install Elichika"
 	echo "2. Add New Costume (GL)"
 	echo "3. Import SQL (GL) (Android) (English)"
 	echo "4. Install / Update Dependencies & Script"
@@ -16,11 +20,18 @@ while true; do
 
     case $choice in
         1)
-			clear
-            pkill elichika
-			cd ~/elichika
-			./elichika
-			cd ~/
+			if [ -d "$folder_name" ]; then
+				clear
+				echo "starting '$folder_name'"
+        			pkill elichika
+				cd ~/elichika
+				./elichika
+				cd ~/
+			else
+				clear
+   				echo "installing '$folder_name' (DO NOT CLOSE THIS)."
+				curl -L https://raw.githubusercontent.com/arina999999997/elichika/master/bin/install.sh | bash
+				echo "Don't Forget Install Dependencies & Script"
             ;;
         2)
 			clear
