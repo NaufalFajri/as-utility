@@ -2620,7 +2620,7 @@ with sqlite3.connect('assets/db/gl/asset_i_ko.db') as conn:
         cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '1');", (package_key_costume, fresh_version_i_ko))
         cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);", (fresh_version_main_i_ko, update_main_asset_i_ko))
         
- with sqlite3.connect('assets/db/gl/asset_a_zh.db') as conn:
+with sqlite3.connect('assets/db/gl/asset_a_zh.db') as conn:
     cursor = conn.cursor()
     
     fresh_version_a_zh = hashlib.sha1(str(random.random()).encode()).hexdigest()
