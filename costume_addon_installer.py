@@ -2545,18 +2545,159 @@ with sqlite3.connect('assets/db/gl/asset_a_en.db') as conn:
     cursor.execute("SELECT COUNT(*) FROM main.m_asset_package_mapping WHERE package_key = 'main';")
     get_main_asset = cursor.fetchone()[0]
     update_main_asset = get_main_asset + 1
-    if chara_id == "209":
+    if chara_id == "1":
         cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, rina_unmask_costume_filename, rina_unmask_costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_thumbnail, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'gzi1g0', '399219', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'xtabzt', '403268', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
+    elif chara_id == "2":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '7ca83j', '360642', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'o3rnj9', '363871', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
+    elif chara_id == "3":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '9ynb3w', '416273', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'd9j55p', '420181', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
+    elif chara_id == "4":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'b8fl1d', '444364', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'r75f01', '448949', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
+    elif chara_id == "5":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'hotlea', '482878', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
         cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '2');", (package_key_costume, fresh_version))
-        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);", (fresh_version_main, update_main_asset))
-    else:
+    elif chara_id == "6":
         cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_thumbnail, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '1');", (package_key_costume, fresh_version))
-        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);", (fresh_version_main, update_main_asset))
-        
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '3dn5m5', '355798', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '60tgdb', '352524', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
+    elif chara_id == "7":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'bin9gt', '345225', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'lykr3e', '341187', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
+    elif chara_id == "8":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'ht9tg8', '413219', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'rlj2pn', '416021', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
+    elif chara_id == "9":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '81jk8s', '384801', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'nehtzi', '387903', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
+    elif chara_id == "101":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'tvrmm1', '420140', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'gxtrrz', '423215', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
+    elif chara_id == "102":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '1lpaj8', '398401', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'kwgxyt', '404175', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
+    elif chara_id == "103":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'z5xtbp', '412670', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'eakp9k', '416663', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
+    elif chara_id == "104":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'dwystf', '395713', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'fl61ob', '398571', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
+    elif chara_id == "105":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'okxi5b', '4129', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '4x2ykb', '363168', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
+    elif chara_id == "106":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'gtz5yz', '364288', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'ui7rla', '368254', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
+    elif chara_id == "107":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '54j328', '371014', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'ypghy0', '373940', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
+    elif chara_id == "108":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'su511u', '390851', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'iwh2kd', '395399', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
+    elif chara_id == "109":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '06kg1y', '401365', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'dedoi3', '407522', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
+    elif chara_id == "201":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'r4s36z', '460898', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '7vbqmn', '464836', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
+    elif chara_id == "202":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '5cpny8', '395791', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'v1o383', '399677', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
+    elif chara_id == "203":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'yrs0cq', '338353', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'vw2tds', '342236', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
+    elif chara_id == "204":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '3ctwgy', '395566', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'y639s3', '400559', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
+    elif chara_id == "205":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'rmptql', '415327', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '8hnhlv', '419931', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
+    elif chara_id == "206":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'mbsvzz', '428804', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'i7hcxd', '432901', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
+    elif chara_id == "207":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'ddys0i', '408070', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'f7un0l', '413231', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
+    elif chara_id == "208":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'k1pnrj', '427838', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'yo967m', '432424', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
+    elif chara_id == "209":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'p889br', '8696', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'x6viy3', '392742', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, rina_unmask_costume_filename, rina_unmask_costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '24ezo4', '393007', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '5');", (package_key_costume, fresh_version))
+    elif chara_id == "210":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 't9dmqr', '450527', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '8giyov', '1256395', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
+    elif chara_id == "212":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'kgd5wh', '1505596', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '2');", (package_key_costume, fresh_version))
+    elif chara_id == "211":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'lyqt5p', '4129', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '29hn3y', '1543143', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
+    cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_thumbnail, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
+    cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);", (fresh_version_main, update_main_asset)) 
+
 with sqlite3.connect('assets/db/gl/asset_i_en.db') as conn:
     cursor = conn.cursor()
     
