@@ -36,13 +36,43 @@ def create_backup_elichika_new(source_file_elichika_new, backup_file_elichika_ne
     try:
         shutil.copy2(source_file_elichika_new, backup_file_elichika_new)
         print(f"Backup created successfully: {backup_file_elichika_new}")
+        print("do not transfer account with added item, this may don't work on JP client")
     except Exception as e:
         print(f"Error creating backup: {e}")
 
 # Example usage:
-source_file_elichika_new = "server init jsons/trade.json"
-backup_file_elichika_new = "server init jsons/backup/trade.json"
+source_file_elichika_new = "assets/db/userdata.db"
+backup_file_elichika_new = "assets/db/backup_new/userdata.db"
 
+def create_backup_elichika_new1(source_file_elichika_new1, backup_file_elichika_new1):
+    if os.path.exists(backup_file_elichika_new1):
+        print("Backup file already exists. Stopping.")
+        return
+    
+    try:
+        shutil.copy2(source_file_elichika_new1, backup_file_elichika_new1)
+        print(f"Backup created successfully: {backup_file_elichika_new1}")
+    except Exception as e:
+        print(f"Error creating backup: {e}")
+
+# Example usage:
+source_file_elichika_new1 = "assets/db/serverdata.db"
+backup_file_elichika_new1 = "assets/db/backup_new/serverdata.db"
+
+def create_backup_elichika_old(source_file_elichika_old, backup_file_elichika_old):
+    if os.path.exists(backup_file_elichika_old):
+        print("Backup file already exists. Stopping.")
+        return
+    
+    try:
+        shutil.copy2(source_file_elichika_old, backup_file_elichika_old)
+        print(f"Backup created successfully: {backup_file_elichika_old}")
+    except Exception as e:
+        print(f"Error creating backup: {e}")
+
+# Example usage:
+source_file_elichika_old = "assets/db/serverdata.db"
+backup_file_elichika_old = "assets/db/backup_old/serverdata.db"
 
 def clear_terminal():
     system = platform.system()
@@ -77,7 +107,7 @@ def generate_unique_trade_id(cursor):
             
 def generate_unique_trade_content_id(cursor):
     while True:
-        new_id3334 = random.randint(0, 999999999)
+        new_id3334 = random.randint(0, 20000000000)
         cursor.execute("SELECT COUNT(*) FROM main.m_trade_product_content WHERE id = ?;", (new_id3334,))
         count = cursor.fetchone()[0]
         if count == 0:
@@ -169,11 +199,54 @@ if chara_id == "212":
 elif chara_id == "211":
     chara_id = "212"
     
+chara_id_int = int(chara_id)
 
+if 1 <= chara_id_int <= 9:
+    chara_id_group = "13"
+elif 101 <= chara_id_int <= 109:
+    chara_id_group = "14"
+elif 201 <= chara_id_int <= 212:
+    chara_id_group = "15"
 
 clear_terminal()
 print('Name: ' + costume_name)
-if chara_id == "201":
+elif chara_id == "1":
+    print('Chara: Honoka Kousaka')
+elif chara_id == "2":
+    print('Chara: Eli Ayase')
+elif chara_id == "3":
+    print('Chara: Kotori Minami')
+elif chara_id == "4":
+    print('Chara: Umi Sonoda')
+elif chara_id == "5":
+    print('Chara: Rin Hoshizora')
+elif chara_id == "6":
+    print('Chara: Maki Nishikino')
+elif chara_id == "7":
+    print('Chara: Nozomi Yuki')
+elif chara_id == "8":
+    print('Chara: Hanayo Koizumi')
+elif chara_id == "9":
+    print('Chara: Nico Yazawa')
+if chara_id == "101":
+    print('Chara: Chika Takami')
+elif chara_id == "102":
+    print('Chara: Riko Sakurauchi')
+elif chara_id == "103":
+    print('Chara: Kanan Matsuura')
+elif chara_id == "104":
+    print('Chara: Dia Kurosawa')
+elif chara_id == "105":
+    print('Chara: You Watanabe')
+elif chara_id == "106":
+    print('Chara: Yoshiko Tsushima')
+elif chara_id == "107":
+    print('Chara: Hanamaru Kunikida')
+elif chara_id == "108":
+    print('Chara: Mari Ohara')
+elif chara_id == "109":
+    print('Chara: Ruby Kurosawa')
+elif chara_id == "201":
     print('Chara: Ayumu Uehara')
 elif chara_id == "202":
     print('Chara: Kasumi Nakasu')
@@ -197,6 +270,13 @@ elif chara_id == "212":
     print('Chara: Lanzhu Zhong')
 elif chara_id == "211":
     print('Chara: Mia Taylor')
+    
+if chara_id_int == "13":
+    print('Group: Myuzu')
+elif chara_id_int == "14":
+    print('Group: Aqours')
+elif chara_id_int == "15":
+    print('Group: Nijigasaki')
 print('Description: ' + costume_description)
 do_you_think_want_add_this = input("do you want add this? (y/n): ")
 
@@ -217,18 +297,18 @@ thumbnail_costume_filename = os.path.splitext(thumbnail_file.split("/")[-1])[0]
 # Replace with actual method to get filesize
 thumbnail_costume_size = os.path.getsize(thumbnail_file)
 
-encrypted_costume = "static_data/2d61e7b4e89961c7/" + os.path.splitext(costume_file.split("/")[-1])[0]
-encrypted_thumbnail = "static_data/2d61e7b4e89961c7/" + os.path.splitext(thumbnail_file.split("/")[-1])[0]
+encrypted_costume = "static/2d61e7b4e89961c7/" + os.path.splitext(costume_file.split("/")[-1])[0]
+encrypted_thumbnail = "static/2d61e7b4e89961c7/" + os.path.splitext(thumbnail_file.split("/")[-1])[0]
 
 if chara_id == "209":
     rina_unmask_costume_filename = os.path.splitext(rina_unmask_costume_file.split("/")[-1])[0]
     rina_unmask_costume_filesize = os.path.getsize(rina_unmask_costume_file)
 
 if chara_id == "209":
-    encrypted_rina_unmask = "static_data/2d61e7b4e89961c7/" + os.path.splitext(rina_unmask_costume_file.split("/")[-1])[0]
+    encrypted_rina_unmask = "static/2d61e7b4e89961c7/" + os.path.splitext(rina_unmask_costume_file.split("/")[-1])[0]
 
 # encrypting asset first
-encrypted_folder = "static_data/2d61e7b4e89961c7/"
+encrypted_folder = "static/2d61e7b4e89961c7/"
 
 if not os.path.exists(encrypted_folder):
     os.makedirs(encrypted_folder)
@@ -2423,9 +2503,7 @@ with sqlite3.connect('assets/db/gl/masterdata.db') as conn:
     costume_id_masterdata = generate_unique_costume_id(cursor)
     costume_dictionary = "suit_name_" + str(costume_id_masterdata)
     costume_dictionary_masterdata = "inline_image." + costume_dictionary
-    trade_id_into_json = generate_unique_trade_id(cursor)
-    donot_insert = None
-    trade_content_into_json = generate_unique_trade_content_id(cursor)
+    donot_insert = None 
     
     # Find the minimum display_order for the given chara_id
     cursor.execute("SELECT MIN(display_order) FROM main.m_suit WHERE member_m_id = ?;", (chara_id,))
@@ -2438,10 +2516,7 @@ with sqlite3.connect('assets/db/gl/masterdata.db') as conn:
     # Insert the new record with the updated display_order
     cursor.execute("INSERT INTO main.m_suit (id, member_m_id, name, thumbnail_image_asset_path, suit_release_route, suit_release_value, model_asset_path, display_order) VALUES (?, ?, ?, ?, '2', '0', ?, ?);",
                    (costume_id_masterdata, chara_id, costume_dictionary_masterdata, thumbnail_costume_path, costume_path, display_order_new))
-    # Adding to member coin exchange
-    cursor.execute("INSERT INTO main.m_trade_product (id, trade_master_id, source_amount_color_on, label, display_order) VALUES (?, '40501', '0', ?, '1');", (trade_id_into_json, donot_insert))
-    cursor.execute("INSERT INTO main.m_trade_product_content (id, trade_product_master_id, content_display_order) VALUES (?, ?, '1');", (trade_content_into_json, trade_id_into_json))
-    
+   
     if chara_id == "209":
         cursor.execute("INSERT INTO main.m_suit_view (suit_master_id, view_status, model_asset_path) VALUES (?, '2', ?);", (costume_id_masterdata, rina_unmask_costume_path))
 
@@ -2503,49 +2578,133 @@ with sqlite3.connect('assets/db/gl/asset_i_en.db') as conn:
         cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_thumbnail, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
         cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '1');", (package_key_costume, fresh_version_i_en))
         cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);", (fresh_version_main_i_en, update_main_asset_i_en))
+        
+with sqlite3.connect('assets/db/gl/asset_a_ko.db') as conn:
+    cursor = conn.cursor()
+    
+    fresh_version_a_ko = hashlib.sha1(str(random.random()).encode()).hexdigest()
+    fresh_version_main_a_ko = hashlib.sha1(str(random.random()).encode()).hexdigest()
+    
+    cursor.execute("SELECT COUNT(*) FROM main.m_asset_package_mapping WHERE package_key = 'main';")
+    get_main_asset_a_ko = cursor.fetchone()[0]
+    update_main_asset_a_ko = get_main_asset_a_ko + 1
+    if chara_id == "209":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, rina_unmask_costume_filename, rina_unmask_costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_thumbnail, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '2');", (package_key_costume, fresh_version_a_ko))
+        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);", (fresh_version_main, update_main_asset))
+    else:
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_thumbnail, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '1');", (package_key_costume, fresh_version_a_ko))
+        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);", (fresh_version_main_a_ko, update_main_asset_a_ko))
+        
+with sqlite3.connect('assets/db/gl/asset_i_ko.db') as conn:
+    cursor = conn.cursor()
+    
+    fresh_version_i_ko = hashlib.sha1(str(random.random()).encode()).hexdigest()
+    fresh_version_main_i_ko = hashlib.sha1(str(random.random()).encode()).hexdigest()
+    
+    cursor.execute("SELECT COUNT(*) FROM main.m_asset_package_mapping WHERE package_key = 'main';")
+    get_main_asset_i_ko = cursor.fetchone()[0]
+    update_main_asset_i_ko = get_main_asset_i_ko + 1
+    if chara_id == "209":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, rina_unmask_costume_filename, rina_unmask_costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_thumbnail, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '2');", (package_key_costume, fresh_version_i_ko))
+        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);", (fresh_version_main, update_main_asset))
+    else:
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_thumbnail, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '1');", (package_key_costume, fresh_version_i_ko))
+        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);", (fresh_version_main_i_ko, update_main_asset_i_ko))
+        
+ with sqlite3.connect('assets/db/gl/asset_a_zh.db') as conn:
+    cursor = conn.cursor()
+    
+    fresh_version_a_zh = hashlib.sha1(str(random.random()).encode()).hexdigest()
+    fresh_version_main_a_zh = hashlib.sha1(str(random.random()).encode()).hexdigest()
+    
+    cursor.execute("SELECT COUNT(*) FROM main.m_asset_package_mapping WHERE package_key = 'main';")
+    get_main_asset_a_zh = cursor.fetchone()[0]
+    update_main_asset_a_zh = get_main_asset_a_zh + 1
+    if chara_id == "209":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, rina_unmask_costume_filename, rina_unmask_costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_thumbnail, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '2');", (package_key_costume, fresh_version_a_zh))
+        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);", (fresh_version_main, update_main_asset))
+    else:
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_thumbnail, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '1');", (package_key_costume, fresh_version_a_zh))
+        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);", (fresh_version_main_a_zh, update_main_asset_a_zh))
+
+with sqlite3.connect('assets/db/gl/asset_i_zh.db') as conn:
+    cursor = conn.cursor()
+    
+    fresh_version_i_zh = hashlib.sha1(str(random.random()).encode()).hexdigest()
+    fresh_version_main_i_zh = hashlib.sha1(str(random.random()).encode()).hexdigest()
+    
+    cursor.execute("SELECT COUNT(*) FROM main.m_asset_package_mapping WHERE package_key = 'main';")
+    get_main_asset_i_zh = cursor.fetchone()[0]
+    update_main_asset_i_zh = get_main_asset_i_zh + 1
+    if chara_id == "209":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, rina_unmask_costume_filename, rina_unmask_costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_thumbnail, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '2');", (package_key_costume, fresh_version_i_zh))
+        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);", (fresh_version_main, update_main_asset))
+    else:
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_thumbnail, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '1');", (package_key_costume, fresh_version_i_zh))
+        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);", (fresh_version_main_i_zh, update_main_asset_i_zh))
 print("added to CDN localhost")                 
 
 
-file_path_trade_stuff = 'server init jsons/trade.json'
+file_path_trade_stuff = 'assets/db/userdata.db'
 
 # Check if the file exists
 if os.path.exists(file_path_trade_stuff):
     # File exists, proceed with reading and modifying
-    backup_trade_path = "server init jsons/backup/"
+    print("elichika new version detected, adding to gold exchange shop")
+    backup_trade_path = "assets/db/backup_new/"
 
     if not os.path.exists(backup_trade_path):
         os.makedirs(backup_trade_path)
+        
     create_backup_elichika_new(source_file_elichika_new, backup_file_elichika_new)
-    with open(file_path_trade_stuff, 'r') as file:
-        data = json.load(file)
-    print("elichika new version detected, adding to member coin exchange shop")
-    # Locate the entry based on the condition
-    for entry in data:
-        if "banner_image_path" in entry and entry["banner_image_path"]["v"] == "JNf":
-            # Add a new product entry to the "products" array
-            entry["products"] = entry.get("products", []) + [
-                {
-                    "product_id": trade_id_into_json,
-                    "trade_id": trade_id_into_json,
-                    "source_amount": 0,
-                    "stock_amount": 1,
-                    "traded_count": 1,
-                    "contents": [
-                        {
-                            "content_type": 7,
-                            "content_id": costume_id_masterdata,
-                            "content_amount": 1
-                        }
-                    ]
-                }
-            ]
-
-    # Save the modified data back to the JSON file
-    with open(file_path_trade_stuff, 'w') as file:
-        json.dump(data, file, indent=4)
+    create_backup_elichika_new1(source_file_elichika_new1, backup_file_elichika_new1):
+    
+    # experimental add trade
+    with sqlite3.connect('assets/db/gl/masterdata.db') as conn:
+        cursor = conn.cursor()
+        trade_content_into_json = generate_unique_trade_content_id(cursor)
+        trade_id_into_json = generate_unique_trade_id(cursor)
+        
+        cursor.execute("INSERT INTO main.m_trade_product (id, trade_master_id, source_amount_color_on, label, display_order) VALUES (?, '1200', '0', ?, '1');", (trade_id_into_json, donot_insert))
+        cursor.execute("INSERT INTO main.m_trade_product_content (id, trade_product_master_id, content_display_order) VALUES (?, ?, '1');", (trade_content_into_json, trade_id_into_json))
+        cursor.execute("INSERT INTO main.m_trade_product_content_category (trade_category_master_pattern_id, trade_category_master_id, content_type, content_id) VALUES (0, ?, '7', ?);", (chara_id_group, costume_id_masterdata))
+        
+    with sqlite3.connect('assets/db/serverdata.db') as conn:
+        cursor = conn.cursor()
+        
+        cursor.execute("INSERT INTO main.s_trade_product (product_id, trade_id, source_amount, stock_amount, content_type, content_id, content_amount) VALUES (?, '1200', '1', ?, '7', ?, 1);", (trade_id_into_json, donot_insert, costume_id_masterdata))
+        
 else:
     # File doesn't exist, rest of the code
     print("elichika old version detected, adding to serverdata")
+    
+    backup_usedata_path = "assets/db/backup_old/"
+
+    if not os.path.exists(backup_usedata_path):
+        os.makedirs(backup_usedata_path)
+        
+    create_backup_elichika_old(source_file_elichika_old, backup_file_elichika_old)
+    
     with sqlite3.connect('assets/db/serverdata.db') as conn:
         cursor = conn.cursor()
         cursor.execute("INSERT INTO main.s_user_suit (user_id, suit_master_id, is_new) VALUES ('588296696', ?, '1');", (costume_id_masterdata,))    
