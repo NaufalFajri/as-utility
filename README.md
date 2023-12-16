@@ -8,7 +8,7 @@
 - costume_clone - copy source costume to another member id (old version only)
 
 ## issue
-- additional files are still deleted when using Light Download (Auto-delete story data) *being looking at
+- additional files are still deleted when using Light Download *being looking at
 - using original & clone modified costume on another member may happen softlock
 
 # todo
