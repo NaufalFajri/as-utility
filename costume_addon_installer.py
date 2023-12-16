@@ -2676,7 +2676,7 @@ if os.path.exists(file_path_trade_stuff):
         os.makedirs(backup_trade_path)
         
     create_backup_elichika_new(source_file_elichika_new, backup_file_elichika_new)
-    create_backup_elichika_new1(source_file_elichika_new1, backup_file_elichika_new1):
+    create_backup_elichika_new1(source_file_elichika_new1, backup_file_elichika_new1)
     
     # experimental add trade
     with sqlite3.connect('assets/db/gl/masterdata.db') as conn:
