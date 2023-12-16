@@ -1,8 +1,11 @@
-# as-utility (global, android & EN language by default)
+# as-utility (global client by default)
+- costume_addon_installer - add new costume (support old version)
+- elichika_db_importer - import SQL database to multiple db
+
+# scrapped script
 - background_addon - add new background (not obtainable)
 - emblem_addon - add new title (not obtainable)
-- costume_addon_installer - add new costume
-- costume_clone - copy source costume to another member id
+- costume_clone - copy source costume to another member id (old version only)
 
 ## issue
 - additional files are still deleted when using Light Download (Auto-delete story data) *being looking at
