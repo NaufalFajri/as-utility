@@ -1,6 +1,5 @@
 import sqlite3
 import os
-import json
 import zipfile
 import io
 import platform
@@ -210,7 +209,7 @@ elif 201 <= chara_id_int <= 212:
 
 clear_terminal()
 print('Name: ' + costume_name)
-elif chara_id == "1":
+if chara_id == "1":
     print('Chara: Honoka Kousaka')
 elif chara_id == "2":
     print('Chara: Eli Ayase')
