@@ -82,7 +82,7 @@ while true; do
 			cd ~/
 			echo "Switched to Catfolk"
             ;;
-        restore)
+        "restore")
 			clear
 			pkill elichika
 			cd ~/elichika
@@ -109,7 +109,7 @@ while true; do
 			cd ~/
 			echo "Completed"
             ;;
-        install_elichika)
+        "install_elichika")
 			clear
 			pkill elichika
 			echo "You will proceed to browser, do not close termux"
@@ -117,7 +117,7 @@ while true; do
 			xdg-open https://codeberg.org/RusdiNgawi/KAMIKAZ-/releases/download/0.0.1/signed.apk
 			curl -L https://raw.githubusercontent.com/arina999999997/elichika/master/bin/install.sh | bash
             ;;
-        test_codestring)
+        "test_codestring")
 			clear
 			pkill elichika
 			echo "Hello World, this just testing"
