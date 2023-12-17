@@ -10,7 +10,6 @@ while true; do
 	echo "4. Install / Update Dependencies & Script"
 	echo "5. Switch to LocalHost"
 	echo "6. Switch to Catfolk"
-	echo "7. Restore Database"
     echo "0. Exit"
 
     read -p "Enter your choice: " choice
@@ -55,10 +54,17 @@ while true; do
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/elichika_db_importer.py -o elichika_db_importer.py
 			cd assets
 			cd db
+			rm userdata.db
+			curl -L https://codeberg.org/RusdiNgawi/KAMIKAZ-/raw/branch/main/userdata.db -o userdata.db
 			cd gl
 			rm masterdata.db
 			curl -L https://codeberg.org/RusdiNgawi/KAMIKAZ-/raw/branch/main/masterdata.db -o masterdata.db
 			cd ~/
+			echo "Your account progress has been deleted, DO NOT ENTER TO GAME"
+			echo "Select transfer with password"
+			echo "Enter this ID & Password"
+			echo "ID: 666666666"
+			echo "Password: 666666666"
             ;;
         5)
 			clear
@@ -76,14 +82,16 @@ while true; do
 			cd ~/
 			echo "Switched to Catfolk"
             ;;
-        7)
+        restore)
 			clear
 			pkill elichika
 			cd ~/elichika
 			cd assets
 			cd db
 			cp backup_new/serverdata.db serverdata.db
+			echo "Restored serverdata"
 			cp backup_new/userdata.db userdata.db
+			echo "Restored userdata"
 			cd gl
 			cp backup/asset_a_en.db asset_a_en.db
 			cp backup/asset_a_ko.db asset_a_ko.db
@@ -91,12 +99,29 @@ while true; do
 			cp backup/asset_i_en.db asset_i_en.db
 			cp backup/asset_i_ko.db asset_i_ko.db
 			cp backup/asset_i_zh.db asset_i_zh.db
+			echo "Restored asset"
 			cp backup/dictionary_en_inline_image.db dictionary_en_inline_image.db
 			cp backup/dictionary_ko_inline_image.db dictionary_ko_inline_image.db
 			cp backup/dictionary_zh_inline_image.db dictionary_zh_inline_image.db
+			echo "Restored inline image"
 			cp backup/masterdata.db masterdata.db
+			echo "Restored masterdata"
 			cd ~/
-			echo "Restore Database Completed"
+			echo "Completed"
+            ;;
+        install_elichika)
+			clear
+			pkill elichika
+			echo "You will proceed to browser, do not close termux"
+			read -p "Press Enter to proceed" _dummy1
+			xdg-open https://codeberg.org/RusdiNgawi/KAMIKAZ-/releases/download/0.0.1/signed.apk
+			curl -L https://raw.githubusercontent.com/arina999999997/elichika/master/bin/install.sh | bash
+            ;;
+        test_codestring)
+			clear
+			pkill elichika
+			echo "Hello World, this just testing"
+			read -p "Press Enter to proceed" _dummy2
             ;;
         0)
 			clear
