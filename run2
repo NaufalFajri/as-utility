@@ -6,10 +6,11 @@ while true; do
     echo "Elichika Arina Menu:"
     echo "1. Run Server"
 	echo "2. Add New Costume (GL)"
-	echo "3. Import SQL (GL) (Android) (English)"
+	echo "3. Import SQL (GL)"
 	echo "4. Install / Update Dependencies & Script"
 	echo "5. Switch to LocalHost"
 	echo "6. Switch to Catfolk"
+	echo "7. Restore Database"
     echo "0. Exit"
 
     read -p "Enter your choice: " choice
@@ -64,6 +65,7 @@ while true; do
 			pkill elichika
 			cd ~/elichika
 			cp config_localhost.json config.json
+			cd ~/
 			echo "Switched to LocalHost"
             ;;
         6)
@@ -71,7 +73,30 @@ while true; do
 			pkill elichika
 			cd ~/elichika
 			cp config_catfolk.json config.json
+			cd ~/
 			echo "Switched to Catfolk"
+            ;;
+        7)
+			clear
+			pkill elichika
+			cd ~/elichika
+			cd assets
+			cd db
+			cp backup_new/serverdata.db serverdata.db
+			cp backup_new/userdata.db userdata.db
+			cd gl
+			cp backup/asset_a_en.db asset_a_en.db
+			cp backup/asset_a_ko.db asset_a_ko.db
+			cp backup/asset_a_zh.db asset_a_zh.db
+			cp backup/asset_i_en.db asset_i_en.db
+			cp backup/asset_i_ko.db asset_i_ko.db
+			cp backup/asset_i_zh.db asset_i_zh.db
+			cp backup/dictionary_en_inline_image.db dictionary_en_inline_image.db
+			cp backup/dictionary_ko_inline_image.db dictionary_ko_inline_image.db
+			cp backup/dictionary_zh_inline_image.db dictionary_zh_inline_image.db
+			cp backup/masterdata.db masterdata.db
+			cd ~/
+			echo "Restore Database Completed"
             ;;
         0)
 			clear
