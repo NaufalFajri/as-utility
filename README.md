@@ -7,8 +7,8 @@
 - emblem_addon - add new title (not obtainable)
 - costume_clone - copy source costume to another member id (old version only)
 
-## issue
-- additional files are still deleted when using Light Download *being looking at
+## note
+- I RECOMMEND FULL DOWNLOAD DATA BEFORE ADDING STUFF, THIS IS UNFIXABLE ADD NEW ASSET TO LOCALHOST
 - using original & clone modified costume on another member may happen softlock
 
 # todo
