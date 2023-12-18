@@ -270,11 +270,11 @@ elif chara_id == "212":
 elif chara_id == "211":
     print('Chara: Mia Taylor')
     
-if chara_id_int == "13":
+if chara_id_group == "13":
     print('Group: Myuzu')
-elif chara_id_int == "14":
+elif chara_id_group == "14":
     print('Group: Aqours')
-elif chara_id_int == "15":
+elif chara_id_group == "15":
     print('Group: Nijigasaki')
 print('Description: ' + costume_description)
 do_you_think_want_add_this = input("do you want add this? (y/n): ")
@@ -291,20 +291,13 @@ costume_filename = os.path.splitext(costume_file.split("/")[-1])[0]
 # Replace with actual method to get filesize
 costume_filesize = os.path.getsize(costume_file)
 
-# Extract filename and filesize from thumbnail_file
-thumbnail_costume_filename = os.path.splitext(thumbnail_file.split("/")[-1])[0]
 # Replace with actual method to get filesize
 thumbnail_costume_size = os.path.getsize(thumbnail_file)
 
 encrypted_costume = "static/2d61e7b4e89961c7/" + os.path.splitext(costume_file.split("/")[-1])[0]
-encrypted_thumbnail = "static/2d61e7b4e89961c7/" + os.path.splitext(thumbnail_file.split("/")[-1])[0]
 
 if chara_id == "209":
-    rina_unmask_costume_filename = os.path.splitext(rina_unmask_costume_file.split("/")[-1])[0]
     rina_unmask_costume_filesize = os.path.getsize(rina_unmask_costume_file)
-
-if chara_id == "209":
-    encrypted_rina_unmask = "static/2d61e7b4e89961c7/" + os.path.splitext(rina_unmask_costume_file.split("/")[-1])[0]
 
 # encrypting asset first
 encrypted_folder = "static/2d61e7b4e89961c7/"
@@ -320,44 +313,46 @@ if not os.path.exists(bekupfolder_folder):
 
 create_backup(source_files, backup_files)
 
-with open(costume_file, "rb") as file:
-    data = bytearray(file.read())
+with open(costume_file, "rb") as costume_file:
+    costume_data = bytearray(costume_file.read())
 
     key_0 = 12345
     key_1 = 0
     key_2 = 0
     print("encrypting costume")
-    manipulate_file(data, key_0, key_1, key_2)
-
-    with open(encrypted_costume, "wb") as file:
-        file.write(data)
+    manipulate_file(costume_data, key_0, key_1, key_2)
     
-with open(thumbnail_file, "rb") as file:
-    data = bytearray(file.read())
+with open(thumbnail_file, "rb") as thumbnail_file:
+    thumbnail_data = bytearray(thumbnail_file.read())
 
     key_0 = 12345
     key_1 = 0
     key_2 = 0
     print("encrypting thumbnail")
-    manipulate_file(data, key_0, key_1, key_2)
-
-    with open(encrypted_thumbnail, "wb") as file:
-        file.write(data)
+    manipulate_file(thumbnail_data, key_0, key_1, key_2)
 
 if chara_id == "209":
-    with open(rina_unmask_costume_file, "rb") as file:
-        data = bytearray(file.read())
+    with open(rina_unmask_costume_file, "rb") as rina_unmask_costume_file:
+        costume_data_rina_unmask = bytearray(rina_unmask_costume_file.read())
 
         key_0 = 12345
         key_1 = 0
         key_2 = 0
         print("encrypting rina unmask costume")
-        manipulate_file(data, key_0, key_1, key_2)
-
-        with open(encrypted_rina_unmask, "wb") as file:
-            file.write(data)
-
-print("assets encrypted")
+        manipulate_file(costume_data_rina_unmask, key_0, key_1, key_2)
+        combined_costume_data_rina = thumbnail_data + costume_data + costume_data_rina_unmask
+        combined_data_size_rina = costume_filesize + rina_unmask_costume_filesize + thumbnail_costume_size
+        
+        with open(encrypted_costume, "wb") as combined_rina_file:
+            combined_rina_file.write(combined_costume_data_rina)
+            print("assets encrypted & combined into one file")
+else:
+    combined_costume_data = thumbnail_data + costume_data
+    combined_data_size = costume_filesize + thumbnail_costume_size
+    with open(encrypted_costume, "wb") as combined_file:
+        combined_file.write(combined_costume_data)
+        print("assets encrypted & combined into one file")
+        
 with sqlite3.connect('assets/db/gl/asset_a_en.db') as conn:
     cursor = conn.cursor()
     
@@ -366,19 +361,17 @@ with sqlite3.connect('assets/db/gl/asset_a_en.db') as conn:
     
     # (light download auto delete fix)
     cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (costume_filename,))
-    cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (thumbnail_costume_filename,))
-    if chara_id == "209":
-        cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (rina_unmask_costume_filename,))
         
-    cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');",
-                   (costume_path, costume_filename, costume_filesize))
+    cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, ?, ?, '0', '0');",
+                   (costume_path, costume_filename, thumbnail_costume_size, costume_filesize))
     cursor.execute("INSERT INTO main.texture (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');",
-                   (thumbnail_costume_path, thumbnail_costume_filename, thumbnail_costume_size))
+                   (thumbnail_costume_path, costume_filename, thumbnail_costume_size))
                                  
     if chara_id == "209":
         rina_unmask_costume_path = rinaunmask_path_randomhash(cursor)
-        cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');",
-                   (rina_unmask_costume_path, rina_unmask_costume_filename, rina_unmask_costume_filesize))     
+        create_head_rina_mask = costume_filesize + thumbnail_costume_size
+        cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, ?, ?, '0', '0');",
+                   (rina_unmask_costume_path, costume_filename, create_head_rina_mask, rina_unmask_costume_filesize))   
  
     if chara_id == "1":
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '{#');", (costume_path,))
@@ -722,19 +715,17 @@ with sqlite3.connect('assets/db/gl/asset_a_en.db') as conn:
 with sqlite3.connect('assets/db/gl/asset_i_en.db') as conn:
     cursor = conn.cursor()
     
+    # (light download auto delete fix)
     cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (costume_filename,))
-    cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (thumbnail_costume_filename,))
-    if chara_id == "209":
-        cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (rina_unmask_costume_filename,))
         
-    cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');",
-                   (costume_path, costume_filename, costume_filesize))
+    cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, ?, ?, '0', '0');",
+                   (costume_path, costume_filename, thumbnail_costume_size, costume_filesize))
     cursor.execute("INSERT INTO main.texture (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');",
-                   (thumbnail_costume_path, thumbnail_costume_filename, thumbnail_costume_size))
+                   (thumbnail_costume_path, costume_filename, thumbnail_costume_size))
                                  
     if chara_id == "209":
-        cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');",
-                   (rina_unmask_costume_path, rina_unmask_costume_filename, rina_unmask_costume_filesize))     
+        cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, ?, ?, '0', '0');",
+                   (rina_unmask_costume_path, costume_filename, create_head_rina_mask, rina_unmask_costume_filesize))   
  
     if chara_id == "1":
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '{#');", (costume_path,))
@@ -858,7 +849,6 @@ with sqlite3.connect('assets/db/gl/asset_i_en.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§Vr');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§M|');", (costume_path,))
     elif chara_id == "103":
-        fix_kanan_dep = "'x"
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_kanan_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '(A');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 't~');", (costume_path,))
@@ -892,7 +882,6 @@ with sqlite3.connect('assets/db/gl/asset_i_en.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§y7');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§~+');", (costume_path,))
     elif chara_id == "106":
-        fix_yoshiko_dep = "Z'"
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'Wm');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_yoshiko_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'di');", (costume_path,))
@@ -937,7 +926,6 @@ with sqlite3.connect('assets/db/gl/asset_i_en.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§Vr');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§M|');", (costume_path,))
     elif chara_id == "201":
-        fix_ayumu_dep = ".'"
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_ayumu_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'f%');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'sq');", (costume_path,))
@@ -949,7 +937,6 @@ with sqlite3.connect('assets/db/gl/asset_i_en.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§y7');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§~+');", (costume_path,))
     elif chara_id == "202":
-        fix_kasukasu_dep = '"{'
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_kasukasu_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '_K');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'uK');", (costume_path,))
@@ -983,7 +970,6 @@ with sqlite3.connect('assets/db/gl/asset_i_en.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§y7');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§~+');", (costume_path,))
     elif chara_id == "205":
-        fix_ai_dep = '("'
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_ai_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '1]');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'a+');", (costume_path,))
@@ -1055,7 +1041,6 @@ with sqlite3.connect('assets/db/gl/asset_i_en.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§Vr');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§M|');", (costume_path,))
     elif chara_id == "212":
-        fix_mia_dep = 'w";'
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_mia_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '0W=');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'Qp?');", (costume_path,))
@@ -1077,19 +1062,17 @@ with sqlite3.connect('assets/db/gl/asset_i_en.db') as conn:
 with sqlite3.connect('assets/db/gl/asset_a_ko.db') as conn:
     cursor = conn.cursor()
     
+    # (light download auto delete fix)
     cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (costume_filename,))
-    cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (thumbnail_costume_filename,))
-    if chara_id == "209":
-        cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (rina_unmask_costume_filename,))
         
-    cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');",
-                   (costume_path, costume_filename, costume_filesize))
+    cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, ?, ?, '0', '0');",
+                   (costume_path, costume_filename, thumbnail_costume_size, costume_filesize))
     cursor.execute("INSERT INTO main.texture (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');",
-                   (thumbnail_costume_path, thumbnail_costume_filename, thumbnail_costume_size))
+                   (thumbnail_costume_path, costume_filename, thumbnail_costume_size))
                                  
     if chara_id == "209":
-        cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');",
-                   (rina_unmask_costume_path, rina_unmask_costume_filename, rina_unmask_costume_filesize))     
+        cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, ?, ?, '0', '0');",
+                   (rina_unmask_costume_path, costume_filename, create_head_rina_mask, rina_unmask_costume_filesize))   
  
     if chara_id == "1":
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '{#');", (costume_path,))
@@ -1213,7 +1196,6 @@ with sqlite3.connect('assets/db/gl/asset_a_ko.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§Vr');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§M|');", (costume_path,))
     elif chara_id == "103":
-        fix_kanan_dep = "'x"
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_kanan_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '(A');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 't~');", (costume_path,))
@@ -1247,7 +1229,6 @@ with sqlite3.connect('assets/db/gl/asset_a_ko.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§y7');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§~+');", (costume_path,))
     elif chara_id == "106":
-        fix_yoshiko_dep = "Z'"
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'Wm');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_yoshiko_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'di');", (costume_path,))
@@ -1292,7 +1273,6 @@ with sqlite3.connect('assets/db/gl/asset_a_ko.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§Vr');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§M|');", (costume_path,))
     elif chara_id == "201":
-        fix_ayumu_dep = ".'"
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_ayumu_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'f%');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'sq');", (costume_path,))
@@ -1304,7 +1284,6 @@ with sqlite3.connect('assets/db/gl/asset_a_ko.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§y7');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§~+');", (costume_path,))
     elif chara_id == "202":
-        fix_kasukasu_dep = '"{'
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_kasukasu_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '_K');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'uK');", (costume_path,))
@@ -1338,7 +1317,6 @@ with sqlite3.connect('assets/db/gl/asset_a_ko.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§y7');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§~+');", (costume_path,))
     elif chara_id == "205":
-        fix_ai_dep = '("'
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_ai_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '1]');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'a+');", (costume_path,))
@@ -1410,7 +1388,6 @@ with sqlite3.connect('assets/db/gl/asset_a_ko.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§Vr');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§M|');", (costume_path,))
     elif chara_id == "212":
-        fix_mia_dep = 'w";'
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_mia_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '0W=');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'Qp?');", (costume_path,))
@@ -1431,20 +1408,18 @@ with sqlite3.connect('assets/db/gl/asset_a_ko.db') as conn:
 
 with sqlite3.connect('assets/db/gl/asset_i_ko.db') as conn:
     cursor = conn.cursor()
-    
+
+    # (light download auto delete fix)
     cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (costume_filename,))
-    cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (thumbnail_costume_filename,))
-    if chara_id == "209":
-        cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (rina_unmask_costume_filename,))
         
-    cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');",
-                   (costume_path, costume_filename, costume_filesize))
+    cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, ?, ?, '0', '0');",
+                   (costume_path, costume_filename, thumbnail_costume_size, costume_filesize))
     cursor.execute("INSERT INTO main.texture (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');",
-                   (thumbnail_costume_path, thumbnail_costume_filename, thumbnail_costume_size))
+                   (thumbnail_costume_path, costume_filename, thumbnail_costume_size))
                                  
     if chara_id == "209":
-        cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');",
-                   (rina_unmask_costume_path, rina_unmask_costume_filename, rina_unmask_costume_filesize))     
+        cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, ?, ?, '0', '0');",
+                   (rina_unmask_costume_path, costume_filename, create_head_rina_mask, rina_unmask_costume_filesize))   
  
     if chara_id == "1":
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '{#');", (costume_path,))
@@ -1568,7 +1543,6 @@ with sqlite3.connect('assets/db/gl/asset_i_ko.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§Vr');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§M|');", (costume_path,))
     elif chara_id == "103":
-        fix_kanan_dep = "'x"
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_kanan_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '(A');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 't~');", (costume_path,))
@@ -1602,7 +1576,6 @@ with sqlite3.connect('assets/db/gl/asset_i_ko.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§y7');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§~+');", (costume_path,))
     elif chara_id == "106":
-        fix_yoshiko_dep = "Z'"
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'Wm');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_yoshiko_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'di');", (costume_path,))
@@ -1647,7 +1620,6 @@ with sqlite3.connect('assets/db/gl/asset_i_ko.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§Vr');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§M|');", (costume_path,))
     elif chara_id == "201":
-        fix_ayumu_dep = ".'"
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_ayumu_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'f%');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'sq');", (costume_path,))
@@ -1659,7 +1631,6 @@ with sqlite3.connect('assets/db/gl/asset_i_ko.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§y7');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§~+');", (costume_path,))
     elif chara_id == "202":
-        fix_kasukasu_dep = '"{'
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_kasukasu_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '_K');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'uK');", (costume_path,))
@@ -1693,7 +1664,6 @@ with sqlite3.connect('assets/db/gl/asset_i_ko.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§y7');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§~+');", (costume_path,))
     elif chara_id == "205":
-        fix_ai_dep = '("'
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_ai_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '1]');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'a+');", (costume_path,))
@@ -1765,7 +1735,6 @@ with sqlite3.connect('assets/db/gl/asset_i_ko.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§Vr');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§M|');", (costume_path,))
     elif chara_id == "212":
-        fix_mia_dep = 'w";'
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_mia_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '0W=');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'Qp?');", (costume_path,))
@@ -1782,24 +1751,22 @@ with sqlite3.connect('assets/db/gl/asset_i_ko.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§Vr');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§n8#');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§y7');", (costume_path,))
-        cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§~+');", (costume_path,))
+        cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§~+');", (costume_path,))    
 
 with sqlite3.connect('assets/db/gl/asset_a_zh.db') as conn:
     cursor = conn.cursor()
     
+    # (light download auto delete fix)
     cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (costume_filename,))
-    cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (thumbnail_costume_filename,))
-    if chara_id == "209":
-        cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (rina_unmask_costume_filename,))
         
-    cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');",
-                   (costume_path, costume_filename, costume_filesize))
+    cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, ?, ?, '0', '0');",
+                   (costume_path, costume_filename, thumbnail_costume_size, costume_filesize))
     cursor.execute("INSERT INTO main.texture (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');",
-                   (thumbnail_costume_path, thumbnail_costume_filename, thumbnail_costume_size))
+                   (thumbnail_costume_path, costume_filename, thumbnail_costume_size))
                                  
     if chara_id == "209":
-        cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');",
-                   (rina_unmask_costume_path, rina_unmask_costume_filename, rina_unmask_costume_filesize))     
+        cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, ?, ?, '0', '0');",
+                   (rina_unmask_costume_path, costume_filename, create_head_rina_mask, rina_unmask_costume_filesize))   
  
     if chara_id == "1":
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '{#');", (costume_path,))
@@ -1923,7 +1890,6 @@ with sqlite3.connect('assets/db/gl/asset_a_zh.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§Vr');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§M|');", (costume_path,))
     elif chara_id == "103":
-        fix_kanan_dep = "'x"
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_kanan_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '(A');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 't~');", (costume_path,))
@@ -1957,7 +1923,6 @@ with sqlite3.connect('assets/db/gl/asset_a_zh.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§y7');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§~+');", (costume_path,))
     elif chara_id == "106":
-        fix_yoshiko_dep = "Z'"
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'Wm');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_yoshiko_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'di');", (costume_path,))
@@ -2002,7 +1967,6 @@ with sqlite3.connect('assets/db/gl/asset_a_zh.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§Vr');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§M|');", (costume_path,))
     elif chara_id == "201":
-        fix_ayumu_dep = ".'"
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_ayumu_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'f%');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'sq');", (costume_path,))
@@ -2014,7 +1978,6 @@ with sqlite3.connect('assets/db/gl/asset_a_zh.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§y7');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§~+');", (costume_path,))
     elif chara_id == "202":
-        fix_kasukasu_dep = '"{'
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_kasukasu_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '_K');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'uK');", (costume_path,))
@@ -2048,7 +2011,6 @@ with sqlite3.connect('assets/db/gl/asset_a_zh.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§y7');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§~+');", (costume_path,))
     elif chara_id == "205":
-        fix_ai_dep = '("'
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_ai_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '1]');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'a+');", (costume_path,))
@@ -2120,7 +2082,6 @@ with sqlite3.connect('assets/db/gl/asset_a_zh.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§Vr');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§M|');", (costume_path,))
     elif chara_id == "212":
-        fix_mia_dep = 'w";'
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_mia_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '0W=');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'Qp?');", (costume_path,))
@@ -2142,19 +2103,17 @@ with sqlite3.connect('assets/db/gl/asset_a_zh.db') as conn:
 with sqlite3.connect('assets/db/gl/asset_i_zh.db') as conn:
     cursor = conn.cursor()
     
+    # (light download auto delete fix)
     cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (costume_filename,))
-    cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (thumbnail_costume_filename,))
-    if chara_id == "209":
-        cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (rina_unmask_costume_filename,))
         
-    cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');",
-                   (costume_path, costume_filename, costume_filesize))
+    cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, ?, ?, '0', '0');",
+                   (costume_path, costume_filename, thumbnail_costume_size, costume_filesize))
     cursor.execute("INSERT INTO main.texture (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');",
-                   (thumbnail_costume_path, thumbnail_costume_filename, thumbnail_costume_size))
+                   (thumbnail_costume_path, costume_filename, thumbnail_costume_size))
                                  
     if chara_id == "209":
-        cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');",
-                   (rina_unmask_costume_path, rina_unmask_costume_filename, rina_unmask_costume_filesize))     
+        cursor.execute("INSERT INTO main.member_model (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, ?, ?, '0', '0');",
+                   (rina_unmask_costume_path, costume_filename, create_head_rina_mask, rina_unmask_costume_filesize))   
  
     if chara_id == "1":
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '{#');", (costume_path,))
@@ -2278,7 +2237,6 @@ with sqlite3.connect('assets/db/gl/asset_i_zh.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§Vr');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§M|');", (costume_path,))
     elif chara_id == "103":
-        fix_kanan_dep = "'x"
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_kanan_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '(A');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 't~');", (costume_path,))
@@ -2312,7 +2270,6 @@ with sqlite3.connect('assets/db/gl/asset_i_zh.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§y7');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§~+');", (costume_path,))
     elif chara_id == "106":
-        fix_yoshiko_dep = "Z'"
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'Wm');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_yoshiko_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'di');", (costume_path,))
@@ -2357,7 +2314,6 @@ with sqlite3.connect('assets/db/gl/asset_i_zh.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§Vr');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§M|');", (costume_path,))
     elif chara_id == "201":
-        fix_ayumu_dep = ".'"
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_ayumu_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'f%');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'sq');", (costume_path,))
@@ -2369,7 +2325,6 @@ with sqlite3.connect('assets/db/gl/asset_i_zh.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§y7');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§~+');", (costume_path,))
     elif chara_id == "202":
-        fix_kasukasu_dep = '"{'
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_kasukasu_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '_K');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'uK');", (costume_path,))
@@ -2403,7 +2358,6 @@ with sqlite3.connect('assets/db/gl/asset_i_zh.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§y7');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§~+');", (costume_path,))
     elif chara_id == "205":
-        fix_ai_dep = '("'
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_ai_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '1]');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'a+');", (costume_path,))
@@ -2475,7 +2429,6 @@ with sqlite3.connect('assets/db/gl/asset_i_zh.db') as conn:
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§Vr');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '§M|');", (costume_path,))
     elif chara_id == "212":
-        fix_mia_dep = 'w";'
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, ?);", (costume_path, fix_mia_dep))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, '0W=');", (costume_path,))
         cursor.execute("INSERT INTO main.member_model_dependency (asset_path, dependency) VALUES (?, 'Qp?');", (costume_path,))
@@ -2545,158 +2498,24 @@ with sqlite3.connect('assets/db/gl/asset_a_en.db') as conn:
     cursor.execute("SELECT COUNT(*) FROM main.m_asset_package_mapping WHERE package_key = 'main';")
     get_main_asset = cursor.fetchone()[0]
     update_main_asset = get_main_asset + 1
-    if chara_id == "1":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'gzi1g0', '399219', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'xtabzt', '403268', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
-    elif chara_id == "2":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '7ca83j', '360642', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'o3rnj9', '363871', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
-    elif chara_id == "3":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '9ynb3w', '416273', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'd9j55p', '420181', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
-    elif chara_id == "4":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'b8fl1d', '444364', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'r75f01', '448949', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
-    elif chara_id == "5":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'hotlea', '482878', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '2');", (package_key_costume, fresh_version))
-    elif chara_id == "6":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '3dn5m5', '355798', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '60tgdb', '352524', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
-    elif chara_id == "7":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'bin9gt', '345225', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'lykr3e', '341187', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
-    elif chara_id == "8":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'ht9tg8', '413219', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'rlj2pn', '416021', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
-    elif chara_id == "9":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '81jk8s', '384801', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'nehtzi', '387903', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
-    elif chara_id == "101":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'tvrmm1', '420140', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'gxtrrz', '423215', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
-    elif chara_id == "102":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '1lpaj8', '398401', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'kwgxyt', '404175', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
-    elif chara_id == "103":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'z5xtbp', '412670', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'eakp9k', '416663', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
-    elif chara_id == "104":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'dwystf', '395713', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'fl61ob', '398571', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
-    elif chara_id == "105":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'okxi5b', '4129', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '4x2ykb', '363168', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
-    elif chara_id == "106":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'gtz5yz', '364288', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'ui7rla', '368254', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
-    elif chara_id == "107":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '54j328', '371014', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'ypghy0', '373940', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
-    elif chara_id == "108":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'su511u', '390851', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'iwh2kd', '395399', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
-    elif chara_id == "109":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '06kg1y', '401365', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'dedoi3', '407522', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
-    elif chara_id == "201":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'r4s36z', '460898', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '7vbqmn', '464836', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
-    elif chara_id == "202":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '5cpny8', '395791', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'v1o383', '399677', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
-    elif chara_id == "203":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'yrs0cq', '338353', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'vw2tds', '342236', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
-    elif chara_id == "204":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '3ctwgy', '395566', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'y639s3', '400559', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
-    elif chara_id == "205":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'rmptql', '415327', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '8hnhlv', '419931', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
-    elif chara_id == "206":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'mbsvzz', '428804', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'i7hcxd', '432901', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
-    elif chara_id == "207":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'ddys0i', '408070', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'f7un0l', '413231', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
-    elif chara_id == "208":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'k1pnrj', '427838', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'yo967m', '432424', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
-    elif chara_id == "209":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'p889br', '8696', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'x6viy3', '392742', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, rina_unmask_costume_filename, rina_unmask_costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '24ezo4', '393007', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '5');", (package_key_costume, fresh_version))
-    elif chara_id == "210":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 't9dmqr', '450527', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '8giyov', '1256395', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
-    elif chara_id == "212":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'kgd5wh', '1505596', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '2');", (package_key_costume, fresh_version))
-    elif chara_id == "211":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, 'lyqt5p', '4129', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, '29hn3y', '1543143', ?, '0', ?);", (package_key_costume, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '3');", (package_key_costume, fresh_version))
-    cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_thumbnail, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
-    cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);", (fresh_version_main, update_main_asset)) 
+    if chara_id == "209":
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                    (package_key_costume, costume_filename, combined_data_size_rina, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                    (package_key_thumbnail, costume_filename, combined_data_size_rina, donot_insert, category_thumbnail))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '1');",
+                    (package_key_costume, fresh_version))
+        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);",
+                    (fresh_version_main, update_main_asset))
+    else:
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                    (package_key_costume, costume_filename, combined_data_size, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                    (package_key_thumbnail, costume_filename, combined_data_size, donot_insert, category_thumbnail))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '1');",
+                    (package_key_costume, fresh_version))
+        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);",
+                    (fresh_version_main, update_main_asset))
 
 with sqlite3.connect('assets/db/gl/asset_i_en.db') as conn:
     cursor = conn.cursor()
@@ -2708,17 +2527,24 @@ with sqlite3.connect('assets/db/gl/asset_i_en.db') as conn:
     get_main_asset_i_en = cursor.fetchone()[0]
     update_main_asset_i_en = get_main_asset_i_en + 1
     if chara_id == "209":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, rina_unmask_costume_filename, rina_unmask_costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_thumbnail, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '2');", (package_key_costume, fresh_version_i_en))
-        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);", (fresh_version_main, update_main_asset))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                    (package_key_costume, costume_filename, combined_data_size_rina, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                    (package_key_thumbnail, costume_filename, combined_data_size_rina, donot_insert, category_thumbnail))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '1');",
+                    (package_key_costume, fresh_version_i_en))
+        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);",
+                    (fresh_version_main_i_en, update_main_asset_i_en))
     else:
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_thumbnail, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '1');", (package_key_costume, fresh_version_i_en))
-        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);", (fresh_version_main_i_en, update_main_asset_i_en))
-        
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                    (package_key_costume, costume_filename, combined_data_size, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                    (package_key_thumbnail, costume_filename, combined_data_size, donot_insert, category_thumbnail))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '1');",
+                    (package_key_costume, fresh_version_i_en))
+        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);",
+                    (fresh_version_main_i_en, update_main_asset_i_en))
+                    
 with sqlite3.connect('assets/db/gl/asset_a_ko.db') as conn:
     cursor = conn.cursor()
     
@@ -2729,17 +2555,24 @@ with sqlite3.connect('assets/db/gl/asset_a_ko.db') as conn:
     get_main_asset_a_ko = cursor.fetchone()[0]
     update_main_asset_a_ko = get_main_asset_a_ko + 1
     if chara_id == "209":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, rina_unmask_costume_filename, rina_unmask_costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_thumbnail, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '2');", (package_key_costume, fresh_version_a_ko))
-        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);", (fresh_version_main, update_main_asset))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                    (package_key_costume, costume_filename, combined_data_size_rina, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                    (package_key_thumbnail, costume_filename, combined_data_size_rina, donot_insert, category_thumbnail))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '1');",
+                    (package_key_costume, fresh_version_a_ko))
+        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);",
+                    (fresh_version_main_a_ko, update_main_asset_a_ko))
     else:
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_thumbnail, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '1');", (package_key_costume, fresh_version_a_ko))
-        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);", (fresh_version_main_a_ko, update_main_asset_a_ko))
-        
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                    (package_key_costume, costume_filename, combined_data_size, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                    (package_key_thumbnail, costume_filename, combined_data_size, donot_insert, category_thumbnail))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '1');",
+                    (package_key_costume, fresh_version_a_ko))
+        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);",
+                    (fresh_version_main_a_ko, update_main_asset_a_ko))
+      
 with sqlite3.connect('assets/db/gl/asset_i_ko.db') as conn:
     cursor = conn.cursor()
     
@@ -2750,17 +2583,24 @@ with sqlite3.connect('assets/db/gl/asset_i_ko.db') as conn:
     get_main_asset_i_ko = cursor.fetchone()[0]
     update_main_asset_i_ko = get_main_asset_i_ko + 1
     if chara_id == "209":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, rina_unmask_costume_filename, rina_unmask_costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_thumbnail, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '2');", (package_key_costume, fresh_version_i_ko))
-        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);", (fresh_version_main, update_main_asset))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                    (package_key_costume, costume_filename, combined_data_size_rina, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                    (package_key_thumbnail, costume_filename, combined_data_size_rina, donot_insert, category_thumbnail))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '1');",
+                    (package_key_costume, fresh_version_i_ko))
+        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);",
+                    (fresh_version_main_i_ko, update_main_asset_i_ko))
     else:
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_thumbnail, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '1');", (package_key_costume, fresh_version_i_ko))
-        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);", (fresh_version_main_i_ko, update_main_asset_i_ko))
-        
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                    (package_key_costume, costume_filename, combined_data_size, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                    (package_key_thumbnail, costume_filename, combined_data_size, donot_insert, category_thumbnail))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '1');",
+                    (package_key_costume, fresh_version_i_ko))
+        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);",
+                    (fresh_version_main_i_ko, update_main_asset_i_ko))
+       
 with sqlite3.connect('assets/db/gl/asset_a_zh.db') as conn:
     cursor = conn.cursor()
     
@@ -2771,16 +2611,23 @@ with sqlite3.connect('assets/db/gl/asset_a_zh.db') as conn:
     get_main_asset_a_zh = cursor.fetchone()[0]
     update_main_asset_a_zh = get_main_asset_a_zh + 1
     if chara_id == "209":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, rina_unmask_costume_filename, rina_unmask_costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_thumbnail, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '2');", (package_key_costume, fresh_version_a_zh))
-        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);", (fresh_version_main, update_main_asset))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                    (package_key_costume, costume_filename, combined_data_size_rina, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                    (package_key_thumbnail, costume_filename, combined_data_size_rina, donot_insert, category_thumbnail))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '1');",
+                    (package_key_costume, fresh_version_a_zh))
+        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);",
+                    (fresh_version_main_a_zh, update_main_asset_a_zh))
     else:
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_thumbnail, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '1');", (package_key_costume, fresh_version_a_zh))
-        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);", (fresh_version_main_a_zh, update_main_asset_a_zh))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                    (package_key_costume, costume_filename, combined_data_size, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                    (package_key_thumbnail, costume_filename, combined_data_size, donot_insert, category_thumbnail))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '1');",
+                    (package_key_costume, fresh_version_a_zh))
+        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);",
+                    (fresh_version_main_a_zh, update_main_asset_a_zh))
 
 with sqlite3.connect('assets/db/gl/asset_i_zh.db') as conn:
     cursor = conn.cursor()
@@ -2792,20 +2639,29 @@ with sqlite3.connect('assets/db/gl/asset_i_zh.db') as conn:
     get_main_asset_i_zh = cursor.fetchone()[0]
     update_main_asset_i_zh = get_main_asset_i_zh + 1
     if chara_id == "209":
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, rina_unmask_costume_filename, rina_unmask_costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_thumbnail, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '2');", (package_key_costume, fresh_version_i_zh))
-        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);", (fresh_version_main, update_main_asset))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                    (package_key_costume, costume_filename, combined_data_size_rina, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                    (package_key_thumbnail, costume_filename, combined_data_size_rina, donot_insert, category_thumbnail))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '1');",
+                    (package_key_costume, fresh_version_i_zh))
+        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);",
+                    (fresh_version_main_i_zh, update_main_asset_i_zh))
     else:
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_costume, costume_filename, costume_filesize, donot_insert, category_costume))
-        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);", (package_key_thumbnail, thumbnail_costume_filename, thumbnail_costume_size, donot_insert, category_thumbnail))
-        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '1');", (package_key_costume, fresh_version_i_zh))
-        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);", (fresh_version_main_i_zh, update_main_asset_i_zh))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                    (package_key_costume, costume_filename, combined_data_size, donot_insert, category_costume))
+        cursor.execute("INSERT INTO main.m_asset_package_mapping (package_key, pack_name, file_size, metapack_name, metapack_offset, category) VALUES (?, ?, ?, ?, '0', ?);",
+                    (package_key_thumbnail, costume_filename, combined_data_size, donot_insert, category_thumbnail))
+        cursor.execute("INSERT INTO main.m_asset_package (package_key, version, pack_num) VALUES (?, ?, '1');",
+                    (package_key_costume, fresh_version_i_zh))
+        cursor.execute("REPLACE INTO main.m_asset_package (package_key, version, pack_num) VALUES ('main', ?, ?);",
+                    (fresh_version_main_i_zh, update_main_asset_i_zh))
+                    
 print("added to CDN localhost")                 
 
 
 file_path_trade_stuff = 'assets/db/userdata.db'
+file_path_oldelichika_stuff = 'assets/db/serverdata.db'
 
 # Check if the file exists
 if os.path.exists(file_path_trade_stuff):
@@ -2833,8 +2689,13 @@ if os.path.exists(file_path_trade_stuff):
         cursor = conn.cursor()
         
         cursor.execute("INSERT INTO main.s_trade_product (product_id, trade_id, source_amount, stock_amount, content_type, content_id, content_amount) VALUES (?, '1200', '1', ?, '7', ?, 1);", (trade_id_into_json, donot_insert, costume_id_masterdata))
-        
-else:
+    
+    print("deleting temp folder")
+    shutil.rmtree(temp_directory, ignore_errors=True)
+    print("FINISHED")
+    sys.exit(1)
+    
+elif os.path.exists(file_path_oldelichika_stuff):
     # File doesn't exist, rest of the code
     print("elichika old version detected, adding to serverdata")
     
@@ -2848,7 +2709,15 @@ else:
     with sqlite3.connect('assets/db/serverdata.db') as conn:
         cursor = conn.cursor()
         cursor.execute("INSERT INTO main.s_user_suit (user_id, suit_master_id, is_new) VALUES ('588296696', ?, '1');", (costume_id_masterdata,))    
-                   
-print("deleting temp folder")
-shutil.rmtree(temp_directory, ignore_errors=True)
-print("FINISHED")
+            
+    print("deleting temp folder")
+    shutil.rmtree(temp_directory, ignore_errors=True)
+    print("FINISHED")
+    sys.exit(1)
+    
+else:
+    print("no elichika installed, ignoring import to userdata / serverdata")
+    print("deleting temp folder")
+    shutil.rmtree(temp_directory, ignore_errors=True)
+    print("FINISHED")
+    sys.exit(1)
