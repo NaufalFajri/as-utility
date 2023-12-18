@@ -315,40 +315,30 @@ create_backup(source_files, backup_files)
 
 with open(costume_file, "rb") as costume_file:
     costume_data = bytearray(costume_file.read())
-
-    key_0 = 12345
-    key_1 = 0
-    key_2 = 0
-    print("encrypting costume")
-    manipulate_file(costume_data, key_0, key_1, key_2)
     
 with open(thumbnail_file, "rb") as thumbnail_file:
     thumbnail_data = bytearray(thumbnail_file.read())
 
-    key_0 = 12345
-    key_1 = 0
-    key_2 = 0
-    print("encrypting thumbnail")
-    manipulate_file(thumbnail_data, key_0, key_1, key_2)
+key_0 = 12345
+key_1 = 0
+key_2 = 0
 
 if chara_id == "209":
     with open(rina_unmask_costume_file, "rb") as rina_unmask_costume_file:
         costume_data_rina_unmask = bytearray(rina_unmask_costume_file.read())
 
-        key_0 = 12345
-        key_1 = 0
-        key_2 = 0
-        print("encrypting rina unmask costume")
-        manipulate_file(costume_data_rina_unmask, key_0, key_1, key_2)
         combined_costume_data_rina = thumbnail_data + costume_data + costume_data_rina_unmask
         combined_data_size_rina = costume_filesize + rina_unmask_costume_filesize + thumbnail_costume_size
-        
+        print("encrypting asset")
+        manipulate_file(combined_costume_data_rina, key_0, key_1, key_2)
         with open(encrypted_costume, "wb") as combined_rina_file:
             combined_rina_file.write(combined_costume_data_rina)
             print("assets encrypted & combined into one file")
 else:
     combined_costume_data = thumbnail_data + costume_data
     combined_data_size = costume_filesize + thumbnail_costume_size
+    print("encrypting asset")
+    manipulate_file(combined_costume_data, key_0, key_1, key_2)
     with open(encrypted_costume, "wb") as combined_file:
         combined_file.write(combined_costume_data)
         print("assets encrypted & combined into one file")
