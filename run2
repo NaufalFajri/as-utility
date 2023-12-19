@@ -44,9 +44,9 @@ while true; do
 			clear
       pkill elichika
 			cd ~/
-			pkg update
-			pkg upgrade
-			pkg install python
+			pkg update -y
+			pkg upgrade -y
+			pkg install python -y
 			cd ~/elichika
 			rm config_localhost.json
 			rm config_catfolk.json
