@@ -3,14 +3,15 @@
 while true; do
     clear
     echo "https://github.com/NaufalFajri/as-utility/"
-    echo "Elichika Arina Menu:"
+    echo "Elichika Arina Menu (Global Client):"
     echo "1. Run Server"
-	echo "2. Add New Costume (GL)"
-	echo "3. Import SQL (GL)"
+	echo "2. Add New Costume"
+	echo "3. Import SQL"
 	echo "4. Install / Update Dependencies & Script"
 	echo "5. Switch to LocalHost"
 	echo "6. Switch to Catfolk"
     echo "0. Exit"
+	echo "NOTE : RECOMMEND USE FULL DOWNLOAD SETTINGS BECAUSE ADDING NEW ASSETS TO LOCALHOST IS UNFIXABLE"
 
     read -p "Enter your choice: " choice
 
@@ -112,7 +113,7 @@ while true; do
         "install_elichika")
 			clear
 			pkill elichika
-			echo "You will proceed to browser, do not close termux"
+			echo "You will proceed to browser for downloading app, do not close termux"
 			read -p "Press Enter to proceed" _dummy1
 			xdg-open https://codeberg.org/RusdiNgawi/KAMIKAZ-/releases/download/0.0.1/signed.apk
 			curl -L https://raw.githubusercontent.com/arina999999997/elichika/master/bin/install.sh | bash
