@@ -270,11 +270,11 @@ elif chara_id == "212":
 elif chara_id == "211":
     print('Chara: Mia Taylor')
     
-if chara_id_group == 13:
+if chara_id_group == "13":
     print('Group: Myuzu')
-elif chara_id_group == 14:
+elif chara_id_group == "14":
     print('Group: Aqours')
-elif chara_id_group == 15:
+elif chara_id_group == "15":
     print('Group: Nijigasaki')
 print('Description: ' + costume_description)
 do_you_think_want_add_this = input("do you want add this? (y/n): ")
