@@ -11,7 +11,6 @@ while true; do
 	echo "5. Switch to LocalHost"
 	echo "6. Switch to Catfolk"
     echo "0. Exit"
-	echo "NOTE : RECOMMEND USE FULL DOWNLOAD SETTINGS BECAUSE ADDING NEW ASSETS TO LOCALHOST IS UNFIXABLE"
 
     read -p "Enter your choice: " choice
 
@@ -27,6 +26,9 @@ while true; do
 			clear
       pkill elichika
 			cd ~/elichika
+			echo "PLEASE CHANGE DOWNLOAD SETTINGS TO FULL BEFORE ADDING NEW COSTUME"
+			echo "THIS WILL PREVENT ADDITIONAL FILES FROM BEING DELETED DURING DOWNLOAD CONFIRMATION"
+			read -p "Press Enter to proceed" _dummy3
 			python costume_addon_installer.py
 			cd ~/
             ;;
