@@ -222,7 +222,7 @@ elif chara_id == "5":
 elif chara_id == "6":
     print('Chara: Maki Nishikino')
 elif chara_id == "7":
-    print('Chara: Nozomi Toujo')
+    print('Chara: Nozomi Tojo')
 elif chara_id == "8":
     print('Chara: Hanayo Koizumi')
 elif chara_id == "9":
@@ -270,11 +270,11 @@ elif chara_id == "212":
 elif chara_id == "211":
     print('Chara: Mia Taylor')
     
-if chara_id_int == 13:
+if chara_id_group == 13:
     print('Group: Myuzu')
-elif chara_id_int == 14:
+elif chara_id_group == 14:
     print('Group: Aqours')
-elif chara_id_int == 15:
+elif chara_id_group == 15:
     print('Group: Nijigasaki')
 print('Description: ' + costume_description)
 do_you_think_want_add_this = input("do you want add this? (y/n): ")
@@ -2185,6 +2185,7 @@ if os.path.exists(file_path_trade_stuff):
     print("deleting temp folder")
     shutil.rmtree(temp_directory, ignore_errors=True)
     print("FINISHED")
+    print("go to ~/elichika/encrypted_data/ & copy files folder to android/data/com.klab.lovelive.allstars.global(jp version path is similar) to something else")
     sys.exit(1)
     
 elif os.path.exists(file_path_oldelichika_stuff):
@@ -2205,6 +2206,7 @@ elif os.path.exists(file_path_oldelichika_stuff):
     print("deleting temp folder")
     shutil.rmtree(temp_directory, ignore_errors=True)
     print("FINISHED")
+    print("go to ~/elichika/encrypted_data/ & copy files folder to android/data/com.klab.lovelive.allstars.global(jp version path is similar) to something else")
     sys.exit(1)
     
 else:
@@ -2212,5 +2214,6 @@ else:
     print("deleting temp folder")
     shutil.rmtree(temp_directory, ignore_errors=True)
     print("FINISHED")
+    print("go to ~/elichika/encrypted_data/ & copy files folder to android/data/com.klab.lovelive.allstars.global(jp version path is similar) to something else")
     sys.exit(1)
 
