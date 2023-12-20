@@ -27,7 +27,7 @@ while true; do
       pkill elichika
 			cd ~/elichika
 			echo "PLEASE CHANGE DOWNLOAD SETTINGS TO FULL"
-			echo "ONCE THE DOWNLOAD IS COMPLETED, YOU CAN ADD NEW COSTUME"
+			echo "ONCE THE DOWNLOAD IS COMPLETED, YOU CAN ADD PROCEED THIS"
 			echo "THIS WILL PREVENT ADDITIONAL FILES FROM BEING DELETED DURING DOWNLOAD CONFIRMATION"
 			read -p "Press Enter to proceed" _dummy3
 			python costume_addon_installer.py
@@ -37,6 +37,10 @@ while true; do
 			clear
       pkill elichika
 			cd ~/elichika
+			echo "PLEASE CHANGE DOWNLOAD SETTINGS TO FULL"
+			echo "ONCE THE DOWNLOAD IS COMPLETED, YOU CAN ADD PROCEED THIS"
+			echo "THIS WILL PREVENT ADDITIONAL FILES FROM BEING DELETED DURING DOWNLOAD CONFIRMATION"
+			read -p "Press Enter to proceed" _dummy4
 			python elichika_db_importer.py
 			cd ~/
             ;;
