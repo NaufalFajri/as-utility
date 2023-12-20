@@ -71,6 +71,30 @@ def generate_unique_music_id2(cursor):
         if count == 0:
             return new_id42b
             
+def generate_unique_music_id2a(cursor):
+    while True:
+        new_id42b11 = random.randint(0, 9999999)
+        cursor.execute("SELECT COUNT(*) FROM main.m_live_difficulty_gimmick WHERE id = ?;", (new_id42b11,))
+        count = cursor.fetchone()[0]
+        if count == 0:
+            return new_id42b11
+          
+def generate_unique_music_id2b(cursor):
+    while True:
+        new_id42b22 = random.randint(0, 9999999)
+        cursor.execute("SELECT COUNT(*) FROM main.m_live_difficulty_gimmick WHERE id = ?;", (new_id42b22,))
+        count = cursor.fetchone()[0]
+        if count == 0:
+            return new_id42b22
+            
+def generate_unique_music_id2c(cursor):
+    while True:
+        new_id42b33 = random.randint(0, 9999999)
+        cursor.execute("SELECT COUNT(*) FROM main.m_live_difficulty_gimmick WHERE id = ?;", (new_id42b33,))
+        count = cursor.fetchone()[0]
+        if count == 0:
+            return new_id42b33
+            
 def generate_unique_music_id3(cursor):
     while True:
         new_id42c = random.randint(0, 99999999)
@@ -267,18 +291,52 @@ with sqlite3.connect('assets/db/gl/asset_a_en.db') as conn:
 with sqlite3.connect('assets/db/gl/asset_i_en.db') as conn:
     cursor = conn.cursor()   
 
+    cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (music_filename,))
+    cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (thumbnail_music_filename,))
+    cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (music_sabi_filename,))
+    cursor.execute("INSERT INTO main.m_asset_sound (sheet_name, acb_pack_name, awb_pack_name) VALUES (?, ?, ?);", (sheet_name_file, music_filename, donot_insert))
+    cursor.execute("INSERT INTO main.m_asset_sound (sheet_name, acb_pack_name, awb_pack_name) VALUES (?, ?, ?);", (sheet_name_file1, music_sabi_filename, donot_insert))
+    cursor.execute("INSERT INTO main.texture (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');", (thumbnail_music_path, thumbnail_music_filename, thumbnail_music_size))
+
 with sqlite3.connect('assets/db/gl/asset_a_ko.db') as conn:
     cursor = conn.cursor()
+
+    cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (music_filename,))
+    cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (thumbnail_music_filename,))
+    cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (music_sabi_filename,))
+    cursor.execute("INSERT INTO main.m_asset_sound (sheet_name, acb_pack_name, awb_pack_name) VALUES (?, ?, ?);", (sheet_name_file, music_filename, donot_insert))
+    cursor.execute("INSERT INTO main.m_asset_sound (sheet_name, acb_pack_name, awb_pack_name) VALUES (?, ?, ?);", (sheet_name_file1, music_sabi_filename, donot_insert))
+    cursor.execute("INSERT INTO main.texture (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');", (thumbnail_music_path, thumbnail_music_filename, thumbnail_music_size))
 
 with sqlite3.connect('assets/db/gl/asset_i_ko.db') as conn:
     cursor = conn.cursor()
 
+    cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (music_filename,))
+    cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (thumbnail_music_filename,))
+    cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (music_sabi_filename,))
+    cursor.execute("INSERT INTO main.m_asset_sound (sheet_name, acb_pack_name, awb_pack_name) VALUES (?, ?, ?);", (sheet_name_file, music_filename, donot_insert))
+    cursor.execute("INSERT INTO main.m_asset_sound (sheet_name, acb_pack_name, awb_pack_name) VALUES (?, ?, ?);", (sheet_name_file1, music_sabi_filename, donot_insert))
+    cursor.execute("INSERT INTO main.texture (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');", (thumbnail_music_path, thumbnail_music_filename, thumbnail_music_size))
+
 with sqlite3.connect('assets/db/gl/asset_a_zh.db') as conn:
     cursor = conn.cursor()
 
+    cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (music_filename,))
+    cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (thumbnail_music_filename,))
+    cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (music_sabi_filename,))
+    cursor.execute("INSERT INTO main.m_asset_sound (sheet_name, acb_pack_name, awb_pack_name) VALUES (?, ?, ?);", (sheet_name_file, music_filename, donot_insert))
+    cursor.execute("INSERT INTO main.m_asset_sound (sheet_name, acb_pack_name, awb_pack_name) VALUES (?, ?, ?);", (sheet_name_file1, music_sabi_filename, donot_insert))
+    cursor.execute("INSERT INTO main.texture (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');", (thumbnail_music_path, thumbnail_music_filename, thumbnail_music_size))
+
 with sqlite3.connect('assets/db/gl/asset_i_zh.db') as conn:
     cursor = conn.cursor()
-    
+   
+    cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (music_filename,))
+    cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (thumbnail_music_filename,))
+    cursor.execute("INSERT INTO main.m_asset_pack (pack_name, auto_delete) VALUES (?, '0');", (music_sabi_filename,))
+    cursor.execute("INSERT INTO main.m_asset_sound (sheet_name, acb_pack_name, awb_pack_name) VALUES (?, ?, ?);", (sheet_name_file, music_filename, donot_insert))
+    cursor.execute("INSERT INTO main.m_asset_sound (sheet_name, acb_pack_name, awb_pack_name) VALUES (?, ?, ?);", (sheet_name_file1, music_sabi_filename, donot_insert))
+    cursor.execute("INSERT INTO main.texture (asset_path, pack_name, head, size, key1, key2) VALUES (?, ?, '0', ?, '0', '0');", (thumbnail_music_path, thumbnail_music_filename, thumbnail_music_size))   
 
 # Connect to masterdata.db and perform INSERT
 with sqlite3.connect('assets/db/gl/masterdata.db') as conn:
@@ -290,6 +348,9 @@ with sqlite3.connect('assets/db/gl/masterdata.db') as conn:
     music_diff1_masterdata = generate_unique_music_id1(cursor)
     music_diff2_masterdata = generate_unique_music_id2(cursor)
     music_diff3_masterdata = generate_unique_music_id3(cursor)
+    music_diff1g_masterdata = generate_unique_music_id2a(cursor)
+    music_diff2g_masterdata = generate_unique_music_id2b(cursor)
+    music_diff3g_masterdata = generate_unique_music_id2c(cursor)
     music_name_dictionary_masterdata = "inline_image.song_name_so" + str(live_id_masterdata)
     music_id_copyright_masterdata = "inline_image.song_copyright_so" + str(live_id_masterdata)
     music_name_dictionary_dic = "song_name_so" + str(live_id_masterdata)
@@ -315,23 +376,33 @@ with sqlite3.connect('assets/db/gl/masterdata.db') as conn:
                    
     cursor.execute("INSERT INTO main.m_live_difficulty (live_difficulty_id, live_id, live_3d_asset_master_id, live_difficulty_type, unlock_pattern, default_attribute, target_voltage, note_emit_msec, recommended_score, recommended_stamina, consumed_lp, reward_user_exp, judge_id, note_drop_group_id, drop_choose_count, rare_drop_rate, drop_content_group_id, rare_drop_content_group_id, additional_drop_max_count, additional_drop_content_group_id, additional_rare_drop_content_group_id,bottom_technique, additional_drop_decay_technique, reward_base_love_point, evaluation_s_score, evaluation_a_score, evaluation_b_score, evaluation_c_score, updated_at, lose_at_death, autoplay_requirement_id, skip_master_id, stamina_voltage_group_id, combo_voltage_group_id, difficulty_const_master_id, is_count_target, insufficient_rate) VALUES (?, ?, ?, 30, '1', '1', '4', '2534', '0', '0', '0', '0', '3', '0', '0', '1000', '0', '0', '0', '0', '0', '3', '1000', '0', '4', '3', '2', '1', '0', '1', ?, '16001', '1', '1', '10001301', '1', '0');",
                    (music_diff3_masterdata, live_id_masterdata, donot_insert, donot_insert,))
+                   
+    cursor.execute("INSERT INTO main.m_live_difficulty_gimmick (id, live_difficulty_master_id, trigger_type, condition_master_id1, condition_master_id2, skill_master_id, name, description) VALUES (?, ?, '255', '1', '1', '50000001', 'inline_image.addon_live_name_dev', 'inline_image.addon_live_dev_note');", (music_diff1g_masterdata, music_diff1_masterdata))
+    cursor.execute("INSERT INTO main.m_live_difficulty_gimmick (id, live_difficulty_master_id, trigger_type, condition_master_id1, condition_master_id2, skill_master_id, name, description) VALUES (?, ?, '255', '1', '1', '50000001', 'inline_image.addon_live_name_dev', 'inline_image.addon_live_dev_note');", (music_diff2g_masterdata, music_diff2_masterdata))
+    cursor.execute("INSERT INTO main.m_live_difficulty_gimmick (id, live_difficulty_master_id, trigger_type, condition_master_id1, condition_master_id2, skill_master_id, name, description) VALUES (?, ?, '255', '1', '1', '50000001', 'inline_image.addon_live_name_dev', 'inline_image.addon_live_dev_note');", (music_diff3g_masterdata, music_diff3_masterdata))
 
 with sqlite3.connect('assets/db/gl/dictionary_en_inline_image.db') as conn:
     cursor = conn.cursor()
     cursor.execute("INSERT INTO main.m_dictionary (id, message) VALUES (?, ?);", (music_name_dictionary_dic, music_name))
     cursor.execute("INSERT INTO main.m_dictionary (id, message) VALUES (?, ?);", (music_id_copyright_dic, music_copyright_name))
+    cursor.execute("INSERT OR REPLACE INTO main.m_dictionary (id, message) VALUES ('addon_live_name_dev', 'DEV NOTE:');", ())
+    cursor.execute("INSERT OR REPLACE INTO main.m_dictionary (id, message) VALUES ('addon_live_dev_note', 'THIS LIVE ADDON IS NOT FINISHED');", ())
     
 with sqlite3.connect('assets/db/gl/dictionary_ko_inline_image.db') as conn:
     cursor = conn.cursor()
     cursor.execute("INSERT INTO main.m_dictionary (id, message) VALUES (?, ?);", (music_name_dictionary_dic, music_name))
     cursor.execute("INSERT INTO main.m_dictionary (id, message) VALUES (?, ?);", (music_id_copyright_dic, music_copyright_name))
+    cursor.execute("INSERT OR REPLACE INTO main.m_dictionary (id, message) VALUES ('addon_live_name_dev', 'DEV NOTE:');", ())
+    cursor.execute("INSERT OR REPLACE INTO main.m_dictionary (id, message) VALUES ('addon_live_dev_note', 'THIS LIVE ADDON IS NOT FINISHED');", ())
     
 with sqlite3.connect('assets/db/gl/dictionary_zh_inline_image.db') as conn:
     cursor = conn.cursor()
     cursor.execute("INSERT INTO main.m_dictionary (id, message) VALUES (?, ?);", (music_name_dictionary_dic, music_name))
     cursor.execute("INSERT INTO main.m_dictionary (id, message) VALUES (?, ?);", (music_id_copyright_dic, music_copyright_name))
+    cursor.execute("INSERT OR REPLACE INTO main.m_dictionary (id, message) VALUES ('addon_live_name_dev', 'DEV NOTE:');", ())
+    cursor.execute("INSERT OR REPLACE INTO main.m_dictionary (id, message) VALUES ('addon_live_dev_note', 'THIS LIVE ADDON IS NOT FINISHED');", ())
 
-saved_diffx = "encrypted_data/files/files/"
+saved_diffx = "assets/stages/"
 output_filename1 = saved_diffx + f"{music_diff1_masterdata}.json"
 output_filename2 = saved_diffx + f"{music_diff2_masterdata}.json"
 output_filename3 = saved_diffx + f"{music_diff3_masterdata}.json"
