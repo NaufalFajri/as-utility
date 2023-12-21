@@ -6,10 +6,11 @@ while true; do
     echo "Elichika Arina Menu (Global Client):"
     echo "1. Run Server"
 	echo "2. Add New Costume"
-	echo "3. Import SQL"
-	echo "4. Install / Update Dependencies & Script"
-	echo "5. Switch to LocalHost"
-	echo "6. Switch to Catfolk"
+	echo "3. Add New Live"
+	echo "4. Import SQL"
+	echo "5. Install / Update Dependencies & Script"
+	echo "6. Switch to LocalHost"
+	echo "7. Switch to Catfolk"
     echo "0. Exit"
 
     read -p "Enter your choice: " choice
@@ -40,11 +41,22 @@ while true; do
 			echo "PLEASE CHANGE DOWNLOAD SETTINGS TO FULL"
 			echo "ONCE THE DOWNLOAD IS COMPLETED, YOU CAN ADD PROCEED THIS"
 			echo "THIS WILL PREVENT ADDITIONAL FILES FROM BEING DELETED DURING DOWNLOAD CONFIRMATION"
+			read -p "Press Enter to proceed" _dummy334
+			python live_addon_installer.py
+			cd ~/
+            ;;
+        4)
+			clear
+      pkill elichika
+			cd ~/elichika
+			echo "PLEASE CHANGE DOWNLOAD SETTINGS TO FULL"
+			echo "ONCE THE DOWNLOAD IS COMPLETED, YOU CAN ADD PROCEED THIS"
+			echo "THIS WILL PREVENT ADDITIONAL FILES FROM BEING DELETED DURING DOWNLOAD CONFIRMATION"
 			read -p "Press Enter to proceed" _dummy4
 			python elichika_db_importer.py
 			cd ~/
             ;;
-        4)
+        5)
 			clear
       pkill elichika
 			cd ~/
@@ -55,10 +67,14 @@ while true; do
 			rm config_localhost.json
 			rm config_catfolk.json
 			rm costume_addon_installer.py
+			rm live_addon_installer.py
+			rm live_addon_uninstall.py
 			rm elichika_db_importer.py
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/config_localhost_new.json -o config_localhost.json
 			curl -L https://raw.githubusercontent.com/arina999999997/elichika/master/config.json -o config_catfolk.json
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/costume_addon_installer.py -o costume_addon_installer.py
+			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/live_addon_installer.py -o live_addon_installer.py
+			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/live_addon_installer.py -o live_addon_uninstall.py
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/elichika_db_importer.py -o elichika_db_importer.py
 			cd assets
 			cd db
@@ -74,7 +90,7 @@ while true; do
 			echo "ID: 666666666"
 			echo "Password: 666666666"
             ;;
-        5)
+        6)
 			clear
 			pkill elichika
 			cd ~/elichika
@@ -82,7 +98,7 @@ while true; do
 			cd ~/
 			echo "Switched to LocalHost"
             ;;
-        6)
+        7)
 			clear
 			pkill elichika
 			cd ~/elichika
@@ -114,6 +130,7 @@ while true; do
 			echo "Restored inline image"
 			cp backup/masterdata.db masterdata.db
 			echo "Restored masterdata"
+			python live_addon_uninstall.py
 			cd ~/
 			echo "Completed"
             ;;
