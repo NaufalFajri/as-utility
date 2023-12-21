@@ -148,6 +148,13 @@ while true; do
 			echo "Hello World, this just testing"
 			read -p "Press Enter to proceed" _dummy2
             ;;
+        "clear")
+			clear
+			pkill elichika
+			rm -r ~/elichika/encrypted_data/
+			rm -r ~/elichika/static/
+			echo "Cleared all encrypted data & static db"
+            ;;
         0)
 			clear
             echo "Exiting..."
