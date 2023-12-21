@@ -110,6 +110,7 @@ while true; do
 			clear
 			pkill elichika
 			cd ~/elichika
+			python live_addon_uninstall.py
 			cd assets
 			cd db
 			cp backup_new/serverdata.db serverdata.db
@@ -130,7 +131,6 @@ while true; do
 			echo "Restored inline image"
 			cp backup/masterdata.db masterdata.db
 			echo "Restored masterdata"
-			python live_addon_uninstall.py
 			cd ~/
 			echo "Completed"
             ;;
