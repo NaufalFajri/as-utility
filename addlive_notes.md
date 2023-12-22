@@ -2,7 +2,7 @@
 
 ## live_notes
 - id : increase +1 each adding note
-- call_time : format time in 30 FPS is 33.33333 MS
+- call_time : format time in milliseconds
 - note_type :
   - 1 - one button
   - 2 - hold
@@ -25,7 +25,7 @@
 - auto_judge_type : 20 (default value)
 ## live_wave_settings
 - id : increase +1 each adding wave
-- wave_damage : how many stamina damage value at fail
+- wave_damage : how much stamina damage value at fail AC
 - mission_type : 
   - 1 - Gain Voltage! (x)
   - 2 - Get Nice or above (x) times!
@@ -36,7 +36,7 @@
   - 7 - Switch strategies and Appeal with (x) members!
   - 8 - Get a critical: x(x)
   - 9 - Activate a skill: x(x)
-  - 16 - Maintain at least %(x) of your total Stamina.
-- arg_1 : how many value of target AC
+  - 16 - Maintain at least %(x) of your total Stamina, math arg_1 : (x) * 100
+- arg_1 : how much value of target AC
 - arg_2 : 0 (default value)
-- reward_voltage : Value Voltage at end AC
+- reward_voltage : Value Voltage at end success AC
