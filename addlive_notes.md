@@ -4,39 +4,57 @@
 - id : increase +1 each adding note
 - call_time : format time in milliseconds
 - note_type :
-  - 1 - one button
-  - 2 - hold
-  - 3 - release
-  - 4 - AC start*
-  - 5 - AC end*
+  - 1 - SingleTap
+  - 2 - LongStart
+  - 3 - LongEnd
+  - 4 - WaveStart*
+  - 5 - WaveEnd*
+  - 6 - TutorialSingleTap
   * Types 4 and 5 are invisible in-game. They do not count towards combo or voltage. These notes only serve to mark the boundaries of ACs, and are placed up to 2 msec before or after the actual start/finish note of the AC.
 - note_position :
-  - 1 - left
-  - 2 - right
+  - 1 - Left
+  - 2 - Right
 - gimmick_id : follow up note_gimmicks id
 - note_actions :
-  - 1 - tap
-  - 4 - swipe up
-  - 5 - swipe down
-  - 6 - swipe left
-  - 7 - swipe right
+  - 1 - Tap
+  - 2 - Swipe
+  - 4 - SwipeUp
+  - 5 - SwipeDown
+  - 6 - SwipeLeft
+  - 7 - SwipeRight
 - wave_id : follow up live_wave_settings id
-- note_random_drop_color : 99 (default value)
-- auto_judge_type : 20 (default value)
+- note_random_drop_color :
+  - 1 - Gold
+  - 2 - Silver
+  - 3 - Bronze
+  - 99 - Non
+- auto_judge_type :
+  - 1 - None
+  - 10 - Miss
+  - 12 - Bad
+  - 14 - Good
+  - 20 - Great
+  - 30 - Perfect
 ## live_wave_settings
 - id : increase +1 each adding wave
 - wave_damage : how much stamina damage value at fail AC
 - mission_type : 
-  - 1 - Gain Voltage! (x)
-  - 2 - Get Nice or above (x) times!
-  - 3 - Get Great or above (x) times!
-  - 4 - Get (x) Wonderfuls! 
-  - 5 - Get Voltage in one go!
-  - 6 - Get (x) with an SP Skill!
-  - 7 - Switch strategies and Appeal with (x) members!
-  - 8 - Get a critical: x(x)
-  - 9 - Activate a skill: x(x)
-  - 16 - Maintain at least %(x) of your total Stamina, math arg_1 : (x) * 100
+  - 1 - GotVoltage | Gain Voltage! (x)
+  - 2 - JudgeSuccessGood | Get Nice or above (x) times!
+  - 3 - JudgeSuccessGreat | Get Great or above (x) times!
+  - 4 - JudgeSuccessPerfect | Get (x) Wonderfuls! 
+  - 5 - MaxVoltage | Get Voltage in one go!
+  - 6 - TriggerSp | Get (x) with an SP Skill!
+  - 7 - UseCardUniq | Switch strategies and Appeal with (x) members!
+  - 8 - CriticalCount | Get a critical: x(x)
+  - 9 - ActiveSkillCount | Activate a skill: x(x)
+  - 10 - GotHeal | Gain Stamina! (x) *unused
+  - 11 - GotShield | Gain Shield! (x) *unused
+  - 12 - GotVoltageByVo | Gain Voltage by Vo Card! (x) *unused
+  - 13 - GotVoltageBySp | Gain Voltage by Sp Card! (x) *unused
+  - 14 - GotVoltageByGd | Gain Voltage by Gd Card! (x) *unused
+  - 15 - GotVoltageBySk | Gain Voltage by Sk Card! (x) *unused
+  - 16 - KeepStaminaUpper | Maintain at least %(x) of your total Stamina, math arg_1 : (x) * 100
 - arg_1 : how much value of target AC
 - arg_2 : 0 (default value)
 - reward_voltage : Value Voltage at end success AC
