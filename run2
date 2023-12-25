@@ -141,6 +141,39 @@ while true; do
 			read -p "Press Enter to proceed" _dummy1
 			xdg-open https://codeberg.org/RusdiNgawi/KAMIKAZ-/releases/download/0.0.1/signed.apk
 			curl -L https://raw.githubusercontent.com/arina999999997/elichika/master/bin/install.sh | bash
+			echo "Installing Requirement"
+			cd
+			cd ~/
+			pkg update -y
+			pkg upgrade -y
+			pkg install python -y
+			cd ~/elichika
+			rm config_localhost.json
+			rm config_catfolk.json
+			rm costume_addon_installer.py
+			rm live_addon_installer.py
+			rm live_addon_uninstall.py
+			rm elichika_db_importer.py
+			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/config_localhost_new.json -o config_localhost.json
+			curl -L https://raw.githubusercontent.com/arina999999997/elichika/master/config.json -o config_catfolk.json
+			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/costume_addon_installer.py -o costume_addon_installer.py
+			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/live_addon_installer.py -o live_addon_installer.py
+			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/live_addon_installer.py -o live_addon_uninstall.py
+			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/elichika_db_importer.py -o elichika_db_importer.py
+			cd assets
+			cd db
+			rm userdata.db
+			curl -L https://codeberg.org/RusdiNgawi/KAMIKAZ-/raw/branch/main/userdata.db -o userdata.db
+			cd gl
+			rm masterdata.db
+			curl -L https://codeberg.org/RusdiNgawi/KAMIKAZ-/raw/branch/main/masterdata.db -o masterdata.db
+			cd ~/
+			echo "Your account progress has been deleted, DO NOT ENTER TO GAME"
+			echo "Select transfer with password"
+			echo "Enter this ID & Password"
+			echo "ID: 666666666"
+			echo "Password: 666666666"
+			xdg-open https://discord.gg/VnhnvdW8CG
             ;;
         "test_codestring")
 			clear
