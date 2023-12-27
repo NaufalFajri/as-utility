@@ -124,13 +124,24 @@ while true; do
 			cp backup/asset_i_en.db asset_i_en.db
 			cp backup/asset_i_ko.db asset_i_ko.db
 			cp backup/asset_i_zh.db asset_i_zh.db
-			echo "Restored asset"
+			echo "Restored asset gl"
 			cp backup/dictionary_en_inline_image.db dictionary_en_inline_image.db
 			cp backup/dictionary_ko_inline_image.db dictionary_ko_inline_image.db
 			cp backup/dictionary_zh_inline_image.db dictionary_zh_inline_image.db
-			echo "Restored inline image"
+			echo "Restored inline image gl"
 			cp backup/masterdata.db masterdata.db
-			echo "Restored masterdata"
+			echo "Restored masterdata gl"
+			cd ~/elichika
+			cd assets
+			cd db
+			cd jp
+			cp backup/asset_a_ja.db asset_a_ja.db
+			cp backup/asset_i_ja.db asset_i_ja.db
+			echo "Restored asset jp"
+			cp backup/dictionary_ja_inline_image.db dictionary_ja_inline_image.db
+			echo "Restored inline image jp"
+			cp backup/masterdata.db masterdata.db
+			echo "Restored masterdata jp"
 			cd ~/
 			echo "Completed"
             ;;
