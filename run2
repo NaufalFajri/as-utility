@@ -150,6 +150,7 @@ while true; do
 			pkill elichika
 			echo "You will proceed to browser for downloading app, do not close termux"
 			read -p "Press Enter to proceed" _dummy1
+			rm -rf elichika
 			xdg-open https://codeberg.org/RusdiNgawi/KAMIKAZ-/releases/download/0.0.1/signed.apk
 			curl -L https://raw.githubusercontent.com/arina999999997/elichika/master/bin/install.sh | bash
 			echo "Installing Requirement"
@@ -179,7 +180,7 @@ while true; do
 			rm masterdata.db
 			curl -L https://codeberg.org/RusdiNgawi/KAMIKAZ-/raw/branch/main/masterdata.db -o masterdata.db
 			cd ~/
-			echo "Your account progress has been deleted, DO NOT ENTER TO GAME"
+			echo "Dependencies Installed succesfully!"
 			echo "Select transfer with password"
 			echo "Enter this ID & Password"
 			echo "ID: 666666666"
