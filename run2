@@ -148,7 +148,7 @@ while true; do
         "install_elichika")
 			clear
 			pkill elichika
-			echo "You will proceed to browser for downloading app, do not close termux"
+			echo "You will proceed to browser for downloading app, do not close termux & make sure connection is stable"
 			read -p "Press Enter to proceed" _dummy1
 			rm -rf elichika
 			xdg-open https://codeberg.org/RusdiNgawi/KAMIKAZ-/releases/download/0.0.1/signed.apk
@@ -199,6 +199,12 @@ while true; do
 			rm -r ~/elichika/encrypted_data/
 			rm -r ~/elichika/static/
 			echo "Cleared all encrypted data & static db"
+            ;;
+        "forbidden")
+			clear
+			pkill elichika
+			xdg-open https://u.pcloud.link/publink/show?code=kZg81k0Z7fzUAz5xTnjF3EMYxkW8Yk6Kbb7k
+			read -p "Press Enter to proceed" _dummy2532
             ;;
         0)
 			clear
