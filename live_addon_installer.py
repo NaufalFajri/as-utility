@@ -61,7 +61,31 @@ def generate_unique_music_id1(cursor):
         cursor.execute("SELECT COUNT(*) FROM main.m_live_difficulty WHERE live_id = ?;", (new_id42a,))
         count = cursor.fetchone()[0]
         if count == 0:
-            return new_id42a  
+            return new_id42a
+
+def generate_unique_liveconst1_id(cursor):
+    while True:
+        new_id42a311 = random.randint(0, 99999999)
+        cursor.execute("SELECT COUNT(*) FROM main.m_live_difficulty_const WHERE id = ?;", (new_id42a311,))
+        count = cursor.fetchone()[0]
+        if count == 0:
+            return new_id42a311              
+            
+def generate_unique_liveconst2_id(cursor):
+    while True:
+        new_id42a322 = random.randint(0, 99999999)
+        cursor.execute("SELECT COUNT(*) FROM main.m_live_difficulty_const WHERE id = ?;", (new_id42a322,))
+        count = cursor.fetchone()[0]
+        if count == 0:
+            return new_id42a322   
+            
+def generate_unique_liveconst3_id(cursor):
+    while True:
+        new_id42a333 = random.randint(0, 99999999)
+        cursor.execute("SELECT COUNT(*) FROM main.m_live_difficulty_const WHERE id = ?;", (new_id42a333,))
+        count = cursor.fetchone()[0]
+        if count == 0:
+            return new_id42a333     
 
 def generate_unique_music_id2(cursor):
     while True:
@@ -420,10 +444,14 @@ with sqlite3.connect('assets/db/gl/masterdata.db') as conn:
     music_diff1g_masterdata = generate_unique_music_id2a(cursor)
     music_diff2g_masterdata = generate_unique_music_id2b(cursor)
     music_diff3g_masterdata = generate_unique_music_id2c(cursor)
-    music_name_dictionary_masterdata = "inline_image.song_name_so" + str(live_id_masterdata)
-    music_id_copyright_masterdata = "inline_image.song_copyright_so" + str(live_id_masterdata)
-    music_name_dictionary_dic = "song_name_so" + str(live_id_masterdata)
-    music_id_copyright_dic = "song_copyright_so" + str(live_id_masterdata)
+    music_name_dictionary_masterdata = "inline_image.song_name_so" + str(music_id_masterdata)
+    music_id_copyright_masterdata = "inline_image.song_copyright_so" + str(music_id_masterdata)
+    music_name_dictionary_dic = "song_name_so" + str(music_id_masterdata)
+    music_id_copyright_dic = "song_copyright_so" + str(music_id_masterdata)
+    
+    live_constaddon_easy = generate_unique_liveconst1_id(cursor)
+    live_constaddon_normal = generate_unique_liveconst2_id(cursor)
+    live_constaddon_hard = generate_unique_liveconst3_id(cursor)
     
     # Find the minimum display_order for the given chara_id
     cursor.execute("SELECT MAX(display_order) FROM main.m_live WHERE member_group=?;", (member_group_live,))
@@ -446,34 +474,32 @@ with sqlite3.connect('assets/db/gl/masterdata.db') as conn:
                    (live_id_masterdata, music_id_masterdata, sheet_name_file, sheet_name_file1, member_mapping_live, music_name_dictionary_masterdata, donot_insert, member_group_live, donot_insert, donot_insert, music_id_copyright_masterdata, donot_insert, thumbnail_music_path, display_order_new))
    
     # using template live_id 12048
-    # by defualt maximum score to get is 4 which is pointless (1C, 2B, 3A, 4S)
-    # no consumed LP
-    # no reward
-    # no drop item
-    # no skip ticket requirement
-    # no stamina damage
-    # no recommend requirement
+    # no drop item https://github.com/arina999999997/elichika/tree/master/docs#server-implement-progress
+    # cannot get information AC, Note Gimmick & Live Gimmick
     # if you are dev, feel free to edit
     
-    cursor.execute("INSERT INTO main.m_live_difficulty (live_difficulty_id, live_id, live_3d_asset_master_id, live_difficulty_type, unlock_pattern, default_attribute, target_voltage, note_emit_msec, recommended_score, recommended_stamina, consumed_lp, reward_user_exp, judge_id, note_drop_group_id, drop_choose_count, rare_drop_rate, drop_content_group_id, rare_drop_content_group_id, additional_drop_max_count, additional_drop_content_group_id, additional_rare_drop_content_group_id,bottom_technique, additional_drop_decay_technique, reward_base_love_point, evaluation_s_score, evaluation_a_score, evaluation_b_score, evaluation_c_score, updated_at, lose_at_death, autoplay_requirement_id, skip_master_id, stamina_voltage_group_id, combo_voltage_group_id, difficulty_const_master_id, is_count_target, insufficient_rate) VALUES (?, ?, ?, 10, '1', ?, '4', '3620', '0', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '50000', '9000', '0', '4', '3', '2', '1', '0', '1', ?, ?, '1', '1', '10027101', '1', '0');",
-                   (music_diff1_masterdata, live_id_masterdata, donot_insert, attribute_live, donot_insert, donot_insert,))
+    cursor.execute("INSERT INTO main.m_live_difficulty (live_difficulty_id, live_id, live_3d_asset_master_id, live_difficulty_type, unlock_pattern, default_attribute, target_voltage, note_emit_msec, recommended_score, recommended_stamina, consumed_lp, reward_user_exp, judge_id, note_drop_group_id, drop_choose_count, rare_drop_rate, drop_content_group_id, rare_drop_content_group_id, additional_drop_max_count, additional_drop_content_group_id, additional_rare_drop_content_group_id,bottom_technique, additional_drop_decay_technique, reward_base_love_point, evaluation_s_score, evaluation_a_score, evaluation_b_score, evaluation_c_score, updated_at, lose_at_death, autoplay_requirement_id, skip_master_id, stamina_voltage_group_id, combo_voltage_group_id, difficulty_const_master_id, is_count_target, insufficient_rate) VALUES (?, ?, ?, 10, '1', ?, ?, '3620', ?, ?, '10', '8', '1', '0', '0', '0', '0', '0', '0', '0', '0', '50000', '9000', '12', ?, ?, ?, ?, '0', '1', ?, '16001', '1', '1', ?, '1', '6000');",
+                   (music_diff1_masterdata, live_id_masterdata, donot_insert, attribute_live, evaluation_s_score_easy, recommend_power_easy, recommend_stamina_easy, evaluation_s_score_easy, evaluation_a_score_easy, evaluation_b_score_easy, evaluation_c_score_easy, donot_insert, live_constaddon_easy,))
 
-    cursor.execute("INSERT INTO main.m_live_difficulty (live_difficulty_id, live_id, live_3d_asset_master_id, live_difficulty_type, unlock_pattern, default_attribute, target_voltage, note_emit_msec, recommended_score, recommended_stamina, consumed_lp, reward_user_exp, judge_id, note_drop_group_id, drop_choose_count, rare_drop_rate, drop_content_group_id, rare_drop_content_group_id, additional_drop_max_count, additional_drop_content_group_id, additional_rare_drop_content_group_id,bottom_technique, additional_drop_decay_technique, reward_base_love_point, evaluation_s_score, evaluation_a_score, evaluation_b_score, evaluation_c_score, updated_at, lose_at_death, autoplay_requirement_id, skip_master_id, stamina_voltage_group_id, combo_voltage_group_id, difficulty_const_master_id, is_count_target, insufficient_rate) VALUES (?, ?, ?, 20, '1', ?, '4', '3077', '0', '0', '0', '0', '2', '0', '0', '0', '0', '0', '0', '0', '0', '60000', '9000', '0', '4', '3', '2', '1', '0', '1', ?, ?, '1', '1', '10027201', '1', '0');",
-                   (music_diff2_masterdata, live_id_masterdata, donot_insert, attribute_live, donot_insert, donot_insert,))
+    cursor.execute("INSERT INTO main.m_live_difficulty (live_difficulty_id, live_id, live_3d_asset_master_id, live_difficulty_type, unlock_pattern, default_attribute, target_voltage, note_emit_msec, recommended_score, recommended_stamina, consumed_lp, reward_user_exp, judge_id, note_drop_group_id, drop_choose_count, rare_drop_rate, drop_content_group_id, rare_drop_content_group_id, additional_drop_max_count, additional_drop_content_group_id, additional_rare_drop_content_group_id,bottom_technique, additional_drop_decay_technique, reward_base_love_point, evaluation_s_score, evaluation_a_score, evaluation_b_score, evaluation_c_score, updated_at, lose_at_death, autoplay_requirement_id, skip_master_id, stamina_voltage_group_id, combo_voltage_group_id, difficulty_const_master_id, is_count_target, insufficient_rate) VALUES (?, ?, ?, 20, '1', ?, ?, '3077', ?, ?, '12', '13', '2', '0', '0', '0', '0', '0', '0', '0', '0', '60000', '9000', '14', ?, ?, ?, ?, '0', '1', ?, '16001', '1', '1', ?, '1', '6000');",
+                   (music_diff2_masterdata, live_id_masterdata, donot_insert, attribute_live, evaluation_s_score_normal, recommend_power_normal, recommend_stamina_normal, evaluation_s_score_normal, evaluation_a_score_normal, evaluation_b_score_normal, evaluation_c_score_normal, donot_insert, live_constaddon_normal,))
                    
-    cursor.execute("INSERT INTO main.m_live_difficulty (live_difficulty_id, live_id, live_3d_asset_master_id, live_difficulty_type, unlock_pattern, default_attribute, target_voltage, note_emit_msec, recommended_score, recommended_stamina, consumed_lp, reward_user_exp, judge_id, note_drop_group_id, drop_choose_count, rare_drop_rate, drop_content_group_id, rare_drop_content_group_id, additional_drop_max_count, additional_drop_content_group_id, additional_rare_drop_content_group_id,bottom_technique, additional_drop_decay_technique, reward_base_love_point, evaluation_s_score, evaluation_a_score, evaluation_b_score, evaluation_c_score, updated_at, lose_at_death, autoplay_requirement_id, skip_master_id, stamina_voltage_group_id, combo_voltage_group_id, difficulty_const_master_id, is_count_target, insufficient_rate) VALUES (?, ?, ?, 30, '1', ?, '4', '2534', '0', '0', '0', '0', '3', '0', '0', '0', '0', '0', '0', '0', '0', '70000', '9000', '0', '4', '3', '2', '1', '0', '1', ?, ?, '1', '1', '10027301', '1', '0');",
-                   (music_diff3_masterdata, live_id_masterdata, donot_insert, attribute_live, donot_insert, donot_insert,))
+    cursor.execute("INSERT INTO main.m_live_difficulty (live_difficulty_id, live_id, live_3d_asset_master_id, live_difficulty_type, unlock_pattern, default_attribute, target_voltage, note_emit_msec, recommended_score, recommended_stamina, consumed_lp, reward_user_exp, judge_id, note_drop_group_id, drop_choose_count, rare_drop_rate, drop_content_group_id, rare_drop_content_group_id, additional_drop_max_count, additional_drop_content_group_id, additional_rare_drop_content_group_id,bottom_technique, additional_drop_decay_technique, reward_base_love_point, evaluation_s_score, evaluation_a_score, evaluation_b_score, evaluation_c_score, updated_at, lose_at_death, autoplay_requirement_id, skip_master_id, stamina_voltage_group_id, combo_voltage_group_id, difficulty_const_master_id, is_count_target, insufficient_rate) VALUES (?, ?, ?, 30, '1', ?, ?, '2534', ?, ?, '15', '21', '3', '0', '0', '0', '0', '0', '0', '0', '0', '70000', '9000', '16', ?, ?, ?, ?, '0', '1', ?, '16001', '1', '1', ?, '1', '6000');",
+                   (music_diff3_masterdata, live_id_masterdata, donot_insert, attribute_live, evaluation_s_score_hard, recommend_power_hard, recommend_stamina_hard, evaluation_s_score_hard, evaluation_a_score_hard, evaluation_b_score_hard, evaluation_c_score_hard, donot_insert, live_constaddon_hard,))
                    
+    cursor.execute("INSERT INTO main.m_live_difficulty_const (id, sp_gauge_length, sp_gauge_additional_rate, sp_gauge_reducing_point, sp_skill_voltage_magnification, note_stamina_reduce, note_voltage_upper_limit, collabo_voltage_upper_limit, skill_voltage_upper_limit, squad_change_voltage_upper_limit) VALUES (?, '3600', '10000', '50', '10000', ?, '100000', '250000', '50000', '30000');", (live_constaddon_easy, note_stamina_damage_easy,))
+    cursor.execute("INSERT INTO main.m_live_difficulty_const (id, sp_gauge_length, sp_gauge_additional_rate, sp_gauge_reducing_point, sp_skill_voltage_magnification, note_stamina_reduce, note_voltage_upper_limit, collabo_voltage_upper_limit, skill_voltage_upper_limit, squad_change_voltage_upper_limit) VALUES (?, '4800', '10000', '75', '10000', ?, '100000', '250000', '50000', '30000');", (live_constaddon_normal, note_stamina_damage_normal,))
+    cursor.execute("INSERT INTO main.m_live_difficulty_const (id, sp_gauge_length, sp_gauge_additional_rate, sp_gauge_reducing_point, sp_skill_voltage_magnification, note_stamina_reduce, note_voltage_upper_limit, collabo_voltage_upper_limit, skill_voltage_upper_limit, squad_change_voltage_upper_limit) VALUES (?, '6000', '10000', '100', '10000', ?, '100000', '250000', '50000', '30000');", (live_constaddon_hard, note_stamina_damage_hard,))
     # live end give you reward 10 stargem
     cursor.execute("INSERT INTO main.m_live_difficulty_mission (live_difficulty_master_id, position, target_type, target_value, content_type, content_id, content_amount) VALUES (?, '1', '1', '1', '1', '0', '2');", (music_diff1_masterdata,))
-    cursor.execute("INSERT INTO main.m_live_difficulty_mission (live_difficulty_master_id, position, target_type, target_value, content_type, content_id, content_amount) VALUES (?, '2', '6', '2', '1', '0', '3');", (music_diff1_masterdata,))
-    cursor.execute("INSERT INTO main.m_live_difficulty_mission (live_difficulty_master_id, position, target_type, target_value, content_type, content_id, content_amount) VALUES (?, '3', '4', '4', '1', '0', '5');", (music_diff1_masterdata,))
+    cursor.execute("INSERT INTO main.m_live_difficulty_mission (live_difficulty_master_id, position, target_type, target_value, content_type, content_id, content_amount) VALUES (?, '2', '6', ?, '1', '0', '3');", (music_diff1_masterdata, evaluation_b_score_easy,))
+    cursor.execute("INSERT INTO main.m_live_difficulty_mission (live_difficulty_master_id, position, target_type, target_value, content_type, content_id, content_amount) VALUES (?, '3', '4', ?, '1', '0', '5');", (music_diff1_masterdata, evaluation_s_score_easy,))
     cursor.execute("INSERT INTO main.m_live_difficulty_mission (live_difficulty_master_id, position, target_type, target_value, content_type, content_id, content_amount) VALUES (?, '1', '1', '1', '1', '0', '2');", (music_diff2_masterdata,))
-    cursor.execute("INSERT INTO main.m_live_difficulty_mission (live_difficulty_master_id, position, target_type, target_value, content_type, content_id, content_amount) VALUES (?, '2', '6', '2', '1', '0', '3');", (music_diff2_masterdata,))
-    cursor.execute("INSERT INTO main.m_live_difficulty_mission (live_difficulty_master_id, position, target_type, target_value, content_type, content_id, content_amount) VALUES (?, '3', '4', '4', '1', '0', '5');", (music_diff2_masterdata,))
+    cursor.execute("INSERT INTO main.m_live_difficulty_mission (live_difficulty_master_id, position, target_type, target_value, content_type, content_id, content_amount) VALUES (?, '2', '6', ?, '1', '0', '3');", (music_diff2_masterdata, evaluation_b_score_normal,))
+    cursor.execute("INSERT INTO main.m_live_difficulty_mission (live_difficulty_master_id, position, target_type, target_value, content_type, content_id, content_amount) VALUES (?, '3', '4', ?, '1', '0', '5');", (music_diff2_masterdata, evaluation_s_score_normal,))
     cursor.execute("INSERT INTO main.m_live_difficulty_mission (live_difficulty_master_id, position, target_type, target_value, content_type, content_id, content_amount) VALUES (?, '1', '1', '1', '1', '0', '2');", (music_diff3_masterdata,))
-    cursor.execute("INSERT INTO main.m_live_difficulty_mission (live_difficulty_master_id, position, target_type, target_value, content_type, content_id, content_amount) VALUES (?, '2', '6', '2', '1', '0', '3');", (music_diff3_masterdata,))
-    cursor.execute("INSERT INTO main.m_live_difficulty_mission (live_difficulty_master_id, position, target_type, target_value, content_type, content_id, content_amount) VALUES (?, '3', '4', '4', '1', '0', '5');", (music_diff3_masterdata,))
+    cursor.execute("INSERT INTO main.m_live_difficulty_mission (live_difficulty_master_id, position, target_type, target_value, content_type, content_id, content_amount) VALUES (?, '2', '6', ?, '1', '0', '3');", (music_diff3_masterdata, evaluation_b_score_hard,))
+    cursor.execute("INSERT INTO main.m_live_difficulty_mission (live_difficulty_master_id, position, target_type, target_value, content_type, content_id, content_amount) VALUES (?, '3', '4', ?, '1', '0', '5');", (music_diff3_masterdata, evaluation_s_score_hard,))
     
     if 'videoprime_file' in globals() or 'videoprime_file' in locals():
         cursor.execute("INSERT INTO main.m_live_movie (live_id, codec, movie_asset_path, stage_background_asset_path) VALUES (?, 'prime', ?, 'Bl7');", (live_id_masterdata, movie_genpath))
