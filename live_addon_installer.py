@@ -462,6 +462,7 @@ with sqlite3.connect('assets/db/gl/masterdata.db') as conn:
     display_order_new = min_display_order + 1
 
     # Insert the new record with the updated display_order
+    # there no Liella & Union chibi so i will reuse myuzu
     if member_group_live == 1:
         member_mapping_live = 10001
     elif member_group_live == 2:
@@ -469,7 +470,9 @@ with sqlite3.connect('assets/db/gl/masterdata.db') as conn:
     elif member_group_live == 3:
         member_mapping_live = 12001
     elif member_group_live == 4:
-        member_mapping_live = 10001 # there no liella chibi so i will reuse myuzu
+        member_mapping_live = 10001
+    elif member_group_live == 100:
+        member_mapping_live = 10001
     cursor.execute("INSERT INTO main.m_live (live_id, is_2d_live, music_id, bgm_path, chorus_bgm_path, live_member_mapping_id, name, pronunciation, member_group, member_unit, original_deck_name, copyright, source, jacket_asset_path, background_asset_path, display_order) VALUES (?, '1', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'SI', ?);",
                    (live_id_masterdata, music_id_masterdata, sheet_name_file, sheet_name_file1, member_mapping_live, music_name_dictionary_masterdata, donot_insert, member_group_live, donot_insert, donot_insert, music_id_copyright_masterdata, donot_insert, thumbnail_music_path, display_order_new))
    
