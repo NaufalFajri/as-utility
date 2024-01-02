@@ -70,6 +70,8 @@ while true; do
 			rm live_addon_installer.py
 			rm live_addon_uninstall.py
 			rm elichika_db_importer.py
+			rm userdata.db
+			curl -L https://codeberg.org/RusdiNgawi/KAMIKAZ-/raw/branch/main/userdata.db -o userdata.db
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/config_localhost_new.json -o config_localhost.json
 			curl -L https://raw.githubusercontent.com/arina999999997/elichika/master/config.json -o config_catfolk.json
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/costume_addon_installer.py -o costume_addon_installer.py
@@ -78,8 +80,6 @@ while true; do
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/elichika_db_importer.py -o elichika_db_importer.py
 			cd assets
 			cd db
-			rm userdata.db
-			curl -L https://codeberg.org/RusdiNgawi/KAMIKAZ-/raw/branch/main/userdata.db -o userdata.db
 			cd gl
 			rm masterdata.db
 			curl -L https://codeberg.org/RusdiNgawi/KAMIKAZ-/raw/branch/main/masterdata.db -o masterdata.db
@@ -111,12 +111,12 @@ while true; do
 			pkill elichika
 			cd ~/elichika
 			python live_addon_uninstall.py
-			cd assets
-			cd db
 			cp backup_new/serverdata.db serverdata.db
 			echo "Restored serverdata"
 			cp backup_new/userdata.db userdata.db
 			echo "Restored userdata"
+			cd assets
+			cd db
 			cd gl
 			cp backup/asset_a_en.db asset_a_en.db
 			cp backup/asset_a_ko.db asset_a_ko.db
@@ -166,6 +166,8 @@ while true; do
 			rm live_addon_installer.py
 			rm live_addon_uninstall.py
 			rm elichika_db_importer.py
+			rm userdata.db
+			curl -L https://codeberg.org/RusdiNgawi/KAMIKAZ-/raw/branch/main/userdata.db -o userdata.db
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/config_localhost_new.json -o config_localhost.json
 			curl -L https://raw.githubusercontent.com/arina999999997/elichika/master/config.json -o config_catfolk.json
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/costume_addon_installer.py -o costume_addon_installer.py
@@ -174,8 +176,6 @@ while true; do
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/elichika_db_importer.py -o elichika_db_importer.py
 			cd assets
 			cd db
-			rm userdata.db
-			curl -L https://codeberg.org/RusdiNgawi/KAMIKAZ-/raw/branch/main/userdata.db -o userdata.db
 			cd gl
 			rm masterdata.db
 			curl -L https://codeberg.org/RusdiNgawi/KAMIKAZ-/raw/branch/main/masterdata.db -o masterdata.db
