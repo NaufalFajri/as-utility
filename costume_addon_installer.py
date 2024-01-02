@@ -40,8 +40,8 @@ def create_backup_elichika_new(source_file_elichika_new, backup_file_elichika_ne
         print(f"Error creating backup: {e}")
 
 # Example usage:
-source_file_elichika_new = "assets/db/userdata.db"
-backup_file_elichika_new = "assets/db/backup_new/userdata.db"
+source_file_elichika_new = "userdata.db"
+backup_file_elichika_new = "backup_new/userdata.db"
 
 def create_backup_elichika_new1(source_file_elichika_new1, backup_file_elichika_new1):
     if os.path.exists(backup_file_elichika_new1):
@@ -55,8 +55,8 @@ def create_backup_elichika_new1(source_file_elichika_new1, backup_file_elichika_
         print(f"Error creating backup: {e}")
 
 # Example usage:
-source_file_elichika_new1 = "assets/db/serverdata.db"
-backup_file_elichika_new1 = "assets/db/backup_new/serverdata.db"
+source_file_elichika_new1 = "serverdata.db"
+backup_file_elichika_new1 = "backup_new/serverdata.db"
 
 def create_backup_elichika_old(source_file_elichika_old, backup_file_elichika_old):
     if os.path.exists(backup_file_elichika_old):
@@ -3226,14 +3226,14 @@ with sqlite3.connect('assets/db/gl/dictionary_zh_inline_image.db') as conn:
     cursor = conn.cursor()
     cursor.execute("INSERT INTO main.m_dictionary (id, message) VALUES (?, ?);", (costume_dictionary, costume_name))
             
-file_path_trade_stuff = 'assets/db/userdata.db'
-file_path_oldelichika_stuff = 'assets/db/serverdata.db'
+file_path_trade_stuff = 'userdata.db'
+file_path_oldelichika_stuff = 'serverdata.db'
 
 # Check if the file exists
 if os.path.exists(file_path_trade_stuff):
     # File exists, proceed with reading and modifying
     print("elichika new version detected, adding to gold exchange shop")
-    backup_trade_path = "assets/db/backup_new/"
+    backup_trade_path = "backup_new"
 
     if not os.path.exists(backup_trade_path):
         os.makedirs(backup_trade_path)
@@ -3251,7 +3251,7 @@ if os.path.exists(file_path_trade_stuff):
         cursor.execute("INSERT INTO main.m_trade_product_content (id, trade_product_master_id, content_display_order) VALUES (?, ?, '1');", (trade_content_into_json, trade_id_into_json))
         cursor.execute("INSERT INTO main.m_trade_product_content_category (trade_category_master_pattern_id, trade_category_master_id, content_type, content_id) VALUES (0, ?, '7', ?);", (chara_id_group, costume_id_masterdata))
         
-    with sqlite3.connect('assets/db/serverdata.db') as conn:
+    with sqlite3.connect('serverdata.db') as conn:
         cursor = conn.cursor()
         
         cursor.execute("INSERT INTO main.s_trade_product (product_id, trade_id, source_amount, stock_amount, content_type, content_id, content_amount) VALUES (?, '1200', '1', ?, '7', ?, 1);", (trade_id_into_json, donot_insert, costume_id_masterdata))
