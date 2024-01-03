@@ -7,8 +7,9 @@ while true; do
     echo "1. Run Server"
 	echo "2. Add New Costume"
 	echo "3. Add New Live"
-	echo "4. Import SQL"
-	echo "5. Update Dependencies & Script"
+	echo "4. Add New DLP"
+	echo "5. Import SQL"
+	echo "6. Update Dependencies & Script"
     echo "0. Exit"
 
     read -p "Enter your choice: " choice
@@ -50,11 +51,22 @@ while true; do
 			echo "PLEASE CHANGE DOWNLOAD SETTINGS TO FULL"
 			echo "ONCE THE DOWNLOAD IS COMPLETED, YOU CAN ADD PROCEED THIS"
 			echo "THIS WILL PREVENT ADDITIONAL FILES FROM BEING DELETED DURING DOWNLOAD CONFIRMATION"
+			read -p "Press Enter to proceed" _dummy334
+			python tower_addon_installer.py
+			cd ~/
+            ;;
+        5)
+			clear
+      pkill elichika
+			cd ~/elichika
+			echo "PLEASE CHANGE DOWNLOAD SETTINGS TO FULL"
+			echo "ONCE THE DOWNLOAD IS COMPLETED, YOU CAN ADD PROCEED THIS"
+			echo "THIS WILL PREVENT ADDITIONAL FILES FROM BEING DELETED DURING DOWNLOAD CONFIRMATION"
 			read -p "Press Enter to proceed" _dummy4
 			python elichika_db_importer.py
 			cd ~/
             ;;
-        5)
+        6)
 			clear
       pkill elichika
 			cd ~/
@@ -70,6 +82,7 @@ while true; do
 			curl -L https://codeberg.org/RusdiNgawi/KAMIKAZ-/raw/branch/main/userdata.db -o userdata.db
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/costume_addon_installer.py -o costume_addon_installer.py
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/live_addon_installer.py -o live_addon_installer.py
+			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/tower_addon_installer.py -o tower_addon_installer.py
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/live_addon_uninstall.py.py -o live_addon_uninstall.py
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/elichika_db_importer.py -o elichika_db_importer.py
 			cd assets
@@ -146,6 +159,7 @@ while true; do
 			curl -L https://codeberg.org/RusdiNgawi/KAMIKAZ-/raw/branch/main/userdata.db -o userdata.db
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/costume_addon_installer.py -o costume_addon_installer.py
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/live_addon_installer.py -o live_addon_installer.py
+			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/tower_addon_installer.py -o tower_addon_installer.py
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/live_addon_uninstall.py.py -o live_addon_uninstall.py
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/elichika_db_importer.py -o elichika_db_importer.py
 			cd assets
