@@ -83,7 +83,7 @@ while true; do
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/costume_addon_installer.py -o costume_addon_installer.py
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/live_addon_installer.py -o live_addon_installer.py
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/tower_addon_installer.py -o tower_addon_installer.py
-			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/live_addon_uninstall.py.py -o live_addon_uninstall.py
+			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/live_addon_uninstall.py -o live_addon_uninstall.py
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/elichika_db_importer.py -o elichika_db_importer.py
 			cd assets
 			cd db
@@ -160,7 +160,7 @@ while true; do
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/costume_addon_installer.py -o costume_addon_installer.py
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/live_addon_installer.py -o live_addon_installer.py
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/tower_addon_installer.py -o tower_addon_installer.py
-			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/live_addon_uninstall.py.py -o live_addon_uninstall.py
+			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/live_addon_uninstall.py -o live_addon_uninstall.py
 			curl -L https://raw.githubusercontent.com/NaufalFajri/as-utility/main/elichika_db_importer.py -o elichika_db_importer.py
 			cd assets
 			cd db
