@@ -465,30 +465,460 @@ with sqlite3.connect('assets/db/gl/masterdata.db') as conn:
     # there no Liella & Union chibi so i will reuse myuzu
     if member_group_live == 1:
         member_mapping_live = 10001
+        if attribute_live == 1:
+            drop_live_item1_easy = 104100110
+            drop_live_item1_normal = 104100120
+            drop_live_item1_hard = 104100130
+            drop_live_item2_easy = 100100110
+            drop_live_item2_normal = 100100120
+            drop_live_item2_hard = 100100130
+            drop_live_item3_easy = 101100110
+            drop_live_item3_normal = 101100120
+            drop_live_item3_hard = 101100130
+            drop_live_item4_easy = 102100110
+            drop_live_item4_normal = 102100120
+            drop_live_item4_hard = 102100130
+            drop_live_item5_easy = 103100110
+            drop_live_item5_normal = 103100120
+            drop_live_item5_hard = 103100130
+        elif attribute_live == 2:
+            drop_live_item1_easy = 104200110
+            drop_live_item1_normal = 104200120
+            drop_live_item1_hard = 104200130
+            drop_live_item2_easy = 100200110
+            drop_live_item2_normal = 100200120
+            drop_live_item2_hard = 100200130
+            drop_live_item3_easy = 101200110
+            drop_live_item3_normal = 101200120
+            drop_live_item3_hard = 101200130
+            drop_live_item4_easy = 102200110
+            drop_live_item4_normal = 102200120
+            drop_live_item4_hard = 102200130
+            drop_live_item5_easy = 103200110
+            drop_live_item5_normal = 103200120
+            drop_live_item5_hard = 103200130
+        elif attribute_live == 3:
+            drop_live_item1_easy = 104300110
+            drop_live_item1_normal = 104300120
+            drop_live_item1_hard = 104300130
+            drop_live_item2_easy = 100300110
+            drop_live_item2_normal = 100300120
+            drop_live_item2_hard = 100300130
+            drop_live_item3_easy = 101300110
+            drop_live_item3_normal = 101300120
+            drop_live_item3_hard = 101300130
+            drop_live_item4_easy = 102300110
+            drop_live_item4_normal = 102300120
+            drop_live_item4_hard = 102300130
+            drop_live_item5_easy = 103300110
+            drop_live_item5_normal = 103300120
+            drop_live_item5_hard = 103300130
+        elif attribute_live == 4:
+            drop_live_item1_easy = 104400110
+            drop_live_item1_normal = 104400120
+            drop_live_item1_hard = 104400130
+            drop_live_item2_easy = 100400110
+            drop_live_item2_normal = 100400120
+            drop_live_item2_hard = 100400130
+            drop_live_item3_easy = 101400110
+            drop_live_item3_normal = 101400120
+            drop_live_item3_hard = 101400130
+            drop_live_item4_easy = 102400110
+            drop_live_item4_normal = 102400120
+            drop_live_item4_hard = 102400130
+            drop_live_item5_easy = 103400110
+            drop_live_item5_normal = 103400120
+            drop_live_item5_hard = 103400130
+        elif attribute_live == 5:
+            drop_live_item1_easy = 104500110
+            drop_live_item1_normal = 104500120
+            drop_live_item1_hard = 104500130
+            drop_live_item2_easy = 100500110
+            drop_live_item2_normal = 100500120
+            drop_live_item2_hard = 100500130
+            drop_live_item3_easy = 101500110
+            drop_live_item3_normal = 101500120
+            drop_live_item3_hard = 101500130
+            drop_live_item4_easy = 102500110
+            drop_live_item4_normal = 102500120
+            drop_live_item4_hard = 102500130
+            drop_live_item5_easy = 103500110
+            drop_live_item5_normal = 103500120
+            drop_live_item5_hard = 103500130
+        elif attribute_live == 6:
+            drop_live_item1_easy = 104600110
+            drop_live_item1_normal = 104600120
+            drop_live_item1_hard = 104600130
+            drop_live_item2_easy = 100600110
+            drop_live_item2_normal = 100600120
+            drop_live_item2_hard = 100600130
+            drop_live_item3_easy = 101600110
+            drop_live_item3_normal = 101600120
+            drop_live_item3_hard = 101600130
+            drop_live_item4_easy = 102600110
+            drop_live_item4_normal = 102600120
+            drop_live_item4_hard = 102600130
+            drop_live_item5_easy = 103600110
+            drop_live_item5_normal = 103600120
+            drop_live_item5_hard = 103600130
+        else:
+            drop_live_item1_easy = 0
+            drop_live_item1_normal = 0
+            drop_live_item1_hard = 0
+            drop_live_item2_easy = 0
+            drop_live_item2_normal = 0
+            drop_live_item2_hard = 0
+            drop_live_item3_easy = 0
+            drop_live_item3_normal = 0
+            drop_live_item3_hard = 0
+            drop_live_item4_easy = 0
+            drop_live_item4_normal = 0
+            drop_live_item4_hard = 0
+            drop_live_item5_easy = 0
+            drop_live_item5_normal = 0
+            drop_live_item5_hard = 0
     elif member_group_live == 2:
         member_mapping_live = 11001
+        if attribute_live == 1:
+            drop_live_item1_easy = 104100210
+            drop_live_item1_normal = 104100220
+            drop_live_item1_hard = 104100230
+            drop_live_item2_easy = 100100210
+            drop_live_item2_normal = 100100220
+            drop_live_item2_hard = 100100230
+            drop_live_item3_easy = 101100210
+            drop_live_item3_normal = 101100220
+            drop_live_item3_hard = 101100230
+            drop_live_item4_easy = 102100210
+            drop_live_item4_normal = 102100220
+            drop_live_item4_hard = 102100230
+            drop_live_item5_easy = 103100210
+            drop_live_item5_normal = 103100220
+            drop_live_item5_hard = 103100230
+        elif attribute_live == 2:
+            drop_live_item1_easy = 104200210
+            drop_live_item1_normal = 104200220
+            drop_live_item1_hard = 104200230
+            drop_live_item2_easy = 100200210
+            drop_live_item2_normal = 100200220
+            drop_live_item2_hard = 100200230
+            drop_live_item3_easy = 101200210
+            drop_live_item3_normal = 101200220
+            drop_live_item3_hard = 101200230
+            drop_live_item4_easy = 102200210
+            drop_live_item4_normal = 102200220
+            drop_live_item4_hard = 102200230
+            drop_live_item5_easy = 103200210
+            drop_live_item5_normal = 103200220
+            drop_live_item5_hard = 103200230
+        elif attribute_live == 3:
+            drop_live_item1_easy = 104300210
+            drop_live_item1_normal = 104300220
+            drop_live_item1_hard = 104300230
+            drop_live_item2_easy = 100300210
+            drop_live_item2_normal = 100300220
+            drop_live_item2_hard = 100300230
+            drop_live_item3_easy = 101300210
+            drop_live_item3_normal = 101300220
+            drop_live_item3_hard = 101300230
+            drop_live_item4_easy = 102300210
+            drop_live_item4_normal = 102300220
+            drop_live_item4_hard = 102300230
+            drop_live_item5_easy = 103300210
+            drop_live_item5_normal = 103300220
+            drop_live_item5_hard = 103300230
+        elif attribute_live == 4:
+            drop_live_item1_easy = 104400210
+            drop_live_item1_normal = 104400220
+            drop_live_item1_hard = 104400230
+            drop_live_item2_easy = 100400210
+            drop_live_item2_normal = 100400220
+            drop_live_item2_hard = 100400230
+            drop_live_item3_easy = 101400210
+            drop_live_item3_normal = 101400220
+            drop_live_item3_hard = 101400230
+            drop_live_item4_easy = 102400210
+            drop_live_item4_normal = 102400220
+            drop_live_item4_hard = 102400230
+            drop_live_item5_easy = 103400210
+            drop_live_item5_normal = 103400220
+            drop_live_item5_hard = 103400230
+        elif attribute_live == 5:
+            drop_live_item1_easy = 104500210
+            drop_live_item1_normal = 104500220
+            drop_live_item1_hard = 104500230
+            drop_live_item2_easy = 100500210
+            drop_live_item2_normal = 100500220
+            drop_live_item2_hard = 100500230
+            drop_live_item3_easy = 101500210
+            drop_live_item3_normal = 101500220
+            drop_live_item3_hard = 101500230
+            drop_live_item4_easy = 102500210
+            drop_live_item4_normal = 102500220
+            drop_live_item4_hard = 102500230
+            drop_live_item5_easy = 103500210
+            drop_live_item5_normal = 103500220
+            drop_live_item5_hard = 103500230
+        elif attribute_live == 6:
+            drop_live_item1_easy = 104600210
+            drop_live_item1_normal = 104600220
+            drop_live_item1_hard = 104600230
+            drop_live_item2_easy = 100600210
+            drop_live_item2_normal = 100600220
+            drop_live_item2_hard = 100600230
+            drop_live_item3_easy = 101600210
+            drop_live_item3_normal = 101600220
+            drop_live_item3_hard = 101600230
+            drop_live_item4_easy = 102600210
+            drop_live_item4_normal = 102600220
+            drop_live_item4_hard = 102600230
+            drop_live_item5_easy = 103600210
+            drop_live_item5_normal = 103600220
+            drop_live_item5_hard = 103600230
+        else:
+            drop_live_item1_easy = 0
+            drop_live_item1_normal = 0
+            drop_live_item1_hard = 0
+            drop_live_item2_easy = 0
+            drop_live_item2_normal = 0
+            drop_live_item2_hard = 0
+            drop_live_item3_easy = 0
+            drop_live_item3_normal = 0
+            drop_live_item3_hard = 0
+            drop_live_item4_easy = 0
+            drop_live_item4_normal = 0
+            drop_live_item4_hard = 0
+            drop_live_item5_easy = 0
+            drop_live_item5_normal = 0
+            drop_live_item5_hard = 0
     elif member_group_live == 3:
-        member_mapping_live = 12001
+        member_mapping_live = 12130
+        if attribute_live == 1:
+            drop_live_item1_easy = 104100610
+            drop_live_item1_normal = 104100620
+            drop_live_item1_hard = 104100630
+            drop_live_item2_easy = 100100610
+            drop_live_item2_normal = 100100620
+            drop_live_item2_hard = 100100630
+            drop_live_item3_easy = 101100610
+            drop_live_item3_normal = 101100620
+            drop_live_item3_hard = 101100630
+            drop_live_item4_easy = 102100610
+            drop_live_item4_normal = 102100620
+            drop_live_item4_hard = 102100630
+            drop_live_item5_easy = 103100610
+            drop_live_item5_normal = 103100620
+            drop_live_item5_hard = 103100630
+        elif attribute_live == 2:
+            drop_live_item1_easy = 104200610
+            drop_live_item1_normal = 104200620
+            drop_live_item1_hard = 104200630
+            drop_live_item2_easy = 100200610
+            drop_live_item2_normal = 100200620
+            drop_live_item2_hard = 100200630
+            drop_live_item3_easy = 101200610
+            drop_live_item3_normal = 101200620
+            drop_live_item3_hard = 101200630
+            drop_live_item4_easy = 102200610
+            drop_live_item4_normal = 102200620
+            drop_live_item4_hard = 102200630
+            drop_live_item5_easy = 103200610
+            drop_live_item5_normal = 103200620
+            drop_live_item5_hard = 103200630
+        elif attribute_live == 3:
+            drop_live_item1_easy = 104300610
+            drop_live_item1_normal = 104300620
+            drop_live_item1_hard = 104300630
+            drop_live_item2_easy = 100300610
+            drop_live_item2_normal = 100300620
+            drop_live_item2_hard = 100300630
+            drop_live_item3_easy = 101300610
+            drop_live_item3_normal = 101300620
+            drop_live_item3_hard = 101300630
+            drop_live_item4_easy = 102300610
+            drop_live_item4_normal = 102300620
+            drop_live_item4_hard = 102300630
+            drop_live_item5_easy = 103300610
+            drop_live_item5_normal = 103300620
+            drop_live_item5_hard = 103300630
+        elif attribute_live == 4:
+            drop_live_item1_easy = 104400610
+            drop_live_item1_normal = 104400620
+            drop_live_item1_hard = 104400630
+            drop_live_item2_easy = 100400610
+            drop_live_item2_normal = 100400620
+            drop_live_item2_hard = 100400630
+            drop_live_item3_easy = 101400610
+            drop_live_item3_normal = 101400620
+            drop_live_item3_hard = 101400630
+            drop_live_item4_easy = 102400610
+            drop_live_item4_normal = 102400620
+            drop_live_item4_hard = 102400630
+            drop_live_item5_easy = 103400610
+            drop_live_item5_normal = 103400620
+            drop_live_item5_hard = 103400630
+        elif attribute_live == 5:
+            drop_live_item1_easy = 104500610
+            drop_live_item1_normal = 104500620
+            drop_live_item1_hard = 104500630
+            drop_live_item2_easy = 100500610
+            drop_live_item2_normal = 100500620
+            drop_live_item2_hard = 100500630
+            drop_live_item3_easy = 101500610
+            drop_live_item3_normal = 101500620
+            drop_live_item3_hard = 101500630
+            drop_live_item4_easy = 102500610
+            drop_live_item4_normal = 102500620
+            drop_live_item4_hard = 102500630
+            drop_live_item5_easy = 103500610
+            drop_live_item5_normal = 103500620
+            drop_live_item5_hard = 103500630
+        elif attribute_live == 6:
+            drop_live_item1_easy = 104600610
+            drop_live_item1_normal = 104600620
+            drop_live_item1_hard = 104600630
+            drop_live_item2_easy = 100600610
+            drop_live_item2_normal = 100600620
+            drop_live_item2_hard = 100600630
+            drop_live_item3_easy = 101600610
+            drop_live_item3_normal = 101600620
+            drop_live_item3_hard = 101600630
+            drop_live_item4_easy = 102600610
+            drop_live_item4_normal = 102600620
+            drop_live_item4_hard = 102600630
+            drop_live_item5_easy = 103600610
+            drop_live_item5_normal = 103600620
+            drop_live_item5_hard = 103600630
+        else:
+            drop_live_item1_easy = 0
+            drop_live_item1_normal = 0
+            drop_live_item1_hard = 0
+            drop_live_item2_easy = 0
+            drop_live_item2_normal = 0
+            drop_live_item2_hard = 0
+            drop_live_item3_easy = 0
+            drop_live_item3_normal = 0
+            drop_live_item3_hard = 0
+            drop_live_item4_easy = 0
+            drop_live_item4_normal = 0
+            drop_live_item4_hard = 0
+            drop_live_item5_easy = 0
+            drop_live_item5_normal = 0
+            drop_live_item5_hard = 0
     elif member_group_live == 4:
         member_mapping_live = 10001
+        if attribute_live == 1:
+            drop_live_item1_easy = 104100410
+            drop_live_item1_normal = 104100410
+            drop_live_item1_hard = 104100410
+            drop_live_item2_easy = 100100410
+            drop_live_item2_normal = 100100410
+            drop_live_item2_hard = 100100410
+            drop_live_item3_easy = 101100410
+            drop_live_item3_normal = 101100410
+            drop_live_item3_hard = 101100410
+            drop_live_item4_easy = 102100410
+            drop_live_item4_normal = 102100410
+            drop_live_item4_hard = 102100410
+            drop_live_item5_easy = 103100410
+            drop_live_item5_normal = 103100410
+            drop_live_item5_hard = 103100410
+        elif attribute_live == 2:
+            drop_live_item1_easy = 104200410
+            drop_live_item1_normal = 104200410
+            drop_live_item1_hard = 104200410
+            drop_live_item2_easy = 100200410
+            drop_live_item2_normal = 100200410
+            drop_live_item2_hard = 100200410
+            drop_live_item3_easy = 101200410
+            drop_live_item3_normal = 101200410
+            drop_live_item3_hard = 101200410
+            drop_live_item4_easy = 102200410
+            drop_live_item4_normal = 102200410
+            drop_live_item4_hard = 102200410
+            drop_live_item5_easy = 103200410
+            drop_live_item5_normal = 103200410
+            drop_live_item5_hard = 103200410
+        elif attribute_live == 4:
+            drop_live_item1_easy = 104400410
+            drop_live_item1_normal = 104400410
+            drop_live_item1_hard = 104400410
+            drop_live_item2_easy = 100400410
+            drop_live_item2_normal = 100400410
+            drop_live_item2_hard = 100400410
+            drop_live_item3_easy = 101400410
+            drop_live_item3_normal = 101400410
+            drop_live_item3_hard = 101400410
+            drop_live_item4_easy = 102400410
+            drop_live_item4_normal = 102400410
+            drop_live_item4_hard = 102400410
+            drop_live_item5_easy = 103400410
+            drop_live_item5_normal = 103400410
+            drop_live_item5_hard = 103400410
+        elif attribute_live == 6:
+            drop_live_item1_easy = 104600410
+            drop_live_item1_normal = 104600410
+            drop_live_item1_hard = 104600410
+            drop_live_item2_easy = 100600410
+            drop_live_item2_normal = 100600410
+            drop_live_item2_hard = 100600410
+            drop_live_item3_easy = 101600410
+            drop_live_item3_normal = 101600410
+            drop_live_item3_hard = 101600410
+            drop_live_item4_easy = 102600410
+            drop_live_item4_normal = 102600410
+            drop_live_item4_hard = 102600410
+            drop_live_item5_easy = 103600410
+            drop_live_item5_normal = 103600410
+            drop_live_item5_hard = 103600410
+        else:
+            drop_live_item1_easy = 0
+            drop_live_item1_normal = 0
+            drop_live_item1_hard = 0
+            drop_live_item2_easy = 0
+            drop_live_item2_normal = 0
+            drop_live_item2_hard = 0
+            drop_live_item3_easy = 0
+            drop_live_item3_normal = 0
+            drop_live_item3_hard = 0
+            drop_live_item4_easy = 0
+            drop_live_item4_normal = 0
+            drop_live_item4_hard = 0
+            drop_live_item5_easy = 0
+            drop_live_item5_normal = 0
+            drop_live_item5_hard = 0
     elif member_group_live == 100:
         member_mapping_live = 10001
+        drop_live_item1_easy = 0
+        drop_live_item1_normal = 0
+        drop_live_item1_hard = 0
+        drop_live_item2_easy = 0
+        drop_live_item2_normal = 0
+        drop_live_item2_hard = 0
+        drop_live_item3_easy = 0
+        drop_live_item3_normal = 0
+        drop_live_item3_hard = 0
+        drop_live_item4_easy = 0
+        drop_live_item4_normal = 0
+        drop_live_item4_hard = 0
+        drop_live_item5_easy = 0
+        drop_live_item5_normal = 0
+        drop_live_item5_hard = 0
     cursor.execute("INSERT INTO main.m_live (live_id, is_2d_live, music_id, bgm_path, chorus_bgm_path, live_member_mapping_id, name, pronunciation, member_group, member_unit, original_deck_name, copyright, source, jacket_asset_path, background_asset_path, display_order) VALUES (?, '1', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'SI', ?);",
                    (live_id_masterdata, music_id_masterdata, sheet_name_file, sheet_name_file1, member_mapping_live, music_name_dictionary_masterdata, donot_insert, member_group_live, donot_insert, donot_insert, music_id_copyright_masterdata, donot_insert, thumbnail_music_path, display_order_new))
    
-    # using template live_id 12048
-    # no drop item https://github.com/arina999999997/elichika/tree/master/docs#server-implement-progress
+    # liella attribute 3 & 5, union & untyped doesn't not have drop https://github.com/arina999999997/elichika/tree/master/docs#server-implement-progress
     # cannot get information AC, Note Gimmick & Live Gimmick
     # if you are dev, feel free to edit
     
-    cursor.execute("INSERT INTO main.m_live_difficulty (live_difficulty_id, live_id, live_3d_asset_master_id, live_difficulty_type, unlock_pattern, default_attribute, target_voltage, note_emit_msec, recommended_score, recommended_stamina, consumed_lp, reward_user_exp, judge_id, note_drop_group_id, drop_choose_count, rare_drop_rate, drop_content_group_id, rare_drop_content_group_id, additional_drop_max_count, additional_drop_content_group_id, additional_rare_drop_content_group_id,bottom_technique, additional_drop_decay_technique, reward_base_love_point, evaluation_s_score, evaluation_a_score, evaluation_b_score, evaluation_c_score, updated_at, lose_at_death, autoplay_requirement_id, skip_master_id, stamina_voltage_group_id, combo_voltage_group_id, difficulty_const_master_id, is_count_target, insufficient_rate) VALUES (?, ?, ?, 10, '1', ?, ?, '3620', ?, ?, '10', '8', '1', '0', '0', '0', '0', '0', '0', '0', '0', '50000', '9000', '12', ?, ?, ?, ?, '0', '1', ?, '16001', '1', '1', ?, '1', '6000');",
-                   (music_diff1_masterdata, live_id_masterdata, donot_insert, attribute_live, evaluation_s_score_easy, recommend_power_easy, recommend_stamina_easy, evaluation_s_score_easy, evaluation_a_score_easy, evaluation_b_score_easy, evaluation_c_score_easy, donot_insert, live_constaddon_easy,))
+    cursor.execute("INSERT INTO main.m_live_difficulty (live_difficulty_id, live_id, live_3d_asset_master_id, live_difficulty_type, unlock_pattern, default_attribute, target_voltage, note_emit_msec, recommended_score, recommended_stamina, consumed_lp, reward_user_exp, judge_id, note_drop_group_id, drop_choose_count, rare_drop_rate, drop_content_group_id, rare_drop_content_group_id, additional_drop_max_count, additional_drop_content_group_id, additional_rare_drop_content_group_id,bottom_technique, additional_drop_decay_technique, reward_base_love_point, evaluation_s_score, evaluation_a_score, evaluation_b_score, evaluation_c_score, updated_at, lose_at_death, autoplay_requirement_id, skip_master_id, stamina_voltage_group_id, combo_voltage_group_id, difficulty_const_master_id, is_count_target, insufficient_rate) VALUES (?, ?, ?, 10, '1', ?, ?, ?, ?, ?, '10', '8', '1', ?, '2', '1500', ?, ?, '2', ?, ?, '50000', '9000', '12', ?, ?, ?, ?, '0', '1', ?, '16001', '1', '1', ?, '1', '6000');",
+                   (music_diff1_masterdata, live_id_masterdata, donot_insert, attribute_live, evaluation_s_score_easy, note_emit_msec_easy, recommend_power_easy, recommend_stamina_easy, drop_live_item1_easy, drop_live_item2_easy, drop_live_item3_easy, drop_live_item4_easy, drop_live_item5_easy, evaluation_s_score_easy, evaluation_a_score_easy, evaluation_b_score_easy, evaluation_c_score_easy, donot_insert, live_constaddon_easy,))
 
-    cursor.execute("INSERT INTO main.m_live_difficulty (live_difficulty_id, live_id, live_3d_asset_master_id, live_difficulty_type, unlock_pattern, default_attribute, target_voltage, note_emit_msec, recommended_score, recommended_stamina, consumed_lp, reward_user_exp, judge_id, note_drop_group_id, drop_choose_count, rare_drop_rate, drop_content_group_id, rare_drop_content_group_id, additional_drop_max_count, additional_drop_content_group_id, additional_rare_drop_content_group_id,bottom_technique, additional_drop_decay_technique, reward_base_love_point, evaluation_s_score, evaluation_a_score, evaluation_b_score, evaluation_c_score, updated_at, lose_at_death, autoplay_requirement_id, skip_master_id, stamina_voltage_group_id, combo_voltage_group_id, difficulty_const_master_id, is_count_target, insufficient_rate) VALUES (?, ?, ?, 20, '1', ?, ?, '3077', ?, ?, '12', '13', '2', '0', '0', '0', '0', '0', '0', '0', '0', '60000', '9000', '14', ?, ?, ?, ?, '0', '1', ?, '16001', '1', '1', ?, '1', '6000');",
-                   (music_diff2_masterdata, live_id_masterdata, donot_insert, attribute_live, evaluation_s_score_normal, recommend_power_normal, recommend_stamina_normal, evaluation_s_score_normal, evaluation_a_score_normal, evaluation_b_score_normal, evaluation_c_score_normal, donot_insert, live_constaddon_normal,))
+    cursor.execute("INSERT INTO main.m_live_difficulty (live_difficulty_id, live_id, live_3d_asset_master_id, live_difficulty_type, unlock_pattern, default_attribute, target_voltage, note_emit_msec, recommended_score, recommended_stamina, consumed_lp, reward_user_exp, judge_id, note_drop_group_id, drop_choose_count, rare_drop_rate, drop_content_group_id, rare_drop_content_group_id, additional_drop_max_count, additional_drop_content_group_id, additional_rare_drop_content_group_id,bottom_technique, additional_drop_decay_technique, reward_base_love_point, evaluation_s_score, evaluation_a_score, evaluation_b_score, evaluation_c_score, updated_at, lose_at_death, autoplay_requirement_id, skip_master_id, stamina_voltage_group_id, combo_voltage_group_id, difficulty_const_master_id, is_count_target, insufficient_rate) VALUES (?, ?, ?, 20, '1', ?, ?, ?, ?, ?, '12', '13', '2', ?, '2', '1300', ?, ?, '2', ?, ?, '60000', '9000', '16', ?, ?, ?, ?, '0', '1', ?, '16001', '1', '1', ?, '1', '6000');",
+                   (music_diff2_masterdata, live_id_masterdata, donot_insert, attribute_live, evaluation_s_score_normal, note_emit_msec_normal, recommend_power_normal, recommend_stamina_normal, drop_live_item1_normal, drop_live_item2_normal, drop_live_item3_normal, drop_live_item4_normal, drop_live_item5_normal, evaluation_s_score_normal, evaluation_a_score_normal, evaluation_b_score_normal, evaluation_c_score_normal, donot_insert, live_constaddon_normal,))
                    
-    cursor.execute("INSERT INTO main.m_live_difficulty (live_difficulty_id, live_id, live_3d_asset_master_id, live_difficulty_type, unlock_pattern, default_attribute, target_voltage, note_emit_msec, recommended_score, recommended_stamina, consumed_lp, reward_user_exp, judge_id, note_drop_group_id, drop_choose_count, rare_drop_rate, drop_content_group_id, rare_drop_content_group_id, additional_drop_max_count, additional_drop_content_group_id, additional_rare_drop_content_group_id,bottom_technique, additional_drop_decay_technique, reward_base_love_point, evaluation_s_score, evaluation_a_score, evaluation_b_score, evaluation_c_score, updated_at, lose_at_death, autoplay_requirement_id, skip_master_id, stamina_voltage_group_id, combo_voltage_group_id, difficulty_const_master_id, is_count_target, insufficient_rate) VALUES (?, ?, ?, 30, '1', ?, ?, '2534', ?, ?, '15', '21', '3', '0', '0', '0', '0', '0', '0', '0', '0', '70000', '9000', '16', ?, ?, ?, ?, '0', '1', ?, '16001', '1', '1', ?, '1', '6000');",
-                   (music_diff3_masterdata, live_id_masterdata, donot_insert, attribute_live, evaluation_s_score_hard, recommend_power_hard, recommend_stamina_hard, evaluation_s_score_hard, evaluation_a_score_hard, evaluation_b_score_hard, evaluation_c_score_hard, donot_insert, live_constaddon_hard,))
+    cursor.execute("INSERT INTO main.m_live_difficulty (live_difficulty_id, live_id, live_3d_asset_master_id, live_difficulty_type, unlock_pattern, default_attribute, target_voltage, note_emit_msec, recommended_score, recommended_stamina, consumed_lp, reward_user_exp, judge_id, note_drop_group_id, drop_choose_count, rare_drop_rate, drop_content_group_id, rare_drop_content_group_id, additional_drop_max_count, additional_drop_content_group_id, additional_rare_drop_content_group_id,bottom_technique, additional_drop_decay_technique, reward_base_love_point, evaluation_s_score, evaluation_a_score, evaluation_b_score, evaluation_c_score, updated_at, lose_at_death, autoplay_requirement_id, skip_master_id, stamina_voltage_group_id, combo_voltage_group_id, difficulty_const_master_id, is_count_target, insufficient_rate) VALUES (?, ?, ?, 30, '1', ?, ?, ?, ?, ?, '15', '21', '3', ?, '2', '1000', ?, ?, '3', ?, ?, '70000', '9000', '24', ?, ?, ?, ?, '0', '1', ?, '16001', '1', '1', ?, '1', '6000');",
+                   (music_diff3_masterdata, live_id_masterdata, donot_insert, attribute_live, evaluation_s_score_hard, note_emit_msec_hard, recommend_power_hard, recommend_stamina_hard, drop_live_item1_hard, drop_live_item2_hard, drop_live_item3_hard, drop_live_item4_hard, drop_live_item5_hard, evaluation_s_score_hard, evaluation_a_score_hard, evaluation_b_score_hard, evaluation_c_score_hard, donot_insert, live_constaddon_hard,))
                    
     cursor.execute("INSERT INTO main.m_live_difficulty_const (id, sp_gauge_length, sp_gauge_additional_rate, sp_gauge_reducing_point, sp_skill_voltage_magnification, note_stamina_reduce, note_voltage_upper_limit, collabo_voltage_upper_limit, skill_voltage_upper_limit, squad_change_voltage_upper_limit) VALUES (?, '3600', '10000', '50', '10000', ?, '100000', '250000', '50000', '30000');", (live_constaddon_easy, note_stamina_damage_easy,))
     cursor.execute("INSERT INTO main.m_live_difficulty_const (id, sp_gauge_length, sp_gauge_additional_rate, sp_gauge_reducing_point, sp_skill_voltage_magnification, note_stamina_reduce, note_voltage_upper_limit, collabo_voltage_upper_limit, skill_voltage_upper_limit, squad_change_voltage_upper_limit) VALUES (?, '4800', '10000', '75', '10000', ?, '100000', '250000', '50000', '30000');", (live_constaddon_normal, note_stamina_damage_normal,))
